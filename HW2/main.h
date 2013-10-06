@@ -10,9 +10,11 @@
 #include "pixel.h"
 #include "ground.h"
 #include "world.h"
-#include "terrain.h"
 #include "menu_panel.h"
 
 #define PI 3.14
+
+#include "Drawable.h"
+#include "Terrain.h"
 
 #endif //MAIN_H_

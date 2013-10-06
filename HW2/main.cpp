@@ -37,8 +37,7 @@ double speed = 0;
 double planex=0,planey=0,planez=0;
 double plane_angle=PI/2,plane_speed=0,plane_ang_speed=0;
 
-void drawTerrain();
-void drawHeightColor(double h);
+Terrain* terrain;
 
 void init()
 {
@@ -60,8 +59,9 @@ void init()
 	
 	srand((unsigned)time(NULL));
 	
+	terrain = new Terrain();
 	
-	terrainInit();
+	terrain->init();
 	
 	//worldInit();
 	//menuInit();
@@ -81,161 +81,6 @@ void init()
 		//UpdateTerrain2();
 	}
 	
-}
-
-void drawTerrain() {
-		int i,j;
-		
-		for(i=1;i<GRID_SIZE;i++)
-			for(j=1;j<GRID_SIZE;j++)
-			{
-				//			glBegin(GL_LINE_LOOP);
-				glBegin(GL_POLYGON);
-				drawHeightColor(grid[i][j]);
-				glVertex3d(j-GRID_SIZE/2,grid[i][j],i-GRID_SIZE/2);
-				drawHeightColor(grid[i][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,grid[i][j-1],i-GRID_SIZE/2);
-				drawHeightColor(grid[i-1][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,grid[i-1][j-1],i-1-GRID_SIZE/2);
-				drawHeightColor(grid[i-1][j]);
-				glVertex3d(j-GRID_SIZE/2,grid[i-1][j],i-1-GRID_SIZE/2);
-				glEnd();
-			}
-		
-		// water
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4d(0,0,0.5,0.7);
-		glBegin(GL_POLYGON);
-		glVertex3d(-GRID_SIZE/2,0,-GRID_SIZE/2);
-		glVertex3d(GRID_SIZE/2,0,-GRID_SIZE/2);
-		glVertex3d(GRID_SIZE/2,0,GRID_SIZE/2);
-		glVertex3d(-GRID_SIZE/2,0,GRID_SIZE/2);
-		glEnd();
-		glDisable(GL_BLEND);
-
-}
-
-void drawHeightColor(double h)
-{
-	if(h>-5)
-	{
-		h=fabs(h);
-		if(h>0 && h<0.4) // sand
-			glColor3d(0.8,0.8,0.5);
-		else if(h<5)
-			glColor3d(0.2+h/30,(5-h)/6,0);
-		else glColor3d(h/11,h/11,h/10);
-	}
-	else glColor3d(0,0,0);
-}
-
-void DrawPlane()
-{
-	// front
-	glColor3d(0,0,0);
-	glBegin(GL_LINE_LOOP);
-	glVertex3d(2.3,0.3,0);
-	glVertex3d(1.5,0.3,0.4);
-	glVertex3d(1.5,0.5,0);
-	glEnd();
-	glColor3d(0,0,0);
-	glBegin(GL_LINE_LOOP);
-	glVertex3d(2.3,0.3,0);
-	glVertex3d(1.5,0.3,-0.4);
-	glVertex3d(1.5,0.5,0);
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3d(1,1,1);
-	glVertex3d(3.2,0,0);
-	glColor3d(0.7,0.7,0.7);
-	glVertex3d(1.5,0,0.5);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(1.5,0.3,0.4);
-	glVertex3d(2.3,0.3,0);
-	glEnd();
-	glBegin(GL_POLYGON);
-	glColor3d(1,1,1);
-	glVertex3d(3.2,0,0);
-	glColor3d(0.7,0.7,0.7);
-	glVertex3d(1.5,0,-0.5);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(1.5,0.3,-0.4);
-	glVertex3d(2.3,0.3,0);
-	glEnd();
-	// middle
-	glBegin(GL_POLYGON);
-	glColor3d(0.7,0.7,0.7);
-	glVertex3d(1.5,0,0.5);
-	glColor3d(0.8,0.8,0.8);
-	glVertex3d(1.5,0.3,0.4);
-	glColor3d(0.5,0.5,0.5);
-	glVertex3d(-3.5,0,0);
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3d(0.8,0.8,0.8);
-	glVertex3d(1.5,0.3,0.4);
-	glColor3d(0.5,0.5,0.8);
-	glVertex3d(1.5,0.5,0);
-	glVertex3d(-3.5,0,0);
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3d(0.7,0.7,0.7);
-	glVertex3d(1.5,0,-0.5);
-	glColor3d(0.8,0.8,0.8);
-	glVertex3d(1.5,0.3,-0.4);
-	glColor3d(0.5,0.5,0.5);
-	glVertex3d(-3.5,0,0);
-	glEnd();
-
-	glBegin(GL_POLYGON);
-	glColor3d(0.8,0.8,0.8);
-	glVertex3d(1.5,0.3,-0.4);
-	glColor3d(0.5,0.5,0.8);
-	glVertex3d(1.5,0.5,0);
-	glVertex3d(-3.5,0,0);
-	glEnd();
-	// wings
-	glBegin(GL_POLYGON);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(1.5,0.2,0);
-	glVertex3d(-0.5,0.2,2.5);
-	glVertex3d(-1,0.2,2.5);
-	glVertex3d(-0.5,0.1,0);
-	glEnd();
-	glBegin(GL_POLYGON);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(1.5,0.2,0);
-	glVertex3d(-0.5,0.2,-2.5);
-	glVertex3d(-1,0.2,-2.5);
-	glVertex3d(-0.5,0.1,0);
-	glEnd();
-	// back
-
-	glBegin(GL_POLYGON);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(-1,0,0);
-	glColor3d(0.6,0.6,1);
-	glVertex3d(-3.3,1,0);
-	glVertex3d(-3.6,1,0);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(-3.2,0,0);
-	glEnd();
-	// back wings
-	glBegin(GL_POLYGON);
-	glColor3d(0.6,0.6,0.6);
-	glVertex3d(-1.5,0,0);
-	glVertex3d(-2.5,0,1);
-	glVertex3d(-2.7,0,1);
-	glVertex3d(-2.7,0,-1);
-	glVertex3d(-2.5,0,-1);
-	glEnd();
-
-
-
 }
 
 void DrawCar() {
@@ -324,8 +169,7 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	drawTerrain();
-	
+	terrain->draw2d();
 	
 	// plane
 	glPushMatrix();
@@ -363,7 +207,7 @@ void display3D()
 		camera.up.x,camera.up.y,camera.up.z
 	);
 	
-	drawTerrain();
+	terrain->draw3d();
 	
 	glTranslated(planex,planey, planez);
 	//glRotated(plane_angle*180/PI,0,1,0);

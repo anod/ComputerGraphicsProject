@@ -75,17 +75,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="car.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu_panel.cpp" />
-    <ClCompile Include="terrain.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="menu_panel.h" />
     <ClInclude Include="pixel.h" />
-    <ClInclude Include="terrain.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

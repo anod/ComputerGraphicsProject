@@ -1,25 +1,38 @@
 //
-//  terrain.h
+//  Terrain.h
 //  Home Work 2
 //
 //  Created by Alex Gavrishev on 8/21/13.
 //  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
 //
 
-#ifndef Home_Work_2_terrain_h
-#define Home_Work_2_terrain_h
+#ifndef TERRAIN_H
+#define TERRAIN_H
 
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
+#include "Drawable.h"
+#include "glut.h"
 
-static const int GRID_SIZE = 200;
 
-extern double grid[GRID_SIZE][GRID_SIZE];
+class Terrain : public Drawable
+{
+public:
+	Terrain::Terrain(void);
+	Terrain::~Terrain(void);
+	void init();
+	virtual void draw3d();
+	virtual void draw2d();
 
-void terrainInit();
-void terrainSmooth();
-void terrainGenerate1();
-void terrainGenerate2();
-void terrainGenerate3();
+private:
+	static const int GRID_SIZE = 200;
+	double mGrid[GRID_SIZE][GRID_SIZE];
 
+	void draw();
+	void smooth();
+	void generate1();
+	void generate2();
+	void generate3();
+	void drawHeightColor(double h);
+};
 #endif
