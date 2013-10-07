@@ -18,9 +18,6 @@ typedef struct
 	int x1,y1,x2,y2;
 } MOUSE_CLICK;
 
-MOUSE_CLICK click;
-
-
 class Overflow :
 	public Drawable
 {
@@ -46,14 +43,19 @@ private:
 	int mMenuHighlightedItem;
 	int mMenuSelectedItem;
 
+	MOUSE_CLICK mClick;
+
 	void drawMenuSelection();
 	void drawMenu();
-	void Overflow::drawItem(int item, int x, int y);
+	void drawItem(int item, int x, int y);
 	void updateMenuHighlightedItem(int x, int y);
 	int getMenuHighlightedItem(int x, int y);
 
 	void setMenuSelectedItem(int item);
 	int getMenuSelectedItem();
+
+	void drawSquare(int x1, int y1, int x2, int y2, PIXEL color);
+
 };
 
 #endif

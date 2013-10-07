@@ -60,17 +60,17 @@ void Overflow::drawMenuSelection() {
 	for (int i = 0; i < MENU_ITEM_COUNT; i++) {
 		yOffset = i * MENU_ITEM_HEIGHT + 5;
 		if (i != mMenuHighlightedItem) {
-			//drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BROWN);
+			drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BROWN);
 		}
 	}
 	
 	if (mMenuHighlightedItem != MENU_NO_ITEM) {
 		yOffset = mMenuHighlightedItem * MENU_ITEM_HEIGHT + 5;
-		//drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BLACK);
+		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BLACK);
 	}
 	
 	yOffset = mMenuSelectedItem * MENU_ITEM_HEIGHT + 5;
-//	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_WHITE);
+	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_WHITE);
 	
 }
 
@@ -80,31 +80,31 @@ void Overflow::drawMenu() {
 //	drawRoad(MENU_ITEM_X + 10, MENU_ITEM_HEIGHT + 10 + MENU_ITEM_SPACE, MENU_ITEM_HEIGHT - 10, (MENU_ITEM_HEIGHT + 10) + MENU_ITEM_HEIGHT - 10);
 //	drawValley(HILL_RADIUS + 10, (2 * MENU_ITEM_HEIGHT) + HILL_RADIUS + 10 + 2);
 //	drawTree(MENU_ITEM_X + HILL_RADIUS + 5, (3 * MENU_ITEM_HEIGHT) + HILL_RADIUS + 10 + 2);
-	
+
 }
 
 
 void Overflow::drawItem(int item, int x, int y) {
-	click.count++;
+	mClick.count++;
 	
 	if (item == MENU_ITEM_HILL) {
 //		drawHill(x,y);
-		click.count = 0;
+		mClick.count = 0;
 	} else if (item == MENU_ITEM_VALLEY) {
 //		drawValley(x,y);
-		click.count = 0;
+		mClick.count = 0;
 	} else if (item == MENU_ITEM_TREE) {
 //		drawTree(x,y);
-		click.count = 0;
+		mClick.count = 0;
 	} else if (item == MENU_ITEM_ROAD) {
-		if (click.count == 1) {
-			click.x1 = x;
-			click.y1 = y;
-		} else if (click.count == 2) {
-			click.x2 = x;
-			click.y2 = y;
+		if (mClick.count == 1) {
+			mClick.x1 = x;
+			mClick.y1 = y;
+		} else if (mClick.count == 2) {
+			mClick.x2 = x;
+			mClick.y2 = y;
 //			drawRoad(click.x1,click.y1,click.x2,click.y2);
-			click.count = 0;
+			mClick.count = 0;
 		}
 	}
 	
@@ -113,12 +113,27 @@ void Overflow::drawItem(int item, int x, int y) {
 void Overflow::onMouseClick(int button, int state, int x, int y) {
 	//click
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-//		int item = getMenuHighlightedItem(x,y);
-//		if (item == MENU_NO_ITEM) {
-//			drawItem(menuSelectedItem, x, y);
-//		} else {
-//			setMenuSelectedItem(item);
-//			click.count = 0;
-//		}
+		int item = getMenuHighlightedItem(x,y);
+		if (item == MENU_NO_ITEM) {
+			drawItem(mMenuSelectedItem, x, y);
+		} else {
+			setMenuSelectedItem(item);
+			mClick.count = 0;
+		}
 	}
+}
+
+void Overflow::drawSquare(int x1, int y1, int x2, int y2, PIXEL color) {
+	
+	int width = x2-x1;
+	
+	glBegin(GL_LINE_STRIP);
+	  glColor3d(0.8,0.8,0.5);
+	  glVertex3f(x1, y1, 0.0f);  // V0
+	  glVertex3f(width + x1, y1, 0.0f);  // V0
+	  glVertex3f(x1, y1, 0.0f);  // V1
+	  glVertex3f(x1, y2, 0.0f);  // V1
+  	  glVertex3f(x1, y2, 0.0f);  // V2
+   	  glVertex3f(width + x1, y2, 0.0f);  // V2
+  glEnd();
 }
