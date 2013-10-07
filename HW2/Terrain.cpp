@@ -2,8 +2,7 @@
 //  Terrain.cpp
 //  Home Work 2
 //
-//  Created by Alex Gavrishev on 8/21/13.
-//  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
+//  Created by Alex Gavrishev.
 //
 
 #include "Terrain.h"

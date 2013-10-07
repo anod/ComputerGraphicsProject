@@ -1,3 +1,10 @@
+//
+//  Pixel.h
+//  Home Work 2
+//
+//  Created by Alex Gavrishev.
+//
+
 #ifndef PIXEL_H_
 #define PIXEL_H_
 

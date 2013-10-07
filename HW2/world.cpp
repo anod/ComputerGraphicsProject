@@ -6,20 +6,16 @@
 //  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
 //
 
-#include "world.h"
+#include "World.h"
 
-PIXEL pix[HEIGHT][WIDTH];
-GROUND ground[HEIGHT][WIDTH];
 
-PIXEL heightPixel[HEIGHT_RANGE];
-
-void worldInit() {
+void World::init() {
 	int i,j;
 	
 	for(i=0;i<HEIGHT;i++) {
 		for(j=0;j<WIDTH;j++) {
-			ground[i][j].height = 0;
-			ground[i][j].isRoad = false;
+			mGround[i][j].height = 0;
+			mGround[i][j].isRoad = false;
 			drawPixel(j,i,PIX_BROWN);
 		}
 	}
@@ -28,25 +24,25 @@ void worldInit() {
 	// Init color for height
 	for(i=0;i<HEIGHT_RANGE; i++) {
 		if (i == 0) {
-			heightPixel[i] = PIX_DK_BLUE;
+			mHeightPixel[i] = PIX_DK_BLUE;
 		} else if (i < HILL_RADIUS) {
-			heightPixel[i] = gradientPixel(PIX_BROWN, PIX_GREEN, i, HILL_RADIUS);
+			mHeightPixel[i] = gradientPixel(PIX_BROWN, PIX_GREEN, i, HILL_RADIUS);
 		} else {
-			heightPixel[i] = gradientPixel(PIX_DK_BROWN, PIX_BROWN, i - HILL_RADIUS, HILL_RADIUS);
+			mHeightPixel[i] = gradientPixel(PIX_DK_BROWN, PIX_BROWN, i - HILL_RADIUS, HILL_RADIUS);
 		}
 	}
 	
 	// heightPixelTest
 	//for(i=100;i<120;i++) {
 	//	for(j=100;j<100+HEIGHT_RANGE;j++) {
-	//		drawPixel(j,i,heightPixel[j-100]);
+	//		drawPixel(j,i,mHeightPixel[j-100]);
 	//	}
 	//}
 
 }
 
 
-PIXEL gradientPixel(PIXEL from, PIXEL to, int level, int maxLevel) {
+PIXEL World::gradientPixel(PIXEL from, PIXEL to, int level, int maxLevel) {
 	PIXEL r;
 	r.red = gradientValue(from.red, to.red, level, maxLevel);
 	r.green = gradientValue(from.green, to.green, level, maxLevel);
@@ -54,14 +50,14 @@ PIXEL gradientPixel(PIXEL from, PIXEL to, int level, int maxLevel) {
 	return r;
 }
 
-int gradientValue(int from, int to, int level, int maxLevel) {
+int World::gradientValue(int from, int to, int level, int maxLevel) {
 	double p = double(level) / maxLevel;
 	return from * p + to * (1-p);
 }
 
 
 
-void drawTree(int x, int y) {
+void World::drawTree(int x, int y) {
 	
 	int x1 = x - HILL_RADIUS;
 	int y1 = y - HILL_RADIUS;
@@ -72,7 +68,7 @@ void drawTree(int x, int y) {
 	
 }
 
-void fillSquare(int x1, int y1, int x2, int y2, PIXEL color) {
+void World::fillSquare(int x1, int y1, int x2, int y2, PIXEL color) {
 	for (int i = x1; i < x2; i++) {
 		for (int j = y1; j < y2; j++) {
 			drawPixel(i,j,color);
@@ -81,14 +77,14 @@ void fillSquare(int x1, int y1, int x2, int y2, PIXEL color) {
 }
 
 
-void drawRoads() {
+void World::drawRoads() {
 	for(int i=0;i<HEIGHT;i++) {
 		for(int j=0;j<WIDTH;j++) {
-			if (!ground[i][j].isRoad) {
+			if (!mGround[i][j].isRoad) {
 				continue;
 			}
 			int ny = HEIGHT - i;
-			int h = ground[ny][j].height;
+			int h = mGround[ny][j].height;
 			if (h < 0) {
 				// Bridge
 				drawPixel(j,i,PIX_LT_GREY);
@@ -103,103 +99,35 @@ void drawRoads() {
 	}
 }
 
-void drawRoad(int x1, int y1, int x2, int y2) {
+void World::drawRoad(int x1, int y1, int x2, int y2) {
 	setRoadLine(x1, y1, x2, y2);
 	onGroundChange();
 }
 
-void onGroundChange() {
+void World::onGroundChange() {
 	drawRoads();
 }
 
-void drawSquare(int x1, int y1, int x2, int y2, PIXEL color) {
-	
-	int width = x2-x1;
-	
-	drawColorLine(x1, y1, width + x1, y1, color);
-	drawColorLine(x1, y1, x1, y2, color);
-	drawColorLine(x2, y1, x2, y2, color);
-	drawColorLine(x1, y2, width + x1, y2, color);
-	
-}
 
-// draws line on matrix pix
-void drawColorLine(int x1, int y1, int x2, int y2, PIXEL color) {
-	double a,b;
-	int x,y;
-	int start,stop;
-	
-	
-	if (x1==x2 && y1==y2) {
-		drawPixel(x1,y1,color);
-		return;
-	}
-	
-	if (x2 == x1) {
-		if (y1 > y2) {
-			start = y2;
-			stop = y1;
-		} else {
-			start = y1;
-			stop = y2;
-		}
-		
-		for(y = start; y <= stop; y++) {
-			drawPixel(x1,y,color);
-		}
-		return;
-	}
-	
-	a = (y2-y1)/double(x2-x1);
-	b = y1 - a * x1;
-	
-	if (fabs(a)<=1)
-	{
-		if (x1 > x2) {
-			start = x2;
-			stop = x1;
-		} else {
-			start = x1;
-			stop = x2;
-		}
-		
-		for(x = start; x <= stop; x++) {
-			y = a*x+b;
-			drawPixel(x,y,color);
-		}
-	} else {
-		if (y1 > y2) {
-			start = y2;
-			stop = y1;
-		} else {
-			start = y1;
-			stop = y2;
-		}
-		
-		for(y = start; y <= stop; y++) {
-			x = (y-b)/a;
-			drawPixel(x,y,color);
-		}
-	}
-}
 
-void setHeight(int height, int x, int y) {
+
+void World::setHeight(int height, int x, int y) {
 	int ny = HEIGHT - y;
-	int newHeight = ground[ny][x].height + height;
+	int newHeight = mGround[ny][x].height + height;
 	if (newHeight > HILL_RADIUS) {
 		newHeight = HILL_RADIUS;
 	} else if (newHeight < -1 * HILL_RADIUS) {
 		newHeight = -1 * HILL_RADIUS;
 	}
-	ground[ny][x].height = newHeight;
-	drawPixel(x,y,heightPixel[newHeight + HILL_RADIUS]);
+	mGround[ny][x].height = newHeight;
+	drawPixel(x,y,mHeightPixel[newHeight + HILL_RADIUS]);
 	
 }
 
 
 
 
-void drawValley(int x,int y) {
+void World::drawValley(int x,int y) {
 	int i,j,radius = HILL_RADIUS;
 	double dist, angleAlpha, cosAlpha, height;
 	
@@ -219,7 +147,7 @@ void drawValley(int x,int y) {
 	onGroundChange();
 }
 
-void drawHill(int x, int y) {
+void World::drawHill(int x, int y) {
 	int i,j,radius = HILL_RADIUS;
 	double dist, angleAlpha, cosAlpha, height;
 	
@@ -239,7 +167,7 @@ void drawHill(int x, int y) {
 	onGroundChange();
 }
 
-void setRoad(int x, int y, bool isRoad) {
+void World::setRoad(int x, int y, bool isRoad) {
 	int x0 = x - 5;
 	int x1 = x + 5;
 	x0 = (x0 < 0) ? 0 : x0;
@@ -251,12 +179,12 @@ void setRoad(int x, int y, bool isRoad) {
 	
 	for (int i = x0; i < x1; i++) {
 		for (int j = y0; j < y1; j++) {
-			ground[j][i].isRoad = isRoad;
+			mGround[j][i].isRoad = isRoad;
 		}
 	}
 }
 
-void setRoadLine(int x1, int y1, int x2, int y2) {
+void World::setRoadLine(int x1, int y1, int x2, int y2) {
 	double a,b;
 	int x,y;
 	int start,stop;
@@ -315,9 +243,81 @@ void setRoadLine(int x1, int y1, int x2, int y2) {
 }
 
 
-void drawPixel(int x, int y, PIXEL color) {
-	int ny = HEIGHT - y - 1;
-	pix[ny][x].red=color.red;
-	pix[ny][x].green=color.green;
-	pix[ny][x].blue=color.blue;
+void World::drawSquare(int x1, int y1, int x2, int y2, PIXEL color) {
+	
+	int width = x2-x1;
+	
+	drawColorLine(x1, y1, width + x1, y1, color);
+	drawColorLine(x1, y1, x1, y2, color);
+	drawColorLine(x2, y1, x2, y2, color);
+	drawColorLine(x1, y2, width + x1, y2, color);
+	
 }
+
+// draws line on matrix pix
+void World::drawColorLine(int x1, int y1, int x2, int y2, PIXEL color) {
+	double a,b;
+	int x,y;
+	int start,stop;
+	
+	
+	if (x1==x2 && y1==y2) {
+		drawPixel(x1,y1,color);
+		return;
+	}
+	
+	if (x2 == x1) {
+		if (y1 > y2) {
+			start = y2;
+			stop = y1;
+		} else {
+			start = y1;
+			stop = y2;
+		}
+		
+		for(y = start; y <= stop; y++) {
+			drawPixel(x1,y,color);
+		}
+		return;
+	}
+	
+	a = (y2-y1)/double(x2-x1);
+	b = y1 - a * x1;
+	
+	if (fabs(a)<=1)
+	{
+		if (x1 > x2) {
+			start = x2;
+			stop = x1;
+		} else {
+			start = x1;
+			stop = x2;
+		}
+		
+		for(x = start; x <= stop; x++) {
+			y = a*x+b;
+			drawPixel(x,y,color);
+		}
+	} else {
+		if (y1 > y2) {
+			start = y2;
+			stop = y1;
+		} else {
+			start = y1;
+			stop = y2;
+		}
+		
+		for(y = start; y <= stop; y++) {
+			x = (y-b)/a;
+			drawPixel(x,y,color);
+		}
+	}
+}
+
+void World::drawPixel(int x, int y, PIXEL color) {
+	int ny = HEIGHT - y - 1;
+	mPix[ny][x].red=color.red;
+	mPix[ny][x].green=color.green;
+	mPix[ny][x].blue=color.blue;
+}
+

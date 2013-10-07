@@ -14,7 +14,11 @@
 
 #define PI 3.14
 
+#include "Camera.h"
+#include "Overflow.h"
+
 #include "Drawable.h"
 #include "Terrain.h"
+#include "Car.h"
 
 #endif //MAIN_H_
