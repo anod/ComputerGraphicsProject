@@ -8,6 +8,9 @@
 
 #include "main.h"
 
+static const int WIDTH = 600;
+static const int HEIGHT = 600;
+
 double angle=PI,dangle=0.0,start=0;
 double dx=0,dy=0,dz=0;
 double speed = 0;
@@ -17,7 +20,9 @@ double plane_angle=PI/2,plane_speed=0,plane_ang_speed=0;
 Terrain* terrain;
 Car* car;
 Camera* camera;
-Overflow* overflow;
+//Overflow* overflow;
+//World* world;
+
 void init()
 {
 	glClearColor(0.4,0.4,0.4,0); // set background color
@@ -25,7 +30,7 @@ void init()
 	
 	srand((unsigned)time(NULL));
 
-	overflow = new Overflow();
+	//overflow = new Overflow();
 	camera = new Camera();	
 	
 	terrain = new Terrain();
@@ -34,11 +39,9 @@ void init()
 	
 	car = new Car();
 
-	//worldInit();
 
-	overflow->init();
-	//menuInit();
-	//drawMenu();
+	//overflow->init();
+	//overflow->drawMenu();
 	
 }
 
@@ -120,15 +123,7 @@ void idle()
 
 void onMouseClick(int button, int state, int x, int y) {
 	//click
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		int item = getMenuHighlightedItem(x,y);
-		if (item == MENU_NO_ITEM) {
-			drawItem(menuSelectedItem, x, y);
-		} else {
-			setMenuSelectedItem(item);
-			click.count = 0;
-		}
-	}
+	//overflow->onMouseClick()
 }
 
 void onMenuSelect(int option)

@@ -9,13 +9,12 @@
 #include "glut.h"
 #include "pixel.h"
 #include "ground.h"
-#include "world.h"
-#include "menu_panel.h"
+//#include "world.h"
 
 #define PI 3.14
 
 #include "Camera.h"
-#include "Overflow.h"
+//#include "Overflow.h"
 
 #include "Drawable.h"
 #include "Terrain.h"

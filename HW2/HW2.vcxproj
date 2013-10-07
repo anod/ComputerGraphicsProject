@@ -79,10 +79,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu_panel.cpp" />
     <ClCompile Include="Overflow.cpp" />
     <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="world.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bridge.h" />
@@ -90,11 +89,10 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="menu_panel.h" />
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Terrain.h" />
-    <ClInclude Include="world.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

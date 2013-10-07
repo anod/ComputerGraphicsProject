@@ -10,6 +10,7 @@
 
 #include "drawable.h"
 #include "glut.h"
+#include "Pixel.h"
 
 typedef struct
 {
@@ -28,6 +29,7 @@ public:
 	~Overflow(void);
 	void onMouseClick();
 	void init();
+	void onMouseClick(int button, int state, int x, int y);
 private:
 	static const int MENU_ITEM_HEIGHT = 58;
 	static const int MENU_ITEM_X = 5;

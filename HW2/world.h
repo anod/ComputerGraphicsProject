@@ -38,6 +38,8 @@ private:
 	void fillSquare(int x1, int y1, int x2, int y2, PIXEL color);
 	PIXEL gradientPixel(PIXEL from, PIXEL to, int level, int maxLevel);
 	int gradientValue(int from, int to,int level, int maxLevel);
-
+	void setHeight(int height, int x, int y);
+	void setRoad(int x, int y, bool isRoad);
+};
 
 #endif
