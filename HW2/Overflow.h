@@ -8,7 +8,6 @@
 #ifndef OVERFLOW_H
 #define OVERFLOW_H
 
-#include "drawable.h"
 #include "glut.h"
 #include "Pixel.h"
 
@@ -18,22 +17,21 @@ typedef struct
 	int x1,y1,x2,y2;
 } MOUSE_CLICK;
 
-class Overflow :
-	public Drawable
-{
+class Overflow{
 public:
 	Overflow(void);
 	~Overflow(void);
 	void onMouseClick();
 	void init();
+	void draw();
 	void onMouseClick(int button, int state, int x, int y);
 private:
-	static const int MENU_ITEM_HEIGHT = 58;
+	static const int MENU_ITEM_HEIGHT = 10;
 	static const int MENU_ITEM_X = 5;
 	static const int MENU_ITEM_Y = 5;
 	static const int MENU_NO_ITEM = -1;
 	static const int MENU_ITEM_COUNT = 4;
-	static const int MENU_ITEM_SPACE = 4;
+	static const int MENU_ITEM_SPACE = 1;
 
 	static const int MENU_ITEM_HILL = 0;
 	static const int MENU_ITEM_ROAD = 1;
@@ -45,8 +43,7 @@ private:
 
 	MOUSE_CLICK mClick;
 
-	void drawMenuSelection();
-	void drawMenu();
+
 	void drawItem(int item, int x, int y);
 	void updateMenuHighlightedItem(int x, int y);
 	int getMenuHighlightedItem(int x, int y);
@@ -55,6 +52,9 @@ private:
 	int getMenuSelectedItem();
 
 	void drawSquare(int x1, int y1, int x2, int y2, PIXEL color);
+
+	void drawMenu();
+	void drawMenuSelection();
 
 };
 

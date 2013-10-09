@@ -55,6 +55,10 @@ int Overflow::getMenuHighlightedItem(int x, int y) {
 	return MENU_NO_ITEM;
 }
 
+void Overflow::draw() {
+	drawMenuSelection();
+}
+
 void Overflow::drawMenuSelection() {
 	int yOffset,xOffset = MENU_ITEM_X;
 	for (int i = 0; i < MENU_ITEM_COUNT; i++) {
@@ -125,15 +129,31 @@ void Overflow::onMouseClick(int button, int state, int x, int y) {
 
 void Overflow::drawSquare(int x1, int y1, int x2, int y2, PIXEL color) {
 	
-	int width = x2-x1;
 	
-	glBegin(GL_LINE_STRIP);
-	  glColor3d(0.8,0.8,0.5);
-	  glVertex3f(x1, y1, 0.0f);  // V0
-	  glVertex3f(width + x1, y1, 0.0f);  // V0
-	  glVertex3f(x1, y1, 0.0f);  // V1
-	  glVertex3f(x1, y2, 0.0f);  // V1
-  	  glVertex3f(x1, y2, 0.0f);  // V2
-   	  glVertex3f(width + x1, y2, 0.0f);  // V2
-  glEnd();
+	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
+
+	glBegin(GL_LINES);
+		//   ----
+		//
+		//
+		glVertex3d(x1,1,y1);
+		glVertex3d(x2,1,y1);
+		//   ----
+		//   |
+		//
+		glVertex3d(x1,1,y1);
+		glVertex3d(x1,1,y2);
+		//   ----
+		//   |
+		//   ----
+		glVertex3d(x2,1,y2);
+		glVertex3d(x1,1,y2);
+		//   ----
+		//   |  |
+		//   ----
+		glVertex3d(x2,1,y2);
+		glVertex3d(x2,1,y1);
+
+	glEnd();
+
 }

@@ -50,6 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,12 +88,19 @@
     <ClInclude Include="Bridge.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />
-    <ClInclude Include="Drawable.h" />
+    <ClInclude Include="general.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

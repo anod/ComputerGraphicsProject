@@ -10,11 +10,10 @@
 
 #include <math.h>
 #include <stdlib.h>     /* srand, rand */
-#include "Drawable.h"
 #include "glut.h"
+#include "general.h"
 
-
-class Terrain : public Drawable
+class Terrain
 {
 public:
 	Terrain::Terrain(void);
@@ -27,11 +26,11 @@ private:
 	static const int GRID_SIZE = 200;
 	double mGrid[GRID_SIZE][GRID_SIZE];
 
-	void draw();
 	void smooth();
 	void generate1();
 	void generate2();
 	void generate3();
 	void drawHeightColor(double h);
+	void drawHeightColor2d(double h);
 };
 #endif

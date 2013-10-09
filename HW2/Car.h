@@ -8,11 +8,9 @@
 #ifndef CAR_H
 #define CAR_H
 
-#include "drawable.h"
 #include "glut.h"
 
-class Car :
-	public Drawable
+class Car
 {
 public:
 	Car(void);

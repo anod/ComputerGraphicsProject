@@ -6,9 +6,8 @@
 //
 
 #pragma once
-#include "drawable.h"
-class Bridge :
-	public Drawable
+
+class Bridge
 {
 public:
 	Bridge(void);

@@ -16,46 +16,58 @@ Terrain::~Terrain(void)
 }
 
 void Terrain::draw3d() {
-	draw();
+	int i,j;
+		
+	for(i=1;i<GRID_SIZE;i++) {
+		for(j=1;j<GRID_SIZE;j++)
+		{
+			//			glBegin(GL_LINE_LOOP);
+			glBegin(GL_POLYGON);
+			drawHeightColor(mGrid[i][j]);
+			glVertex3d(j-GRID_SIZE/2,mGrid[i][j],i-GRID_SIZE/2);
+			drawHeightColor(mGrid[i][j-1]);
+			glVertex3d(j-1-GRID_SIZE/2,mGrid[i][j-1],i-GRID_SIZE/2);
+			drawHeightColor(mGrid[i-1][j-1]);
+			glVertex3d(j-1-GRID_SIZE/2,mGrid[i-1][j-1],i-1-GRID_SIZE/2);
+			drawHeightColor(mGrid[i-1][j]);
+			glVertex3d(j-GRID_SIZE/2,mGrid[i-1][j],i-1-GRID_SIZE/2);
+			glEnd();
+		}
+	}
+
+	// water
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4d(0,0,0.5,0.7);
+	glBegin(GL_POLYGON);
+	glVertex3d(-GRID_SIZE/2,0,-GRID_SIZE/2);
+	glVertex3d(GRID_SIZE/2,0,-GRID_SIZE/2);
+	glVertex3d(GRID_SIZE/2,0,GRID_SIZE/2);
+	glVertex3d(-GRID_SIZE/2,0,GRID_SIZE/2);
+	glEnd();
+	glDisable(GL_BLEND);
 }
 
 void Terrain::draw2d() {
-	draw();
-}
+	int i,j;
 
-void Terrain::draw() {
-		int i,j;
-		
-		for(i=1;i<GRID_SIZE;i++) {
-			for(j=1;j<GRID_SIZE;j++)
-			{
-				//			glBegin(GL_LINE_LOOP);
-				glBegin(GL_POLYGON);
-				drawHeightColor(mGrid[i][j]);
-				glVertex3d(j-GRID_SIZE/2,mGrid[i][j],i-GRID_SIZE/2);
-				drawHeightColor(mGrid[i][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,mGrid[i][j-1],i-GRID_SIZE/2);
-				drawHeightColor(mGrid[i-1][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,mGrid[i-1][j-1],i-1-GRID_SIZE/2);
-				drawHeightColor(mGrid[i-1][j]);
-				glVertex3d(j-GRID_SIZE/2,mGrid[i-1][j],i-1-GRID_SIZE/2);
-				glEnd();
-			}
+	for(i=1;i<GRID_SIZE;i++) {
+		for(j=1;j<GRID_SIZE;j++)
+		{
+			glBegin(GL_POLYGON);
+					drawHeightColor2d(mGrid[i][j]);
+				glVertex3d(j-GRID_SIZE/2,0,i-GRID_SIZE/2);
+					drawHeightColor2d(mGrid[i][j-1]);
+				glVertex3d(j-1-GRID_SIZE/2,0,i-GRID_SIZE/2);
+					drawHeightColor2d(mGrid[i-1][j-1]);
+				glVertex3d(j-1-GRID_SIZE/2,0,i-1-GRID_SIZE/2);
+					drawHeightColor2d(mGrid[i-1][j]);
+				glVertex3d(j-GRID_SIZE/2,0,i-1-GRID_SIZE/2);
+			glEnd();
 		}
-
-		// water
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4d(0,0,0.5,0.7);
-		glBegin(GL_POLYGON);
-		glVertex3d(-GRID_SIZE/2,0,-GRID_SIZE/2);
-		glVertex3d(GRID_SIZE/2,0,-GRID_SIZE/2);
-		glVertex3d(GRID_SIZE/2,0,GRID_SIZE/2);
-		glVertex3d(-GRID_SIZE/2,0,GRID_SIZE/2);
-		glEnd();
-		glDisable(GL_BLEND);
-
+	}
 }
+
 
 void Terrain::drawHeightColor(double h)
 {
@@ -69,6 +81,25 @@ void Terrain::drawHeightColor(double h)
 		else glColor3d(h/11,h/11,h/10);
 	}
 	else glColor3d(0,0,0);
+}
+
+void Terrain::drawHeightColor2d(double h)
+{
+	if(h > 0)
+	{
+		h=fabs(h);
+		if(h > 0 && h < 0.4) { // sand
+			glColor3d(0.8,0.8,0.5);
+		} else if(h < 5) {
+			glColor3d(0.2+h/30,(5-h)/6,0);
+		} else { 
+			glColor3d(h/11,h/11,h/10);
+		}
+	}
+	else
+	{
+		glColor3d(0,0,1);
+	}
 }
 
 void Terrain::init() {
