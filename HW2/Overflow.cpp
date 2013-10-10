@@ -61,14 +61,14 @@ void Overflow::draw() {
 
 	color = (mMenuHighlightedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
 	yOffset = MENU_ITEM_Y;
-	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/3) + MENU_ITEM_SPACE, color);
+	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
 	color = (mMenuHighlightedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
 	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawRoad(xOffset, yOffset, color);
+	drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
-
+	 
 	color = (mMenuHighlightedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
 	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 	drawValley(xOffset, yOffset, color);
@@ -91,7 +91,7 @@ void Overflow::draw() {
 }
 
 void Overflow::drawHill(int cx, int cy, PIXEL color) {
-	float theta = PI / float(100); 
+	float theta = -PI / float(100); 
 	float c = cosf(theta);//precalculate the sine and cosine
 	float s = sinf(theta);
 	float t;
@@ -115,7 +115,25 @@ void Overflow::drawHill(int cx, int cy, PIXEL color) {
 }
 
 void Overflow::drawRoad(int x, int y, PIXEL color) {
+	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
 
+	glBegin(GL_LINES);
+
+		glVertex3d(x-4,1,y-2);
+		glVertex3d(x+4,1,y-2);
+
+		glVertex3d(x-4,1,y+2);
+		glVertex3d(x+4,1,y+2);
+
+		glVertex3d(x-4,1,y);
+		glVertex3d(x-2,1,y);
+
+		glVertex3d(x-1,1,y);
+		glVertex3d(x+1,1,y);
+
+		glVertex3d(x+2,1,y);
+		glVertex3d(x+4,1,y);
+	glEnd();
 }
 
 void Overflow::drawValley(int x, int y, PIXEL color) {
