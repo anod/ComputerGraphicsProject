@@ -3,7 +3,6 @@
 
 #include "general.h"
 
-#include "pixel.h"
 #include "ground.h"
 //#include "world.h"
 

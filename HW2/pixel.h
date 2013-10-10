@@ -15,6 +15,7 @@ typedef struct
 } PIXEL;
 
 static const PIXEL PIX_BROWN = {153,101,52};
+static const PIXEL PIX_PINK = {255,20,147};
 static const PIXEL PIX_WHITE = {255,255,255};
 static const PIXEL PIX_BLACK = {  0,  0,  0};
 static const PIXEL PIX_DK_GREEN  = {0,99,0};

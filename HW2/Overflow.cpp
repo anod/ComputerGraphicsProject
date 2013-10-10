@@ -56,37 +56,75 @@ int Overflow::getMenuHighlightedItem(int x, int y) {
 }
 
 void Overflow::draw() {
-	drawMenuSelection();
-}
-
-void Overflow::drawMenuSelection() {
 	int yOffset,xOffset = MENU_ITEM_X;
-	for (int i = 0; i < MENU_ITEM_COUNT; i++) {
-		yOffset = i * MENU_ITEM_HEIGHT + 5;
-		if (i != mMenuHighlightedItem) {
-			drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BROWN);
-		}
-	}
-	
+	PIXEL color;
+
+	color = (mMenuHighlightedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
+	yOffset = MENU_ITEM_Y;
+	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/3) + MENU_ITEM_SPACE, color);
+	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+
+	color = (mMenuHighlightedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
+	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+	drawRoad(xOffset, yOffset, color);
+	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+
+	color = (mMenuHighlightedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
+	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+	drawValley(xOffset, yOffset, color);
+	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+
+	color = (mMenuHighlightedItem == MENU_ITEM_TREE) ? PIX_WHITE : PIX_PINK;
+	yOffset = 3 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+	drawTree(xOffset, yOffset, color);
+	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+
+
 	if (mMenuHighlightedItem != MENU_NO_ITEM) {
-		yOffset = mMenuHighlightedItem * MENU_ITEM_HEIGHT + 5;
+		yOffset = mMenuHighlightedItem * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BLACK);
 	}
 	
-	yOffset = mMenuSelectedItem * MENU_ITEM_HEIGHT + 5;
+	yOffset = mMenuSelectedItem * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_WHITE);
-	
-}
-
-void Overflow::drawMenu() {
-	
-//	drawHill(HILL_RADIUS + 10, HILL_RADIUS + 10 + 2);
-//	drawRoad(MENU_ITEM_X + 10, MENU_ITEM_HEIGHT + 10 + MENU_ITEM_SPACE, MENU_ITEM_HEIGHT - 10, (MENU_ITEM_HEIGHT + 10) + MENU_ITEM_HEIGHT - 10);
-//	drawValley(HILL_RADIUS + 10, (2 * MENU_ITEM_HEIGHT) + HILL_RADIUS + 10 + 2);
-//	drawTree(MENU_ITEM_X + HILL_RADIUS + 5, (3 * MENU_ITEM_HEIGHT) + HILL_RADIUS + 10 + 2);
 
 }
 
+void Overflow::drawHill(int cx, int cy, PIXEL color) {
+	float theta = PI / float(100); 
+	float c = cosf(theta);//precalculate the sine and cosine
+	float s = sinf(theta);
+	float t;
+
+	float x = 4;//we start at angle = 0 
+	float y = 0; 
+    
+	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
+
+	glBegin(GL_POLYGON); 
+	for(int ii = 0; ii < 100; ii++) 
+	{ 
+		glVertex3d(x + cx,1,y + cy);//output vertex 
+        
+		//apply the rotation matrix
+		t = x;
+		x = c * x - s * y;
+		y = s * t + c * y;
+	} 
+	glEnd(); 
+}
+
+void Overflow::drawRoad(int x, int y, PIXEL color) {
+
+}
+
+void Overflow::drawValley(int x, int y, PIXEL color) {
+
+}
+
+void Overflow::drawTree(int x, int y, PIXEL color) {
+
+}
 
 void Overflow::drawItem(int item, int x, int y) {
 	mClick.count++;

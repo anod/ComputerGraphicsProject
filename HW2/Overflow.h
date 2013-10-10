@@ -8,8 +8,7 @@
 #ifndef OVERFLOW_H
 #define OVERFLOW_H
 
-#include "glut.h"
-#include "Pixel.h"
+#include "general.h"
 
 typedef struct
 {
@@ -27,8 +26,8 @@ public:
 	void onMouseClick(int button, int state, int x, int y);
 private:
 	static const int MENU_ITEM_HEIGHT = 10;
-	static const int MENU_ITEM_X = 5;
-	static const int MENU_ITEM_Y = 5;
+	static const int MENU_ITEM_X = -100+2;// GRID_SIZE //0;
+	static const int MENU_ITEM_Y = -100+2; //5;
 	static const int MENU_NO_ITEM = -1;
 	static const int MENU_ITEM_COUNT = 4;
 	static const int MENU_ITEM_SPACE = 1;
@@ -52,9 +51,10 @@ private:
 	int getMenuSelectedItem();
 
 	void drawSquare(int x1, int y1, int x2, int y2, PIXEL color);
-
-	void drawMenu();
-	void drawMenuSelection();
+	void drawHill(int x, int y, PIXEL color);
+	void drawRoad(int x, int y, PIXEL color);
+	void drawValley(int x, int y, PIXEL color);
+	void drawTree(int x, int y, PIXEL color);
 
 };
 
