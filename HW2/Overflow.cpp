@@ -173,9 +173,13 @@ void Overflow::drawItem(int item, int x, int y) {
 void Overflow::onMouseClick(int button, int state, int x, int y) {
 	//click
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		int item = getMenuHighlightedItem(x,y);
+		int koef = 600/200;
+		int gridX = float(x)/koef - 100;
+		int gridY = float(y)/koef - 100;
+
+		int item = getMenuHighlightedItem(gridX,gridY);
 		if (item == MENU_NO_ITEM) {
-			drawItem(mMenuSelectedItem, x, y);
+		//	drawItem(mMenuSelectedItem, gridX, gridY);
 		} else {
 			setMenuSelectedItem(item);
 			mClick.count = 0;
