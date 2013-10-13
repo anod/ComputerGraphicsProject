@@ -37,18 +37,16 @@ private:
 	static const int MENU_ITEM_VALLEY = 2;
 	static const int MENU_ITEM_TREE = 3;
 
-	int mMenuHighlightedItem;
 	int mMenuSelectedItem;
 
 	MOUSE_CLICK mClick;
 
 
 	void drawItem(int item, int x, int y);
-	void updateMenuHighlightedItem(int x, int y);
-	int getMenuHighlightedItem(int x, int y);
 
 	void setMenuSelectedItem(int item);
 	int getMenuSelectedItem();
+	int detectSelectedItem(int x, int y);
 
 	void drawSquare(int x1, int y1, int x2, int y2, PIXEL color);
 	void drawHill(int x, int y, PIXEL color);

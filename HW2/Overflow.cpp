@@ -18,12 +18,7 @@ Overflow::~Overflow(void)
 }
 
 void Overflow::init() {
-	mMenuHighlightedItem = MENU_NO_ITEM;
-	mMenuSelectedItem = 0;
-}
-
-void Overflow::updateMenuHighlightedItem(int x, int y) {
-	mMenuHighlightedItem = getMenuHighlightedItem(x, y);
+	mMenuSelectedItem = MENU_NO_ITEM;
 }
 
 void Overflow::setMenuSelectedItem(int item) {
@@ -34,7 +29,7 @@ int Overflow::getMenuSelectedItem() {
 	return mMenuSelectedItem;
 }
 
-int Overflow::getMenuHighlightedItem(int x, int y) {
+int Overflow::detectSelectedItem(int x, int y) {
 	if (x < MENU_ITEM_X || x > MENU_ITEM_HEIGHT + MENU_ITEM_X) {
 		return MENU_NO_ITEM;
 	}
@@ -59,34 +54,25 @@ void Overflow::draw() {
 	int yOffset,xOffset = MENU_ITEM_X;
 	PIXEL color;
 
-	color = (mMenuHighlightedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
+	color = (mMenuSelectedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
 	yOffset = MENU_ITEM_Y;
 	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
-	color = (mMenuHighlightedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
+	color = (mMenuSelectedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
 	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 	drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 	 
-	color = (mMenuHighlightedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
+	color = (mMenuSelectedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
 	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 	drawValley(xOffset, yOffset, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
-	color = (mMenuHighlightedItem == MENU_ITEM_TREE) ? PIX_WHITE : PIX_PINK;
+	color = (mMenuSelectedItem == MENU_ITEM_TREE) ? PIX_WHITE : PIX_PINK;
 	yOffset = 3 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 	drawTree(xOffset, yOffset, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
-
-
-	if (mMenuHighlightedItem != MENU_NO_ITEM) {
-		yOffset = mMenuHighlightedItem * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_BLACK);
-	}
-	
-	yOffset = mMenuSelectedItem * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, PIX_WHITE);
 
 }
 
@@ -177,7 +163,7 @@ void Overflow::onMouseClick(int button, int state, int x, int y) {
 		int gridX = float(x)/koef - 100;
 		int gridY = float(y)/koef - 100;
 
-		int item = getMenuHighlightedItem(gridX,gridY);
+		int item = detectSelectedItem(gridX,gridY);
 		if (item == MENU_NO_ITEM) {
 		//	drawItem(mMenuSelectedItem, gridX, gridY);
 		} else {
