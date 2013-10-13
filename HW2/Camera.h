@@ -12,7 +12,6 @@ typedef struct {
 	double x,y,z;
 } THREE;
 
-
 class Camera
 {
 public:
