@@ -8,9 +8,6 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-#include <math.h>
-#include <stdlib.h>     /* srand, rand */
-#include "glut.h"
 #include "general.h"
 
 class Terrain
@@ -19,11 +16,15 @@ public:
 	Terrain::Terrain(void);
 	Terrain::~Terrain(void);
 	void init();
-	virtual void draw3d();
-	virtual void draw2d();
+	void drawHill(int x, int y);
+	void drawValley(int x,int y);
+	void draw3d();
+	void draw2d();
 
 private:
-	static const int GRID_SIZE = 200;
+	static const int HILL_RADIUS = 7;//px
+	static const int VALLEY_RAIUS = 7; //px
+
 	double mGrid[GRID_SIZE][GRID_SIZE];
 
 	void smooth();

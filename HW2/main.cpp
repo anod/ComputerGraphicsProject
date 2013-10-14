@@ -6,10 +6,12 @@
 //  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
 //
 
-#include "main.h"
+#include "general.h"
+#include "Camera.h"
+#include "Overflow.h"
 
-static const int WIDTH = 600;
-static const int HEIGHT = 600;
+#include "Terrain.h"
+#include "Car.h"
 
 double angle=PI,dangle=0.0,start=0;
 double dx=0,dy=0,dz=0;
@@ -38,7 +40,7 @@ void init()
 	car = new Car();
 
 	overflow = new Overflow();
-	overflow->init();
+	overflow->init(terrain);
 	
 }
 
@@ -143,7 +145,7 @@ int main(int argc, char * argv[])
 	
 	init();
 	glutMainLoop();
-    return 0;
+	return 0;
 }
 
 

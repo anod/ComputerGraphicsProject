@@ -10,5 +10,8 @@
 #include "Pixel.h"
 
 #define PI 3.1415926
+static const int GRID_SIZE = 200;
+static const int WIDTH = 600;
+static const int HEIGHT = 600;
 
 #endif

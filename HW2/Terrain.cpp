@@ -244,5 +244,61 @@ void Terrain::generate3()
 			}
 		}
 	
-	
 }
+
+void Terrain::drawHill(int x, int y) {
+    int i,j,r=HILL_RADIUS;
+    double dist, ca, alpha, h;
+ 
+    for(i=y-r+1; i<y+r; i++)
+    {
+        for(j=x-r+1; j<x+r; j++)
+        {
+            if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
+            {
+                dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
+                if(dist < r)
+                {
+                    ca = dist/r;
+                    alpha = acos(ca);
+                    h = r * sin(alpha);
+
+					h = (h/3);
+					if(mGrid[i][j] + h < 10)
+					{
+						mGrid[i][j] += h;
+					}
+                }
+            }
+        }
+    }
+}
+
+void Terrain::drawValley(int x,int y) {
+    int i,j,r=VALLEY_RAIUS;
+    double dist, ca, alpha, h;
+ 
+    for(i=y-r+1; i<y+r; i++)
+    {
+        for(j=x-r+1; j<x+r; j++)
+        {
+            if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
+            {
+                dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
+                if(dist < r)
+                {
+                    ca = dist/r;
+                    alpha = acos(ca);
+                    h = r * sin(alpha);
+
+					h = (h/3);
+					if(h > -5)
+					{
+						mGrid[i][j] -= h;
+					}
+                }
+            }
+        }
+    }
+}
+

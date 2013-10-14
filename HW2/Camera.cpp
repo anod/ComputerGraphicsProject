@@ -19,4 +19,5 @@ Camera::Camera(void)
 
 Camera::~Camera(void)
 {
+
 }

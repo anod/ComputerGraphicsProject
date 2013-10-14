@@ -17,8 +17,9 @@ Overflow::~Overflow(void)
 {
 }
 
-void Overflow::init() {
+void Overflow::init(Terrain* terrain) {
 	mMenuSelectedItem = MENU_NO_ITEM;
+	mTerrain = terrain;
 }
 
 void Overflow::setMenuSelectedItem(int item) {
@@ -58,46 +59,21 @@ void Overflow::draw() {
 	yOffset = MENU_ITEM_Y;
 	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
-
-	color = (mMenuSelectedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
-	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
-	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 	 
 	color = (mMenuSelectedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
-	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawValley(xOffset, yOffset, color);
+	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+	drawValley(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) - (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
-	color = (mMenuSelectedItem == MENU_ITEM_TREE) ? PIX_WHITE : PIX_PINK;
-	yOffset = 3 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawTree(xOffset, yOffset, color);
+	color = (mMenuSelectedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
+	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+	drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
 	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
 }
 
 void Overflow::drawHill(int cx, int cy, PIXEL color) {
-	float theta = -PI / float(100); 
-	float c = cosf(theta);//precalculate the sine and cosine
-	float s = sinf(theta);
-	float t;
-
-	float x = 4;//we start at angle = 0 
-	float y = 0; 
-    
-	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
-
-	glBegin(GL_POLYGON); 
-	for(int ii = 0; ii < 100; ii++) 
-	{ 
-		glVertex3d(x + cx,1,y + cy);//output vertex 
-        
-		//apply the rotation matrix
-		t = x;
-		x = c * x - s * y;
-		y = s * t + c * y;
-	} 
-	glEnd(); 
+	 drawPie(cx,cy,-PI,100,color);
 }
 
 void Overflow::drawRoad(int x, int y, PIXEL color) {
@@ -122,25 +98,43 @@ void Overflow::drawRoad(int x, int y, PIXEL color) {
 	glEnd();
 }
 
-void Overflow::drawValley(int x, int y, PIXEL color) {
+void Overflow::drawValley(int cx, int cy, PIXEL color) {
+	 drawPie(cx,cy,PI,1000,color);
 
 }
 
-void Overflow::drawTree(int x, int y, PIXEL color) {
+void Overflow::drawPie(int cx, int cy, double deg, int seg, PIXEL color) {
+	float theta = deg / float(seg); 
+	float c = cosf(theta);//precalculate the sine and cosine
+	float s = sinf(theta);
+	float t;
 
+	float x = 4;//we start at angle = 0 
+	float y = 0; 
+    
+	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
+
+	glBegin(GL_POLYGON); 
+	for(int ii = 0; ii < seg; ii++) 
+	{ 
+		glVertex3d(x + cx,1,y + cy);//output vertex 
+        
+		//apply the rotation matrix
+		t = x;
+		x = c * x - s * y;
+		y = s * t + c * y;
+	} 
+	glEnd();
 }
 
 void Overflow::drawItem(int item, int x, int y) {
 	mClick.count++;
 	
 	if (item == MENU_ITEM_HILL) {
-//		drawHill(x,y);
+		mTerrain->drawHill(x,y);
 		mClick.count = 0;
 	} else if (item == MENU_ITEM_VALLEY) {
-//		drawValley(x,y);
-		mClick.count = 0;
-	} else if (item == MENU_ITEM_TREE) {
-//		drawTree(x,y);
+		mTerrain->drawValley(x,y);
 		mClick.count = 0;
 	} else if (item == MENU_ITEM_ROAD) {
 		if (mClick.count == 1) {
@@ -159,13 +153,14 @@ void Overflow::drawItem(int item, int x, int y) {
 void Overflow::onMouseClick(int button, int state, int x, int y) {
 	//click
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		int koef = 600/200;
-		int gridX = float(x)/koef - 100;
-		int gridY = float(y)/koef - 100;
+		int koef = WIDTH/float(GRID_SIZE);
+		int offset =  (GRID_SIZE/2.0f);
+		int gridX = float(x)/koef;
+		int gridY = float(y)/koef;
 
-		int item = detectSelectedItem(gridX,gridY);
+		int item = detectSelectedItem(gridX - offset,gridY - offset);
 		if (item == MENU_NO_ITEM) {
-		//	drawItem(mMenuSelectedItem, gridX, gridY);
+			drawItem(mMenuSelectedItem, gridX, gridY);
 		} else {
 			setMenuSelectedItem(item);
 			mClick.count = 0;
