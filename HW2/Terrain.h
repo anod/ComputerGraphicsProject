@@ -9,24 +9,30 @@
 #define TERRAIN_H
 
 #include "general.h"
+#include "Road.h"
 
 class Terrain
 {
 public:
+
 	Terrain::Terrain(void);
 	Terrain::~Terrain(void);
-	void init();
+	void init(Road* road);
 	void drawHill(int x, int y);
 	void drawValley(int x,int y);
 	void draw3d();
 	void draw2d();
+	void onRoadAdd(int i, int j);
+	void ptToGrid(int pt);
 
 private:
 	static const int HILL_RADIUS = 7;//px
 	static const int VALLEY_RAIUS = 7; //px
 
+	Road* mRoad;
 	double mGrid[GRID_SIZE][GRID_SIZE];
 
+	void updateGrid(int x, int y, int height);
 	void smooth();
 	void generate1();
 	void generate2();

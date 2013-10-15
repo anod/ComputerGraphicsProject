@@ -15,6 +15,34 @@ Terrain::~Terrain(void)
 {
 }
 
+
+void Terrain::init(Road* road) {
+	int i,j;
+
+	mRoad = road;
+
+	for(i=0;i<GRID_SIZE;i++) {
+		for(j=0;j<GRID_SIZE;j++)
+		{
+			mGrid[i][j] = 0;
+		}
+	}
+
+	for(i=1;i<200;i++) {
+		generate3();
+	}
+	for(i=1;i<400;i++) {
+		generate1();
+	}
+	for(i=1;i<50;i++) {
+		generate2();
+	}
+	smooth();
+	for(i=1;i<5;i++) {
+		generate2();
+	}
+}
+
 void Terrain::draw3d() {
 	int i,j;
 		
@@ -74,13 +102,16 @@ void Terrain::drawHeightColor(double h)
 	if(h>-5)
 	{
 		h=fabs(h);
-		if(h>0 && h<0.4) // sand
+		if(h>0 && h<0.4) { // sand
 			glColor3d(0.8,0.8,0.5);
-		else if(h<5)
+		} else if(h<5) {
 			glColor3d(0.2+h/30,(5-h)/6,0);
-		else glColor3d(h/11,h/11,h/10);
+		} else {
+			glColor3d(h/11,h/11,h/10);
+		}
+	} else {
+		glColor3d(0,0,0);
 	}
-	else glColor3d(0,0,0);
 }
 
 void Terrain::drawHeightColor2d(double h)
@@ -99,31 +130,6 @@ void Terrain::drawHeightColor2d(double h)
 	else
 	{
 		glColor3d(0,0,1);
-	}
-}
-
-void Terrain::init() {
-	int i,j;
-
-	for(i=0;i<GRID_SIZE;i++) {
-		for(j=0;j<GRID_SIZE;j++)
-		{
-			mGrid[i][j] = 0;
-		}
-	}
-
-	for(i=1;i<200;i++) {
-		generate3();
-	}
-	for(i=1;i<400;i++) {
-		generate1();
-	}
-	for(i=1;i<50;i++) {
-		generate2();
-	}
-	smooth();
-	for(i=1;i<5;i++) {
-		generate2();
 	}
 }
 
@@ -228,8 +234,10 @@ void Terrain::generate3()
 	x = rand()% GRID_SIZE;
 	y = rand()% GRID_SIZE;
 	r = 1 +rand()%30 ;
-	if(rand()%2==0) delta = -delta;
-	
+	if(rand()%2==0) {
+		delta = -delta;
+	}
+
 	for(i=y-r;i<=y+r;i++)
 		for(j = x-r;j<=x+r;j++)
 		{
@@ -247,58 +255,73 @@ void Terrain::generate3()
 }
 
 void Terrain::drawHill(int x, int y) {
-    int i,j,r=HILL_RADIUS;
-    double dist, ca, alpha, h;
+	int i,j,r=HILL_RADIUS;
+	double dist, ca, alpha, h;
  
-    for(i=y-r+1; i<y+r; i++)
-    {
-        for(j=x-r+1; j<x+r; j++)
-        {
-            if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
-            {
-                dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
-                if(dist < r)
-                {
-                    ca = dist/r;
-                    alpha = acos(ca);
-                    h = r * sin(alpha);
+	for(i=y-r+1; i<y+r; i++)
+	{
+		for(j=x-r+1; j<x+r; j++)
+		{
+			if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
+			{
+				dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
+				if(dist < r)
+				{
+					ca = dist/r;
+					alpha = acos(ca);
+					h = r * sin(alpha);
 
 					h = (h/3);
 					if(mGrid[i][j] + h < 10)
 					{
-						mGrid[i][j] += h;
+						updateGrid(i,j, mGrid[i][j] + h);
 					}
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }
 
 void Terrain::drawValley(int x,int y) {
-    int i,j,r=VALLEY_RAIUS;
-    double dist, ca, alpha, h;
+	int i,j,r=VALLEY_RAIUS;
+	double dist, ca, alpha, h;
  
-    for(i=y-r+1; i<y+r; i++)
-    {
-        for(j=x-r+1; j<x+r; j++)
-        {
-            if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
-            {
-                dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
-                if(dist < r)
-                {
-                    ca = dist/r;
-                    alpha = acos(ca);
-                    h = r * sin(alpha);
+	for(i=y-r+1; i<y+r; i++)
+	{
+		for(j=x-r+1; j<x+r; j++)
+		{
+			if(i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
+			{
+				dist = sqrt(double(x-j) * (x-j) + (y-i)*(y-i) );
+				if(dist < r)
+				{
+					ca = dist/r;
+					alpha = acos(ca);
+					h = r * sin(alpha);
 
 					h = (h/3);
 					if(h > -5)
 					{
-						mGrid[i][j] -= h;
+						updateGrid(i,j, mGrid[i][j] - h);
 					}
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }
+
+void Terrain::updateGrid(int i, int j, int height) {
+	mGrid[i][j] = height;
+	mRoad->onTerrainUpdate(i,j,height <= 0);
+}
+
+void Terrain::onRoadAdd(int i, int j) {
+	if (mGrid[i][j] > 0) {
+		mGrid[i][j] = 0.2;
+	} else {
+		mRoad->onTerrainUpdate(i,j,true);
+	}
+}
+
+
 

@@ -17,9 +17,10 @@ Overflow::~Overflow(void)
 {
 }
 
-void Overflow::init(Terrain* terrain) {
+void Overflow::init(Terrain* terrain, Road* road) {
 	mMenuSelectedItem = MENU_NO_ITEM;
 	mTerrain = terrain;
+	mRoad = road;
 }
 
 void Overflow::setMenuSelectedItem(int item) {
@@ -129,7 +130,7 @@ void Overflow::drawPie(int cx, int cy, double deg, int seg, PIXEL color) {
 
 void Overflow::drawItem(int item, int x, int y) {
 	mClick.count++;
-	
+
 	if (item == MENU_ITEM_HILL) {
 		mTerrain->drawHill(x,y);
 		mClick.count = 0;
@@ -143,7 +144,7 @@ void Overflow::drawItem(int item, int x, int y) {
 		} else if (mClick.count == 2) {
 			mClick.x2 = x;
 			mClick.y2 = y;
-//			drawRoad(click.x1,click.y1,click.x2,click.y2);
+			mRoad->add(mClick.x1,mClick.y1,mClick.x2,mClick.y2);
 			mClick.count = 0;
 		}
 	}
@@ -154,11 +155,10 @@ void Overflow::onMouseClick(int button, int state, int x, int y) {
 	//click
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		int koef = WIDTH/float(GRID_SIZE);
-		int offset =  (GRID_SIZE/2.0f);
-		int gridX = float(x)/koef;
-		int gridY = float(y)/koef;
+		int gridX = float(x)/GRID_KOEF;
+		int gridY = float(y)/GRID_KOEF;
 
-		int item = detectSelectedItem(gridX - offset,gridY - offset);
+		int item = detectSelectedItem(gridX - GRID_OFFSET,gridY - GRID_OFFSET);
 		if (item == MENU_NO_ITEM) {
 			drawItem(mMenuSelectedItem, gridX, gridY);
 		} else {

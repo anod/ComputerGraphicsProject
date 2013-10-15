@@ -81,6 +81,7 @@
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Overflow.cpp" />
+    <ClCompile Include="Road.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -91,6 +92,7 @@
     <ClInclude Include="general.h" />
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

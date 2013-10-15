@@ -14,4 +14,7 @@ static const int GRID_SIZE = 200;
 static const int WIDTH = 600;
 static const int HEIGHT = 600;
 
+static const int GRID_OFFSET = (GRID_SIZE/2.0f);//px
+static const int GRID_KOEF = WIDTH/float(GRID_SIZE);//px
+
 #endif
