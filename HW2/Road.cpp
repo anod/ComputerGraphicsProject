@@ -90,12 +90,12 @@ void Road::add(int x1, int y1, int x2, int y2) {
 }
 
 void Road::addRoadPoints(int cx, int cy) {
-	int x0 = cx - 2;
-	int x1 = cx + 2;
+	int x0 = cx - 4;
+	int x1 = cx + 4;
 	x0 = (x0 < 0) ? 0 : x0;
 	x1 = (x1 >= GRID_SIZE) ? GRID_SIZE : x1;
-	int y0 = cy - 2;
-	int y1 = cy + 2;
+	int y0 = cy - 4;
+	int y1 = cy + 4;
 	y0 = (y0 < 0) ? 0 : y0;
 	y1 = (y1 >= GRID_SIZE) ? GRID_SIZE : y1;
 	

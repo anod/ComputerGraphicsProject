@@ -48,6 +48,7 @@ void init()
 	terrain = new Terrain();
 	terrain->init(road);
 	road->init(terrain);
+	road->add(10,100,190,100);
 
 	car = new Car();
 
@@ -69,7 +70,6 @@ void drawMousePos() {
 void display2D()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -106,6 +106,8 @@ void display3D()
 		camera->up.x,camera->up.y,camera->up.z
 	);
 	
+	glMatrixMode(GL_MODELVIEW);
+
 	terrain->draw3d();
 	
 	glTranslated(planex,planey, planez);
@@ -113,7 +115,6 @@ void display3D()
 	//glRotated(-plane_ang_speed*2000,1,0,0);
 	
 	car->draw3d();
-	//DrawPlane();
 	
 	glutSwapBuffers();
 }
@@ -158,7 +159,7 @@ int main(int argc, char * argv[])
 	glutCreateWindow("HW2");
 	
 	// onPaint
-	glutDisplayFunc(display2D);
+	glutDisplayFunc(display3D);
 	// onTimer
 	glutIdleFunc(idle);
 	glutMouseFunc(onMouseClick);

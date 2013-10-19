@@ -45,7 +45,9 @@ void Terrain::init(Road* road) {
 
 void Terrain::draw3d() {
 	int i,j;
-		
+
+	glPushMatrix();
+
 	for(i=1;i<GRID_SIZE;i++) {
 		for(j=1;j<GRID_SIZE;j++)
 		{
@@ -74,6 +76,30 @@ void Terrain::draw3d() {
 		glVertex3d(-GRID_OFFSET,0,GRID_OFFSET);
 	glEnd();
 	glDisable(GL_BLEND);
+
+	glPopMatrix();
+
+
+	glPushMatrix();
+	for(i=1;i<GRID_SIZE;i++) {
+		for(j=1;j<GRID_SIZE;j++)
+		{
+			bool isRoad = mRoad->isRoad(i,j);
+			if (!isRoad) {
+				continue;
+			}
+			PIXEL roadColor = (mRoad->isBridge(i,j)) ? PIX_LT_GREY : PIX_DK_GREY;
+
+			glBegin(GL_POLYGON);
+			glColor3d(roadColor.red/255.0f,roadColor.green/255.0f,roadColor.blue/255.0f);
+				glVertex3d(j-GRID_OFFSET,0.2f,i-GRID_OFFSET);
+				glVertex3d(j-1-GRID_OFFSET,0.2f,i-GRID_OFFSET);
+				glVertex3d(j-1-GRID_OFFSET,0.2f,i-1-GRID_OFFSET);
+				glVertex3d(j-GRID_OFFSET,0.2f,i-1-GRID_OFFSET);
+			glEnd();
+		}
+	}
+	glPopMatrix();
 }
 
 void Terrain::draw2d() {
