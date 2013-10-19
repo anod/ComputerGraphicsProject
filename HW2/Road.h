@@ -18,9 +18,14 @@ public:
 	~Road(void);
 
 	void init(Terrain* terrain);
-
+	bool isRoad(int i, int j) { 
+		return mRoad[i][j] > 0; 
+	};
+	bool isBridge(int i, int j) {
+		return mBridge[i][j] > 0;
+	};
 	void add(int startX, int startY, int endX, int endY);
-	void onTerrainUpdate(int i, int j, bool isWater);
+	void onTerrainUpdate(int x, int y, bool isWater);
 private:
 	Terrain* mTerrain;
 

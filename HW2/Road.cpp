@@ -31,24 +31,6 @@ void Road::init(Terrain* terrain) {
 	}
 }
 
-void Road::addRoadPoints(int cx, int cy) {
-	int x0 = cx - 5;
-	int x1 = cx + 5;
-	x0 = (x0 < 0) ? 0 : x0;
-	x1 = (x1 >= WIDTH) ? WIDTH : x1;
-	int y0 = cy - 5;
-	int y1 = cy + 5;
-	y0 = (y0 < 0) ? 0 : y0;
-	y1 = (y1 >= GRID_SIZE) ? GRID_SIZE : y1;
-	
-	for (int i = x0; i < x1; i++) {
-		for (int j = y0; j < y1; j++) {
-			mRoad[j][i] = 1;
-			mTerrain->onRoadAdd(i,j);
-		}
-	}
-}
-
 void Road::add(int x1, int y1, int x2, int y2) {
 	double a,b;
 	int x,y;
@@ -107,29 +89,32 @@ void Road::add(int x1, int y1, int x2, int y2) {
 	}
 }
 
-void Road::setBridgePoints(int cx, int cy, int value) {
-	int x0 = cx - 5;
-	int x1 = cx + 5;
+void Road::addRoadPoints(int cx, int cy) {
+	int x0 = cx - 2;
+	int x1 = cx + 2;
 	x0 = (x0 < 0) ? 0 : x0;
-	x1 = (x1 >= WIDTH) ? WIDTH : x1;
-	int y0 = cy - 5;
-	int y1 = cy + 5;
+	x1 = (x1 >= GRID_SIZE) ? GRID_SIZE : x1;
+	int y0 = cy - 2;
+	int y1 = cy + 2;
 	y0 = (y0 < 0) ? 0 : y0;
 	y1 = (y1 >= GRID_SIZE) ? GRID_SIZE : y1;
 	
 	for (int i = x0; i < x1; i++) {
 		for (int j = y0; j < y1; j++) {
-			mBridge[j][i] = value;
+			mRoad[j][i] = 1;
+			mTerrain->onRoadAdd(i,j);
 		}
 	}
 }
 
 
-void Road::onTerrainUpdate(int i, int j, bool isWater) {
+
+
+void Road::onTerrainUpdate(int x, int y, bool isWater) {
 	if (isWater) {
-		setBridgePoints(i,j,1);
+		mBridge[y][x] = 1;
 	} else {
-		setBridgePoints(i,j,0);
+		mBridge[y][x] = 0;
 	}
 }
 

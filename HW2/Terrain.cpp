@@ -52,13 +52,13 @@ void Terrain::draw3d() {
 			//			glBegin(GL_LINE_LOOP);
 			glBegin(GL_POLYGON);
 			drawHeightColor(mGrid[i][j]);
-			glVertex3d(j-GRID_SIZE/2,mGrid[i][j],i-GRID_SIZE/2);
+			glVertex3d(j-GRID_OFFSET,mGrid[i][j],i-GRID_OFFSET);
 			drawHeightColor(mGrid[i][j-1]);
-			glVertex3d(j-1-GRID_SIZE/2,mGrid[i][j-1],i-GRID_SIZE/2);
+			glVertex3d(j-1-GRID_OFFSET,mGrid[i][j-1],i-GRID_OFFSET);
 			drawHeightColor(mGrid[i-1][j-1]);
-			glVertex3d(j-1-GRID_SIZE/2,mGrid[i-1][j-1],i-1-GRID_SIZE/2);
+			glVertex3d(j-1-GRID_OFFSET,mGrid[i-1][j-1],i-1-GRID_OFFSET);
 			drawHeightColor(mGrid[i-1][j]);
-			glVertex3d(j-GRID_SIZE/2,mGrid[i-1][j],i-1-GRID_SIZE/2);
+			glVertex3d(j-GRID_OFFSET,mGrid[i-1][j],i-1-GRID_OFFSET);
 			glEnd();
 		}
 	}
@@ -68,10 +68,10 @@ void Terrain::draw3d() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4d(0,0,0.5,0.7);
 	glBegin(GL_POLYGON);
-	glVertex3d(-GRID_SIZE/2,0,-GRID_SIZE/2);
-	glVertex3d(GRID_SIZE/2,0,-GRID_SIZE/2);
-	glVertex3d(GRID_SIZE/2,0,GRID_SIZE/2);
-	glVertex3d(-GRID_SIZE/2,0,GRID_SIZE/2);
+		glVertex3d(-GRID_OFFSET,0,-GRID_OFFSET);
+		glVertex3d(GRID_OFFSET,0,-GRID_OFFSET);
+		glVertex3d(GRID_OFFSET,0,GRID_OFFSET);
+		glVertex3d(-GRID_OFFSET,0,GRID_OFFSET);
 	glEnd();
 	glDisable(GL_BLEND);
 }
@@ -82,18 +82,21 @@ void Terrain::draw2d() {
 	for(i=1;i<GRID_SIZE;i++) {
 		for(j=1;j<GRID_SIZE;j++)
 		{
+			bool isRoad = mRoad->isRoad(i,j);
+			PIXEL roadColor = (mRoad->isBridge(i,j)) ? PIX_LT_GREY : PIX_DK_GREY;
 			glBegin(GL_POLYGON);
-					drawHeightColor2d(mGrid[i][j]);
-				glVertex3d(j-GRID_SIZE/2,0,i-GRID_SIZE/2);
-					drawHeightColor2d(mGrid[i][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,0,i-GRID_SIZE/2);
-					drawHeightColor2d(mGrid[i-1][j-1]);
-				glVertex3d(j-1-GRID_SIZE/2,0,i-1-GRID_SIZE/2);
-					drawHeightColor2d(mGrid[i-1][j]);
-				glVertex3d(j-GRID_SIZE/2,0,i-1-GRID_SIZE/2);
+					drawHeightColor2d(mGrid[i][j],isRoad,roadColor);
+				glVertex3d(j-GRID_OFFSET,0,i-GRID_OFFSET);
+					drawHeightColor2d(mGrid[i][j-1],isRoad,roadColor);
+				glVertex3d(j-1-GRID_OFFSET,0,i-GRID_OFFSET);
+					drawHeightColor2d(mGrid[i-1][j-1],isRoad,roadColor);
+				glVertex3d(j-1-GRID_OFFSET,0,i-1-GRID_OFFSET);
+					drawHeightColor2d(mGrid[i-1][j],isRoad,roadColor);
+				glVertex3d(j-GRID_OFFSET,0,i-1-GRID_OFFSET);
 			glEnd();
 		}
 	}
+
 }
 
 
@@ -114,8 +117,13 @@ void Terrain::drawHeightColor(double h)
 	}
 }
 
-void Terrain::drawHeightColor2d(double h)
+void Terrain::drawHeightColor2d(double h,bool isRoad,PIXEL roadColor)
 {
+	if (isRoad) {
+		glColor3d(roadColor.red/255.0f,roadColor.green/255.0f,roadColor.blue/255.0f);
+		return;
+	}
+
 	if(h > 0)
 	{
 		h=fabs(h);
@@ -312,14 +320,14 @@ void Terrain::drawValley(int x,int y) {
 
 void Terrain::updateGrid(int i, int j, int height) {
 	mGrid[i][j] = height;
-	mRoad->onTerrainUpdate(i,j,height <= 0);
+	mRoad->onTerrainUpdate(j,i,height <= 0);
 }
 
-void Terrain::onRoadAdd(int i, int j) {
-	if (mGrid[i][j] > 0) {
-		mGrid[i][j] = 0.2;
+void Terrain::onRoadAdd(int x, int y) {
+	if (mGrid[y][x] > 0) {
+		mGrid[y][x] = 0.2;
 	} else {
-		mRoad->onTerrainUpdate(i,j,true);
+		mRoad->onTerrainUpdate(x,y,true);
 	}
 }
 

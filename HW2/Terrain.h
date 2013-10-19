@@ -22,7 +22,7 @@ public:
 	void drawValley(int x,int y);
 	void draw3d();
 	void draw2d();
-	void onRoadAdd(int i, int j);
+	void onRoadAdd(int x, int y);
 	void ptToGrid(int pt);
 
 private:
@@ -38,6 +38,6 @@ private:
 	void generate2();
 	void generate3();
 	void drawHeightColor(double h);
-	void drawHeightColor2d(double h);
+	void drawHeightColor2d(double h,bool isRoad,PIXEL roadColor);
 };
 #endif
