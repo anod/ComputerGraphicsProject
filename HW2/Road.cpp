@@ -108,8 +108,6 @@ void Road::addRoadPoints(int cx, int cy) {
 }
 
 
-
-
 void Road::onTerrainUpdate(int x, int y, bool isWater) {
 	if (isWater) {
 		mBridge[y][x] = 1;

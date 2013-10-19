@@ -3,9 +3,9 @@
 
 Camera::Camera(void)
 {
-	pos.x = 0;
+	pos.x = 1;
 	pos.y = 10;
-	pos.z = 15;
+	pos.z = 20;
 	
 	sight.x = 0;
 	sight.y = -0.2f;

@@ -92,11 +92,11 @@ void display3D()
 {
 	// fill the buffer with the background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	//glDrawPixels(WIDTH,HEIGHT,GL_RGB,GL_UNSIGNED_BYTE,pix);
-	
+	glMatrixMode(GL_PROJECTION);
+
 	glLoadIdentity();
 	glFrustum(-1,1,-1,1,1,200);
+
 	// eyex,eyey,eyez - represent the camera position
 	// sightx,sighty,sightz - represent the camera view direction
 	// 0,1,0 represent the camera up vector
