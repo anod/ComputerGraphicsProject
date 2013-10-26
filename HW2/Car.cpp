@@ -30,36 +30,11 @@ void Car::draw3d() {
 
 	// car
 	glPushMatrix();
-		glRotated(angle*180/PI,0,1,0);  // yaw
-		//glRotated(-plane_ang_speed*2000,1,0,0); // roll
-		//glRotated(pitch*180/PI,0,0,1);
+		glRotated(angle*180/PI,0,1,0);
 		draw();
 	glPopMatrix();
 
-	// Wheels
-	glPushMatrix();
-		glTranslated(2.5f,1.0f,-3.0f);
-		glRotated(90,0,1,0);
-		drawWheel();
-	glPopMatrix();
 
-	glPushMatrix();
-		glTranslated(2.5f,1.0f,3.0f);
-		glRotated(90,0,1,0);
-		drawWheel();
-	glPopMatrix();
-
-	glPushMatrix();
-		glTranslated(-2.5f,1.0f,-3.0f);
-		glRotated(90,0,1,0);
-		drawWheel();
-	glPopMatrix();
-
-	glPushMatrix();
-		glTranslated(-2.5f,1.0f,3.0f);
-		glRotated(90,0,1,0);
-		drawWheel();
-	glPopMatrix();
 	
 }
 
@@ -108,7 +83,7 @@ void Car::draw() {
 
 	//bottom
 	glBegin(GL_POLYGON);
-	glColor3d(0.0f,1.0f,0.0f);
+	glColor3d(0.3f,0.0f,0.0f);
 		glVertex3d(-4.5f, 0.6f, -3.0f);              // Top Left
 		glVertex3d( 4.5f, 0.6f, -3.0f);              // Top Right
 		glVertex3d( 4.5f, 0.6f, 3.0f);              // Bottom Right
@@ -182,7 +157,30 @@ void Car::draw() {
 
 	glDisable(GL_BLEND);
 
+	// Wheels
+	glPushMatrix();
+		glTranslated(2.5f,1.0f,-3.0f);
+		glRotated(90,0,1,0);
+		drawWheel();
+	glPopMatrix();
 
+	glPushMatrix();
+		glTranslated(2.5f,1.0f,3.0f);
+		glRotated(90,0,1,0);
+		drawWheel();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslated(-2.5f,1.0f,-3.0f);
+		glRotated(90,0,1,0);
+		drawWheel();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslated(-2.5f,1.0f,3.0f);
+		glRotated(90,0,1,0);
+		drawWheel();
+	glPopMatrix();
 }
 
 void Car::drawWheel()
