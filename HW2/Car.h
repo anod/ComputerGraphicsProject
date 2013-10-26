@@ -15,8 +15,14 @@ class Car
 public:
 	Car(void);
 	~Car(void);
-	virtual void draw3d();
-	virtual void draw2d();
+
+	void left() { mAngleSpeed+=0.002; };
+	void right() { mAngleSpeed-=0.002; };
+	void forward() { speed += 0.01; };
+	void backward() { speed -= 0.01; };
+
+	void draw3d();
+	void update();
 
 	THREE pos;
 	double speed;
@@ -24,6 +30,9 @@ public:
 private:
 	void draw();
 	void drawWheel();
+
+	double mAngleSpeed;
+
 };
 
 #endif //CAR_H

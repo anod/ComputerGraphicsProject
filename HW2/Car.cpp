@@ -15,7 +15,8 @@ Car::Car(void)
 	pos.z = 0;
 
 	speed = 0;
-	angle = PI;
+	mAngleSpeed = 0;
+	angle = PI/2;
 
 }
 
@@ -24,23 +25,24 @@ Car::~Car(void)
 {
 }
 
+void Car::update() {
+	// plane
+	angle+=mAngleSpeed;
+	pos.x+=-speed*sin(angle+PI/2);
+	pos.z+=-speed*cos(angle+PI/2);
+}
+
 void Car::draw3d() {
 	
-	glTranslated(pos.x,pos.y,pos.z);
-
 	// car
 	glPushMatrix();
+		glTranslated(pos.x,pos.y,pos.z);
 		glRotated(angle*180/PI,0,1,0);
 		draw();
 	glPopMatrix();
-
-
 	
 }
 
-void Car::draw2d() {
-	draw();
-}
 
 
 void Car::draw() {

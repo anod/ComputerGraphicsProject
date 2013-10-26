@@ -27,6 +27,7 @@ Overflow* overflow;
 Road* road;
 
 char gMouseLoc[25];
+char gCarInfo[25];
 
 //World* world;
 
@@ -38,10 +39,11 @@ void init()
 	
 	srand((unsigned)time(NULL));
 
-	sprintf(gMouseLoc, "%3d, %3d", 0, 0 );
-
 	camera = new Camera();	
 	car = new Car();
+
+	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
+
 
 	camera->setCar(car);
 
@@ -58,12 +60,17 @@ void init()
 }
 
 void drawMousePos() {
-    unsigned int i;
+	unsigned int i;
 	glColor3d(1.0f, 1.0f , 1.0f);
 
-    glRasterPos3f(40,0,95);
+	glRasterPos3f(40,0,95);
 	for (i = 0; i < strlen (gMouseLoc); i++) {
-         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gMouseLoc[i]);
+		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gMouseLoc[i]);
+	}
+
+	glRasterPos3f(-100,0,95);
+	for (i = 0; i < strlen (gCarInfo); i++) {
+		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gCarInfo[i]);
 	}
 }
 
@@ -85,14 +92,7 @@ void display2D()
 	overflow->draw();
 	terrain->draw2d();
 
-	// car
-	glPushMatrix();
-		glTranslated(car->pos.x,car->pos.y, car->pos.z);
-		glRotated(car->angle*180/PI,0,1,0);  // yaw
-		//glRotated(-plane_ang_speed*2000,1,0,0); // roll
-		//glRotated(pitch*180/PI,0,0,1);
-		car->draw3d();
-	glPopMatrix();
+	car->draw3d();
 
 	glutSwapBuffers();
 }
@@ -108,7 +108,7 @@ void display3D()
 
 	gluLookAt(
 		camera->pos.x,camera->pos.y,camera->pos.z,
-		camera->pos.x+camera->sight.x,camera->pos.y+camera->sight.y,camera->pos.z+camera->sight.z,
+		camera->center.x,camera->center.y,camera->center.z,
 		camera->up.x,camera->up.y,camera->up.z
 	);
 
@@ -125,7 +125,10 @@ void display3D()
 
 void idle()
 {
+	car->update();
 	camera->update();
+	sprintf(gCarInfo, "%3.2f, %3.2f, %3.2f ( %3.2f )", car->pos.x, car->pos.y, car->pos.z, car->angle);
+
 	glutPostRedisplay();
 }
 
@@ -193,24 +196,18 @@ void onKeyboard(unsigned char key, int x, int y)
 {
 	switch(key)
 	{
-	case 'a': // left
-			//plane_ang_speed+=0.002;
-		break;
-	case 'd':  // right
-			//plane_ang_speed-=0.002;
-		break;
-	case 'w':  // forward
-			//plane_speed+=0.01;
-		break;
-	case 's':   // backward
-			//plane_speed-=0.01;
-		break;
-	case 'r':   // up
-			//pitch+=0.02;
-		break;
-	case 'f':   // down
-			//pitch-=0.02;
-		break;
+		case 'a': // left
+			car->left();
+			break;
+		case 'd':  // right
+			car->right();
+			break;
+		case 'w':  // forward
+			car->forward();
+			break;
+		case 's':   // backward
+			car->backward();
+			break;
 	}
 }
 

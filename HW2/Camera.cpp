@@ -28,39 +28,58 @@ void Camera::reset() {
 		pos.y = DEF_POS_Y;
 		pos.z = DEF_POS_Z;
 
-		sight.x = 0;
-		sight.y = -0.2f;
-		sight.z = -1.0f;
+		center.x = pos.x;
+		center.y = pos.y-0.2f;
+		center.z = pos.z-1.0f;
 
 	} else {
-		
+		double aSin = sin(mCar->angle+PI/2);
+		double aCos = cos(mCar->angle+PI/2);
 
-		pos.x = mCar->pos.x+0.1;
-		pos.y = mCar->pos.y + 1.8f;
-		pos.z = mCar->pos.z-1.0f;
+		pos.x = mCar->pos.x - 0.2f + 2*aSin;
+		pos.y = mCar->pos.y + 2.0f;
+		pos.z = mCar->pos.z + 2.0f + 2*aCos;
 
-		sight.x = -0.99;
-		sight.y = -0.2f;
-		sight.z = 0.0f;
+		center.x = pos.x - 0.99f + 3*aSin,
+		center.y = pos.y - 0.2f;
+		center.z = pos.z + 3*aCos;
+
 	}
-
 
 	up.x = 0;
 	up.y = 1;
 	up.z = 0;
 
 
-
 }
 
 
 void Camera::update() {
+
+
+	if (mViewMode == VIEW_INSIDE) {
+		double aSin = sin(mCar->angle+PI/2);
+		double aCos = cos(mCar->angle+PI/2);
+
+		pos.x = mCar->pos.x - 0.2f + 2*aSin;
+		pos.y = mCar->pos.y + 2.0f;
+		pos.z = mCar->pos.z + 2.0f + 2*aCos;
+
+		center.x = mCar->pos.x - 0.2f + 3*aSin,
+		center.y = mCar->pos.y + 1.8f;
+		center.z = mCar->pos.z + 2.0f + 3*aCos;
+
+	} else {
 		mAngle += mDirectionAngle;
-		sight.x = sin(mAngle);
-		sight.z = cos(mAngle);
-		pos.x += sight.x * mSpeed;
+		double sight_x = sin(mAngle);
+		double sight_z = cos(mAngle);
+		pos.x += sight_x * mSpeed;
 		pos.y += mLevelY;
-		pos.z += sight.z * mSpeed;
+		pos.z += sight_z * mSpeed;
+
+		center.x = pos.x + sight_x;
+		center.z = pos.z + sight_z;
+	}
 }
 
 

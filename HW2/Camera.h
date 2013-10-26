@@ -34,7 +34,7 @@ public:
 	void reset();
 
 	THREE pos; // - represent the camera position
-	THREE sight; // - represent the camera view direction
+	THREE center; // - represent the camera view direction
 	THREE up; // - represent the camera up vector
 
 private:
