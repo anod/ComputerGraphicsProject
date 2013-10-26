@@ -17,9 +17,6 @@
 #include "Terrain.h"
 #include "Car.h"
 
-double angle=PI,dangle=0.0,start=0;
-double dx=0,dy=0,dz=0;
-double speed = 0;
 double planex=0,planey=0,planez=0;
 double plane_angle=PI/2,plane_speed=0,plane_ang_speed=0;
 
@@ -35,22 +32,25 @@ char gMouseLoc[25];
 
 void init()
 {
-	glClearColor(0.4,0.4,0.4,0); // set background color
+	//135-206-250
+	glClearColor(0.52,0.8,0.98,0); // set background color
 	glEnable(GL_DEPTH_TEST);
 	
 	srand((unsigned)time(NULL));
 
+	sprintf(gMouseLoc, "%3d, %3d", 0, 0 );
+
 	camera = new Camera();	
-	
-	 sprintf(gMouseLoc, "%3d, %3d", 0, 0 );
+	car = new Car();
+
+	camera->setCar(car);
 
 	road = new Road();
 	terrain = new Terrain();
 	terrain->init(road);
 	road->init(terrain);
-	road->add(10,100,190,100);
-
-	car = new Car();
+	road->add(10,101,190,101);
+	road->rebuild();
 
 	overflow = new Overflow();
 	overflow->init(terrain, road);
@@ -85,6 +85,15 @@ void display2D()
 	overflow->draw();
 	terrain->draw2d();
 
+	// car
+	glPushMatrix();
+		glTranslated(car->pos.x,car->pos.y, car->pos.z);
+		glRotated(car->angle*180/PI,0,1,0);  // yaw
+		//glRotated(-plane_ang_speed*2000,1,0,0); // roll
+		//glRotated(pitch*180/PI,0,0,1);
+		car->draw3d();
+	glPopMatrix();
+
 	glutSwapBuffers();
 }
 
@@ -92,28 +101,23 @@ void display3D()
 {
 	// fill the buffer with the background color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
 
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glFrustum(-1,1,-1,1,1,200);
 
-	// eyex,eyey,eyez - represent the camera position
-	// sightx,sighty,sightz - represent the camera view direction
-	// 0,1,0 represent the camera up vector
 	gluLookAt(
 		camera->pos.x,camera->pos.y,camera->pos.z,
 		camera->pos.x+camera->sight.x,camera->pos.y+camera->sight.y,camera->pos.z+camera->sight.z,
 		camera->up.x,camera->up.y,camera->up.z
 	);
-	
+
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
 	terrain->draw3d();
 	
-	glTranslated(planex,planey, planez);
-	//glRotated(plane_angle*180/PI,0,1,0);
-	//glRotated(-plane_ang_speed*2000,1,0,0);
-	
+	// car
 	car->draw3d();
 	
 	glutSwapBuffers();
@@ -121,7 +125,7 @@ void display3D()
 
 void idle()
 {
-
+	camera->update();
 	glutPostRedisplay();
 }
 
@@ -149,6 +153,66 @@ void onMenuSelect(int option)
 	}
 }
 
+void onSpecialKey(int key,int x,int y)
+{
+	switch(key)
+	{
+	case GLUT_KEY_LEFT:
+		camera->left();
+		break;
+	case GLUT_KEY_RIGHT:
+		camera->right();
+		break;
+	case GLUT_KEY_UP:
+		camera->forward();
+		break;
+	case GLUT_KEY_DOWN:
+		camera->backward();
+		break;
+	case GLUT_KEY_PAGE_UP:
+		camera->levelUp(); 
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		camera->levelDown();
+		break;
+	case GLUT_KEY_F1:
+		camera->setViewMode(Camera::VIEW_DEFAULT);
+		glutDisplayFunc(display3D);
+		break;
+	case GLUT_KEY_F2:
+		camera->setViewMode(Camera::VIEW_INSIDE);
+		glutDisplayFunc(display3D);
+		break;
+	case GLUT_KEY_F3:
+		glutDisplayFunc(display2D);
+		break;
+	}
+}
+
+void onKeyboard(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+	case 'a': // left
+			//plane_ang_speed+=0.002;
+		break;
+	case 'd':  // right
+			//plane_ang_speed-=0.002;
+		break;
+	case 'w':  // forward
+			//plane_speed+=0.01;
+		break;
+	case 's':   // backward
+			//plane_speed-=0.01;
+		break;
+	case 'r':   // up
+			//pitch+=0.02;
+		break;
+	case 'f':   // down
+			//pitch-=0.02;
+		break;
+	}
+}
 
 int main(int argc, char * argv[])
 {
@@ -164,8 +228,8 @@ int main(int argc, char * argv[])
 	glutIdleFunc(idle);
 	glutMouseFunc(onMouseClick);
 	glutPassiveMotionFunc(onMouseMove);
-	//glutSpecialFunc(SpecialKey);
-	//glutKeyboardFunc(Keyboard);
+	glutSpecialFunc(onSpecialKey);
+	glutKeyboardFunc(onKeyboard);
 	
 	glutCreateMenu(onMenuSelect);
 	glutAddMenuEntry("3D View",2);

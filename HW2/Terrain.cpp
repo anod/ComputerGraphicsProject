@@ -24,10 +24,10 @@ void Terrain::init(Road* road) {
 	for(i=0;i<GRID_SIZE;i++) {
 		for(j=0;j<GRID_SIZE;j++)
 		{
-			mGrid[i][j] = 0;
+			mGrid[i][j] = 0.1;
 		}
 	}
-
+	/*
 	for(i=1;i<200;i++) {
 		generate3();
 	}
@@ -40,8 +40,13 @@ void Terrain::init(Road* road) {
 	smooth();
 	for(i=1;i<5;i++) {
 		generate2();
-	}
+	}*/
 }
+
+bool Terrain::isWater(int i, int j) {
+	return mGrid[i][j] <= 0;
+}
+
 
 void Terrain::draw3d() {
 	int i,j;
@@ -314,6 +319,8 @@ void Terrain::drawHill(int x, int y) {
 			}
 		}
 	}
+
+	mRoad->rebuild();
 }
 
 void Terrain::drawValley(int x,int y) {
@@ -342,18 +349,16 @@ void Terrain::drawValley(int x,int y) {
 			}
 		}
 	}
+	mRoad->rebuild();
 }
 
 void Terrain::updateGrid(int i, int j, int height) {
 	mGrid[i][j] = height;
-	mRoad->onTerrainUpdate(j,i,height <= 0);
 }
 
 void Terrain::onRoadAdd(int x, int y) {
 	if (mGrid[y][x] > 0) {
-		mGrid[y][x] = 0.2;
-	} else {
-		mRoad->onTerrainUpdate(x,y,true);
+		mGrid[y][x] = 0.1;
 	}
 }
 

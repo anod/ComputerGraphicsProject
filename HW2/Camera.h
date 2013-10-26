@@ -8,9 +8,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-typedef struct {
-	double x,y,z;
-} THREE;
+#include "general.h"
+#include "Car.h"
 
 class Camera
 {
@@ -18,12 +17,38 @@ public:
 	Camera(void);
 	~Camera(void);
 
-// eyex,eyey,eyez - represent the camera position
-// sightx,sighty,sightz - represent the camera view direction
-// 0,1,0 represent the camera up vector
-	THREE pos; //represent the camera position
+	static const int VIEW_DEFAULT = 0;
+	static const int VIEW_INSIDE = 1;
+
+	void setViewMode(int viewMode) { mViewMode = viewMode; reset(); };
+	void setCar(Car* car) { mCar = car; };
+
+	void left() { mDirectionAngle+=0.001; };
+	void right() { mDirectionAngle-=0.001; };
+	void forward() { mSpeed+=0.01; };
+	void backward() { mSpeed-=0.01; };
+	void levelUp() { mLevelY+=0.01; };
+	void levelDown() { mLevelY-=0.01; };
+	
+	void update();
+	void reset();
+
+	THREE pos; // - represent the camera position
 	THREE sight; // - represent the camera view direction
-	THREE up; //epresent the camera up vector
+	THREE up; // - represent the camera up vector
+
+private:
+	static const int DEF_POS_X=-15;
+	static const int DEF_POS_Y=10;
+	static const int DEF_POS_Z=5;
+
+	double mAngle;
+	double mDirectionAngle;
+	double mSpeed;
+	double mLevelY;
+
+	int mViewMode;
+	Car* mCar;
 };
 
 #endif //CAMERA_H

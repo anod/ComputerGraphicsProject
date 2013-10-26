@@ -17,4 +17,8 @@ static const int HEIGHT = 600;
 static const int GRID_OFFSET = (GRID_SIZE/2.0f);//px
 static const int GRID_KOEF = WIDTH/float(GRID_SIZE);//px
 
+typedef struct {
+	double x,y,z;
+} THREE;
+
 #endif

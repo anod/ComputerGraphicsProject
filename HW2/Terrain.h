@@ -24,6 +24,7 @@ public:
 	void draw2d();
 	void onRoadAdd(int x, int y);
 	void ptToGrid(int pt);
+	bool isWater(int i, int j);
 
 private:
 	static const int HILL_RADIUS = 7;//px
