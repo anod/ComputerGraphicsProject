@@ -16,7 +16,7 @@ Car::Car(void)
 
 	speed = 0;
 	mAngleSpeed = 0;
-	angle = PI/2;
+	angle = PI;
 
 }
 

@@ -61,13 +61,13 @@ void Camera::update() {
 		double aSin = sin(mCar->angle+PI/2);
 		double aCos = cos(mCar->angle+PI/2);
 
-		pos.x = mCar->pos.x - 0.2f + 2*aSin;
+		pos.x = mCar->pos.x - 0.2f - 2*aSin;
 		pos.y = mCar->pos.y + 2.0f;
-		pos.z = mCar->pos.z + 2.0f + 2*aCos;
+		pos.z = mCar->pos.z - 0.4f - 2*aCos;
 
-		center.x = mCar->pos.x - 0.2f + 3*aSin,
+		center.x = mCar->pos.x - 0.2f - 5*aSin,
 		center.y = mCar->pos.y + 1.8f;
-		center.z = mCar->pos.z + 2.0f + 3*aCos;
+		center.z = mCar->pos.z - 0.4f - 5*aCos;
 
 	} else {
 		mAngle += mDirectionAngle;
