@@ -16,6 +16,8 @@ Car::Car(void)
 
 	speed = 0;
 	mAngleSpeed = 0;
+	mDistDiff = 0;
+	mAngleWheelX = 0;
 	angle = PI;
 
 }
@@ -28,8 +30,14 @@ Car::~Car(void)
 void Car::update() {
 	// plane
 	angle+=mAngleSpeed;
-	pos.x+=-speed*sin(angle+PI/2);
-	pos.z+=-speed*cos(angle+PI/2);
+	// TODO validate road
+	double newX = pos.x + (-speed*sin(angle+PI/2));
+	double newZ = pos.z + (-speed*cos(angle+PI/2));
+
+	mDistDiff = sqrt ( pow((newX-pos.x), 2) + pow((newZ-pos.z), 2) );
+
+	pos.x = newX;
+	pos.z = newZ;
 }
 
 void Car::draw3d() {
@@ -159,28 +167,46 @@ void Car::draw() {
 
 	glDisable(GL_BLEND);
 
+
+	/* Rotate wheels:
+		1. find the circumference of the wheel. Circumference = 2 * pi * radius
+		2. Each frame, calculate the distance traveled this frame (in Update function).
+		Magnitude of the vector that points from the position during the previous frame to the position during this frame. Vector from A to B = B - A
+		3. Divide this distance by the circumference to find the fraction of a full rotation.
+		4. Multiply by 360 to convert to degrees.
+		5. Rotate wheel by that much.
+	*/
+
+	double circumference = 2 * PI * 0.7f;
+	double rotAngle = (mDistDiff/circumference) * 360;
+	mAngleWheelX-=rotAngle;
+
 	// Wheels
 	glPushMatrix();
-		glTranslated(2.5f,1.0f,-3.0f);
+		glTranslated(2.5f,0.7f,-3.1f);
 		glRotated(90,0,1,0);
+		glRotated(mAngleWheelX,1,0,0);
 		drawWheel();
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslated(2.5f,1.0f,3.0f);
+		glTranslated(2.5f,0.7f,3.1f);
 		glRotated(90,0,1,0);
+		glRotated(mAngleWheelX,1,0,0);
 		drawWheel();
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslated(-2.5f,1.0f,-3.0f);
+		glTranslated(-2.5f,0.7f,-3.1f);
 		glRotated(90,0,1,0);
+		glRotated(mAngleWheelX,1,0,0);
 		drawWheel();
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslated(-2.5f,1.0f,3.0f);
+		glTranslated(-2.5f,0.7f,3.1f);
 		glRotated(90,0,1,0);
+		glRotated(mAngleWheelX,1,0,0);
 		drawWheel();
 	glPopMatrix();
 }
@@ -196,19 +222,19 @@ void Car::drawWheel()
 	{
 		x = 0.7*cos(alpha);
 		y = 0.7*sin(alpha);
-		glVertex3d(0,x-0.5f,y);
+		glVertex3d(0,x,y);
 	}
 	glEnd();
 
 	//silver
 	glColor3d(0.75f,0.75f,0.75f);
 	glBegin(GL_LINES);
-	for(alpha = 0; alpha<2*PI;alpha+=PI/5)
+	for(alpha = 0; alpha<2*PI;alpha+=PI/4)
 	{
 		x = 0.68*cos(alpha);
 		y = 0.68*sin(alpha);
-		glVertex3d(0,x-0.5f,y);
-		glVertex3d(0,-0.5f,0);
+		glVertex3d(0,x,y);
+		glVertex3d(0,0,0);
 	}
 	glEnd();
 	glLineWidth(1.0f);

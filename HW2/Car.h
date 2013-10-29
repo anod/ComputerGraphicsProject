@@ -31,8 +31,9 @@ private:
 	void draw();
 	void drawWheel();
 
+	double mDistDiff;
 	double mAngleSpeed;
-
+	double mAngleWheelX;
 };
 
 #endif //CAR_H

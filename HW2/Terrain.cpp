@@ -27,7 +27,6 @@ void Terrain::init(Road* road) {
 			mGrid[i][j] = 0.1;
 		}
 	}
-	/*
 	for(i=1;i<200;i++) {
 		generate3();
 	}
@@ -40,7 +39,7 @@ void Terrain::init(Road* road) {
 	smooth();
 	for(i=1;i<5;i++) {
 		generate2();
-	}*/
+	}
 }
 
 bool Terrain::isWater(int i, int j) {
