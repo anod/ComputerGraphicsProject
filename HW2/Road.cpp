@@ -52,7 +52,6 @@ void Road::build(int x1, int y1, int x2, int y2) {
 	int width = 2;
 
 	if (x1==x2 && y1==y2) {
-		addRoadPoints(x1,y1);
 		return;
 	}
 	
@@ -66,7 +65,7 @@ void Road::build(int x1, int y1, int x2, int y2) {
 		}
 		
 		for(y = start; y <= stop; y++) {
-			addRoadPoints(x1,y);
+			addRoadPoints(x1,y,0);
 		}
 		return;
 	}
@@ -87,7 +86,7 @@ void Road::build(int x1, int y1, int x2, int y2) {
 		
 		for(x = start; x <= stop; x++) {
 			y = a*x+b;
-			addRoadPoints(x,y);
+			addRoadPoints(x,y,p);
 		}
 	} else {
 		if (y1 > y2) {
@@ -100,7 +99,7 @@ void Road::build(int x1, int y1, int x2, int y2) {
 		
 		for(y = start; y <= stop; y++) {
 			x = (y-b)/a;
-			addRoadPoints(x,y);
+			addRoadPoints(x,y,p);
 		}
 	}
 }
@@ -108,12 +107,12 @@ void Road::build(int x1, int y1, int x2, int y2) {
 void Road::add(int x1, int y1, int x2, int y2) {
 	ROADPOINT points = {x1, y1, x2, y2};
 	mRoadPoints.push_back(points);
-
+	rebuild();
 }
 
 
 
-void Road::addRoadPoints(int cx, int cy) {
+void Road::addRoadPoints(int cx, int cy, double p) {
 	int x0 = cx - 4;
 	int x1 = cx + 4;
 	x0 = (x0 < 0) ? 0 : x0;
@@ -123,6 +122,7 @@ void Road::addRoadPoints(int cx, int cy) {
 	y0 = (y0 < 0) ? 0 : y0;
 	y1 = (y1 >= GRID_SIZE) ? GRID_SIZE : y1;
 	
+
 	bool isBridge = false;
 
 	for (int i = x0; i < x1; i++) {
@@ -130,6 +130,7 @@ void Road::addRoadPoints(int cx, int cy) {
 			mRoad[j][i] = 1;
 			if (mTerrain->isWater(i, j)) {
 				isBridge = true;
+				mBridge[j][i] = 1;
 			}
 			mTerrain->onRoadAdd(i,j);
 		}

@@ -27,6 +27,13 @@ void Terrain::init(Road* road) {
 			mGrid[i][j] = 0.1;
 		}
 	}
+
+	for(i=93;i<103;i++) {
+		for(j=47;j<57;j++)
+		{
+			mGrid[i][j] = -0.1;
+		}
+	}
 	for(i=1;i<200;i++) {
 		generate3();
 	}
@@ -43,11 +50,11 @@ void Terrain::init(Road* road) {
 }
 
 bool Terrain::isWater(int i, int j) {
-	return mGrid[i][j] <= 0;
+	return mGrid[j][i] < 0;
 }
 
 
-void Terrain::draw3d() {
+void Terrain::draw() {
 	int i,j;
 
 	glPushMatrix();
@@ -92,7 +99,7 @@ void Terrain::draw3d() {
 			if (!isRoad) {
 				continue;
 			}
-			PIXEL roadColor = (mRoad->isBridge(i,j)) ? PIX_LT_GREY : PIX_DK_GREY;
+			PIXEL roadColor = (mRoad->isBridge(i,j)) ? PIX_INT_ORANGE : PIX_DK_GREY;
 
 			glBegin(GL_POLYGON);
 			glColor3d(roadColor.red/255.0f,roadColor.green/255.0f,roadColor.blue/255.0f);
@@ -106,36 +113,12 @@ void Terrain::draw3d() {
 	glPopMatrix();
 }
 
-void Terrain::draw2d() {
-	int i,j;
-
-	for(i=1;i<GRID_SIZE;i++) {
-		for(j=1;j<GRID_SIZE;j++)
-		{
-			bool isRoad = mRoad->isRoad(i,j);
-			PIXEL roadColor = (mRoad->isBridge(i,j)) ? PIX_LT_GREY : PIX_DK_GREY;
-			glBegin(GL_POLYGON);
-					drawHeightColor2d(mGrid[i][j],isRoad,roadColor);
-				glVertex3d(j-GRID_OFFSET,0,i-GRID_OFFSET);
-					drawHeightColor2d(mGrid[i][j-1],isRoad,roadColor);
-				glVertex3d(j-1-GRID_OFFSET,0,i-GRID_OFFSET);
-					drawHeightColor2d(mGrid[i-1][j-1],isRoad,roadColor);
-				glVertex3d(j-1-GRID_OFFSET,0,i-1-GRID_OFFSET);
-					drawHeightColor2d(mGrid[i-1][j],isRoad,roadColor);
-				glVertex3d(j-GRID_OFFSET,0,i-1-GRID_OFFSET);
-			glEnd();
-		}
-	}
-
-}
-
-
 void Terrain::drawHeightColor(double h)
 {
 	if(h>-5)
 	{
 		h=fabs(h);
-		if(h>0 && h<0.4) { // sand
+		if(h>=0 && h<0.4) { // sand
 			glColor3d(0.8,0.8,0.5);
 		} else if(h<5) {
 			glColor3d(0.2+h/30,(5-h)/6,0);
@@ -147,29 +130,6 @@ void Terrain::drawHeightColor(double h)
 	}
 }
 
-void Terrain::drawHeightColor2d(double h,bool isRoad,PIXEL roadColor)
-{
-	if (isRoad) {
-		glColor3d(roadColor.red/255.0f,roadColor.green/255.0f,roadColor.blue/255.0f);
-		return;
-	}
-
-	if(h > 0)
-	{
-		h=fabs(h);
-		if(h > 0 && h < 0.4) { // sand
-			glColor3d(0.8,0.8,0.5);
-		} else if(h < 5) {
-			glColor3d(0.2+h/30,(5-h)/6,0);
-		} else { 
-			glColor3d(h/11,h/11,h/10);
-		}
-	}
-	else
-	{
-		glColor3d(0,0,1);
-	}
-}
 
 // low-pass filter
 void Terrain::smooth()

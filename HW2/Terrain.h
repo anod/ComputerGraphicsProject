@@ -20,8 +20,7 @@ public:
 	void init(Road* road);
 	void drawHill(int x, int y);
 	void drawValley(int x,int y);
-	void draw3d();
-	void draw2d();
+	void draw();
 	void onRoadAdd(int x, int y);
 	void ptToGrid(int pt);
 	bool isWater(int i, int j);
@@ -39,6 +38,5 @@ private:
 	void generate2();
 	void generate3();
 	void drawHeightColor(double h);
-	void drawHeightColor2d(double h,bool isRoad,PIXEL roadColor);
 };
 #endif

@@ -42,7 +42,7 @@ private:
 	double mRoad[GRID_SIZE][GRID_SIZE];
 	double mBridge[GRID_SIZE][GRID_SIZE];
 
-	void addRoadPoints(int cx, int cy);
+	void addRoadPoints(int cx, int cy, double p);
 	void setBridgePoints(int cx, int cy, int value);
 	void clear();
 };

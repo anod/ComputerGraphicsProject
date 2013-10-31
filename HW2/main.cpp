@@ -63,15 +63,17 @@ void drawMousePos() {
 	unsigned int i;
 	glColor3d(1.0f, 1.0f , 1.0f);
 
-	glRasterPos3f(40,0,95);
+	glPushMatrix();
+	glRasterPos3f(25,20,75);
 	for (i = 0; i < strlen (gMouseLoc); i++) {
 		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gMouseLoc[i]);
 	}
 
-	glRasterPos3f(-100,0,95);
+	glRasterPos3f(-75,20,75);
 	for (i = 0; i < strlen (gCarInfo); i++) {
 		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gCarInfo[i]);
 	}
+	glPopMatrix();
 }
 
 void display2D()
@@ -87,12 +89,12 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	drawMousePos();
-
 	overflow->draw();
-	terrain->draw2d();
+	terrain->draw();
 
 	car->draw3d();
+
+	drawMousePos();
 
 	glutSwapBuffers();
 }
@@ -115,7 +117,7 @@ void display3D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	terrain->draw3d();
+	terrain->draw();
 	
 	// car
 	car->draw3d();

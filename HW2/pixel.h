@@ -24,8 +24,9 @@ static const PIXEL PIX_DK_BLUE  = {0,53,102};
 static const PIXEL PIX_DK_BROWN = {64,42,22};
 
 static const PIXEL PIX_GREY  = {105,103,98};
-static const PIXEL PIX_LT_GREY  = {204,204,204};
+//static const PIXEL PIX_LT_GREY  = {204,204,204};
 static const PIXEL PIX_DK_GREY  = {61,56,54};
 
+static const PIXEL PIX_INT_ORANGE = {192, 54, 44}; // (Golden Gate Bridge) #C0362C
 
 #endif //PIXEL_H_

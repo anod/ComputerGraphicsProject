@@ -70,7 +70,8 @@ void Camera::update() {
 		center.z = mCar->pos.z - 0.4f - 5*aCos;
 
 	} else {
-		/* wheel view
+		/* wheel view */
+		/*
 		double aSin = sin(mCar->angle+PI/2);
 		double aCos = cos(mCar->angle+PI/2);
 
