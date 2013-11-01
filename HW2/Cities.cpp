@@ -38,16 +38,20 @@ void Cities::draw() {
 void Cities::drawIndustrialCity(CITY city) {
 	glPushMatrix();
 		glTranslated(city.x-(GRID_SIZE/2), 0.2f, city.y-(GRID_SIZE/2));
+/*
 		glBegin(GL_POLYGON);
 			glColor3d(0.8f,0.8f,0.4f);
 			glVertex3d(-16.0f, 0.6f, -16.0f);              // Top Left
-			glVertex3d(-16.0f, 0.6f, 16.0f);              // Top Right
-			glVertex3d(16.0f, 0.6f, 16.0f);              // Bottom Right
-			glVertex3d(16.0f, 0.6f, -16.0f);              // Bottom Left
+			glVertex3d(-16.0f, 0.6f,  16.0f);              // Top Right
+			glVertex3d( 16.0f, 0.6f,  16.0f);              // Bottom Right
+			glVertex3d( 16.0f, 0.6f, -16.0f);              // Bottom Left
 		glEnd();
+*/
 
-
-		drawBuilding(-16.0f, -16.0f, 10.0f, 6.0f);
+		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f);
+		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f);
+		drawBuilding( 6.0f, -12.0f, 12.0f, 6.0f);
+		drawBuilding( 6.0f,  6.0f, 15.0f, 6.0f);
 
 	glPopMatrix();
 }
@@ -58,49 +62,46 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glColor3d(0.0f,0.8f,0.0f);
 			glVertex3d(leftTopX, height, leftTopY);              // Top Left
 			glVertex3d(leftTopX, height, leftTopY + size);              // Top Right
-			glVertex3d(leftTopX, 0.6f, leftTopY + size);              // Bottom Right
-			glVertex3d(leftTopX, 0.6f, leftTopY);              // Bottom Left
+			glVertex3d(leftTopX,   0.6f, leftTopY + size);              // Bottom Right
+			glVertex3d(leftTopX,   0.6f, leftTopY);              // Bottom Left
 		glEnd();
-
 	//  ---
 	// |
 		glBegin(GL_POLYGON);
 			glColor3d(0.0f,0.8f,0.0f);
-			glVertex3d(leftTopX, height, leftTopY);              // Top Left
+			glVertex3d(leftTopX     , height, leftTopY);              // Top Left
 			glVertex3d(leftTopX+size, height, leftTopY);              // Top Right
-			glVertex3d(leftTopX, 0.6f, leftTopY);              // Bottom Right
-			glVertex3d(leftTopX+size, 0.6f, leftTopY);              // Bottom Left
+			glVertex3d(leftTopX+size,   0.6f, leftTopY);              // Bottom Left
+			glVertex3d(leftTopX     ,   0.6f, leftTopY);              // Bottom Right
 		glEnd();
-
 	//   ---
 	//  |   |
 		glBegin(GL_POLYGON);
 			glColor3d(0.0f,0.8f,0.0f);
 			glVertex3d(leftTopX+size, height, leftTopY);              // Top Left
 			glVertex3d(leftTopX+size, height, leftTopY + size);              // Top Right
-			glVertex3d(leftTopX+size, 0.6f, leftTopY + size);              // Bottom Right
-			glVertex3d(leftTopX+size, 0.6f, leftTopY);              // Bottom Left
+			glVertex3d(leftTopX+size,   0.6f, leftTopY + size);              // Bottom Right
+			glVertex3d(leftTopX+size,   0.6f, leftTopY);              // Bottom Left
 		glEnd();
 	//  ---
 	// |   |
 	//  ---
 		glBegin(GL_POLYGON);
 			glColor3d(0.0f,0.8f,0.0f);
-			glVertex3d(leftTopX+size, height, leftTopY+size);              // Top Left
-			glVertex3d(leftTopX, height, leftTopY + size);              // Top Right
-			glVertex3d(leftTopX+size, 0.6f, leftTopY + size);              // Bottom Right
-			glVertex3d(leftTopX, 0.6f, leftTopY + size);              // Bottom Left
+			glVertex3d(leftTopX+size, height, leftTopY + size);              // Top Left
+			glVertex3d(leftTopX     , height, leftTopY + size);              // Top Right
+			glVertex3d(leftTopX     ,   0.6f, leftTopY + size);              // Bottom Left
+			glVertex3d(leftTopX+size,   0.6f, leftTopY + size);              // Bottom Right
+		glEnd();
+		
+		glBegin(GL_POLYGON);
+			glColor3d(0.0f,0.2f,0.0f);
+			glVertex3d(leftTopX     , height, leftTopY);              // Top Left
+			glVertex3d(leftTopX     , height, leftTopY + size);              // Top Right
+			glVertex3d(leftTopX+size, height, leftTopY + size);              // Bottom Right
+			glVertex3d(leftTopX+size, height, leftTopY);              // Bottom Left
 		glEnd();
 
-		/*
-		glBegin(GL_POLYGON);
-			glColor3d(0.0f,0.8f,0.0f);
-			glVertex3d(leftTopX, height, leftTopY);              // Top Left
-			glVertex3d(leftTopX, height, leftTopY + size);              // Top Right
-			glVertex3d(leftTopX, height, leftTopY + size);              // Bottom Right
-			glVertex3d(leftTopX,height, leftTopY);              // Bottom Left
-		glEnd();
-		*/
 }
 
 void Cities::drawSleepCity(CITY city) {
