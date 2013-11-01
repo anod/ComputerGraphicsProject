@@ -38,11 +38,11 @@ int Overflow::detectSelectedItem(int x, int y) {
 	if (y < MENU_ITEM_Y) {
 		return MENU_NO_ITEM;
 	}
-	int last = 3 * MENU_ITEM_HEIGHT + MENU_ITEM_Y +  MENU_ITEM_HEIGHT;
+	int last = MENU_ITEM_COUNT * MENU_ITEM_HEIGHT + MENU_ITEM_Y +  MENU_ITEM_HEIGHT;
 	if (y > last) {
 		return MENU_NO_ITEM;
 	}
-	for (int i = 3; i >= 0 ; i--) {
+	for (int i = MENU_ITEM_COUNT; i >= 0 ; i--) {
 		int top = i * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
 		if (y >= top && y < last) {
 			return i;
@@ -56,21 +56,69 @@ void Overflow::draw() {
 	int yOffset,xOffset = MENU_ITEM_X;
 	PIXEL color;
 
-	color = (mMenuSelectedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
-	yOffset = MENU_ITEM_Y;
-	drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
-	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+	glPushMatrix();
+		glTranslated(MENU_ITEM_X+2,0,MENU_ITEM_X);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4d(0,0,0,0.6);
+
+		//front glass
+		glBegin(GL_POLYGON);
+			glVertex3d( 0, 5.0f, 0);              // Top Left
+			glVertex3d( MENU_ITEM_HEIGHT + 2, 5.0f, 0);              // Top Right
+			glVertex3d( MENU_ITEM_HEIGHT + 2 , 5.0f, MENU_ITEM_COUNT * MENU_ITEM_HEIGHT + MENU_ITEM_SPACE * MENU_ITEM_HEIGHT + 2);              // Bottom Right
+			glVertex3d( 0, 5.0f, MENU_ITEM_COUNT * MENU_ITEM_HEIGHT + MENU_ITEM_SPACE * MENU_ITEM_HEIGHT + 2);              // Bottom Left
+		glEnd();
+
+		glDisable(GL_BLEND);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslated(4.5f,5.0f,4.0f);
+		color = (mMenuSelectedItem == MENU_ITEM_HILL) ? PIX_WHITE : PIX_PINK;
+		yOffset = MENU_ITEM_Y;
+		drawHill(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
+		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 	 
-	color = (mMenuSelectedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
-	yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawValley(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) - (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
-	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+		color = (mMenuSelectedItem == MENU_ITEM_VALLEY) ? PIX_WHITE : PIX_PINK;
+		yOffset = 1 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+		drawValley(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) - (MENU_ITEM_HEIGHT/4) + MENU_ITEM_SPACE, color);
+		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
-	color = (mMenuSelectedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
-	yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
-	drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
-	drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+		color = (mMenuSelectedItem == MENU_ITEM_ROAD) ? PIX_WHITE : PIX_PINK;
+		yOffset = 2 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+		drawRoad(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
+		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
 
+		color = (mMenuSelectedItem == MENU_ITEM_CITY) ? PIX_WHITE : PIX_PINK;
+		yOffset = 3 * MENU_ITEM_HEIGHT + MENU_ITEM_Y;
+		drawCity(xOffset + (MENU_ITEM_HEIGHT/2), yOffset + (MENU_ITEM_HEIGHT/2) + MENU_ITEM_SPACE, color);
+		drawSquare(xOffset, yOffset+MENU_ITEM_SPACE, MENU_ITEM_HEIGHT + xOffset, yOffset + MENU_ITEM_HEIGHT, color);
+	glPopMatrix();
+
+}
+
+void Overflow::drawCity(int x, int y, PIXEL color) {
+	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
+
+	glBegin(GL_POLYGON);
+		glVertex3d(x-3,1,y-1);
+		glVertex3d(x-1,1,y-1);
+		glVertex3d(x-1,1,y+3);
+		glVertex3d(x-3,1,y+3);
+	glEnd();
+	glBegin(GL_POLYGON);
+		glVertex3d(x-1,1,y-3);
+		glVertex3d(x+1,1,y-3);
+		glVertex3d(x+1,1,y+3);
+		glVertex3d(x-1,1,y+3);
+	glEnd();
+	glBegin(GL_POLYGON);
+		glVertex3d(x+1,1,y-2);
+		glVertex3d(x+3,1,y-2);
+		glVertex3d(x+3,1,y+3);
+		glVertex3d(x+1,1,y+3);
+	glEnd();
 }
 
 void Overflow::drawHill(int cx, int cy, PIXEL color) {
@@ -147,6 +195,9 @@ void Overflow::drawItem(int item, int x, int y) {
 			mRoad->add(mClick.x1,mClick.y1,mClick.x2,mClick.y2);
 			mClick.count = 0;
 		}
+	} else if (item == MENU_ITEM_CITY) {
+		//TODO
+		mClick.count = 0;
 	}
 	
 }

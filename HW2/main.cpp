@@ -89,10 +89,11 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	overflow->draw();
 	terrain->draw();
 
 	car->draw3d();
+
+	overflow->draw();
 
 	drawMousePos();
 
