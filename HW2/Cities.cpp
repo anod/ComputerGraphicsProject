@@ -51,15 +51,6 @@ void Cities::draw() {
 void Cities::drawIndustrialCity(CITY city) {
 	glPushMatrix();
 		glTranslated(city.x-(GRID_SIZE/2), 0.2f, city.y-(GRID_SIZE/2));
-/*
-		glBegin(GL_POLYGON);
-			glColor3d(0.8f,0.8f,0.4f);
-			glVertex3d(-16.0f, 0.6f, -16.0f);              // Top Left
-			glVertex3d(-16.0f, 0.6f,  16.0f);              // Top Right
-			glVertex3d( 16.0f, 0.6f,  16.0f);              // Bottom Right
-			glVertex3d( 16.0f, 0.6f, -16.0f);              // Bottom Left
-		glEnd();
-*/
 
 		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f, mBuilding1Texture, mRoof1Texture);
 		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f, mBuilding2Texture, mRoof2Texture);
@@ -68,6 +59,7 @@ void Cities::drawIndustrialCity(CITY city) {
 
 	glPopMatrix();
 }
+
 
 void Cities::drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof) {
 	glEnable(GL_TEXTURE_2D);
@@ -145,7 +137,7 @@ void Cities::connectToNearestCity(CITY city) {
 	}
 
 	if (closest.id > 0) {
-		mRoad->add(city.x,city.y,closest.x,closest.y);
+		mRoad->addNotDirect(city.x,city.y,closest.x,closest.y);
 	}
 
 }

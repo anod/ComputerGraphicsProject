@@ -79,6 +79,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Cities.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Overflow.cpp" />
     <ClCompile Include="Road.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Cities.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Road.h" />

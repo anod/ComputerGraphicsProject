@@ -15,6 +15,7 @@ class Terrain;
 typedef struct
 {
 	int x1,y1,x2,y2;
+	bool direct;
 } ROADPOINT;
 
 class Road
@@ -31,6 +32,7 @@ public:
 		return mBridge[i][j] > 0;
 	};
 	void add(int startX, int startY, int endX, int endY);
+	void addNotDirect(int startX, int startY, int endX, int endY);
 	void rebuild();
 	void build(int x1, int y1, int x2, int y2);
 private:
@@ -44,6 +46,7 @@ private:
 
 	void addRoadPoints(int cx, int cy, double p);
 	void setBridgePoints(int cx, int cy, int value);
+	void buildNotDirect(int x1, int y1, int x2, int y2);
 	void clear();
 };
 
