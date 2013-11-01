@@ -12,6 +12,7 @@
 #include <vector>
 #include "Terrain.h"
 #include "Road.h"
+#include "BmpTexture.h"
 
 typedef struct
 {
@@ -27,7 +28,7 @@ class Cities
 public:
 	Cities(void);
 	~Cities(void);
-	
+	void init();
 	void setRoad(Road* road) { mRoad = road; };
 	void setTerrain(Terrain* terrain) { mTerrain = terrain; };
 
@@ -40,6 +41,12 @@ private:
 	Road* mRoad;
 	Terrain* mTerrain;
 	std::vector<CITY> mCities;
+
+	BmpTexture* mBuilding1Texture;
+	BmpTexture* mBuilding2Texture;
+	BmpTexture* mRoof1Texture;
+	BmpTexture* mRoof2Texture;
+
 
 	void connectToNearestCity(CITY city);
 	void drawIndustrialCity(CITY city);

@@ -82,7 +82,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Overflow.cpp" />
     <ClCompile Include="Road.cpp" />
+    <ClCompile Include="RoadTexture.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="BmpTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -92,7 +94,9 @@
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Road.h" />
+    <ClInclude Include="RoadTexture.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="BmpTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

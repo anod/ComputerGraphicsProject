@@ -36,6 +36,12 @@
     <ClCompile Include="Cities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BmpTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoadTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoadTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

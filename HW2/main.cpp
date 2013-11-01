@@ -37,7 +37,8 @@ void init()
 	//135-206-250
 	glClearColor(0.52,0.8,0.98,0); // set background color
 	glEnable(GL_DEPTH_TEST);
-	
+	glEnable(GL_SMOOTH);
+
 	srand((unsigned)time(NULL));
 
 	camera = new Camera();	
@@ -55,8 +56,11 @@ void init()
 	road->init(terrain);
 	road->add(10,101,190,101);
 	road->rebuild();
-	
+
+	glEnable(GL_NORMALIZE);
+
 	cities = new Cities();
+	cities->init();
 	cities->setRoad(road);
 	cities->setTerrain(terrain);
 
