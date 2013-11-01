@@ -321,5 +321,15 @@ void Terrain::onRoadAdd(int x, int y) {
 	}
 }
 
+void Terrain::onCityAdd(int cx, int cy) {
 
+	for(int i = cx - 4; i < cx + 4; i++) {
+		for(int j= cy - 4; j < cy + 4; j++) {
+			if (i>0 & j>0 & i<GRID_SIZE & j<GRID_SIZE) {
+				mGrid[j][i] = 0.1;
+			}
+		}
+	}
+
+}
 

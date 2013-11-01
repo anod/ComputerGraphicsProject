@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Cities.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Overflow.cpp" />
     <ClCompile Include="Road.cpp" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />
+    <ClInclude Include="Cities.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="Overflow.h" />
     <ClInclude Include="Pixel.h" />

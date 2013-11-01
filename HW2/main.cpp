@@ -25,6 +25,7 @@ Car* car;
 Camera* camera;
 Overflow* overflow;
 Road* road;
+Cities* cities;
 
 char gMouseLoc[25];
 char gCarInfo[25];
@@ -44,18 +45,23 @@ void init()
 
 	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
 
-
 	camera->setCar(car);
 
 	road = new Road();
+
 	terrain = new Terrain();
 	terrain->init(road);
+
 	road->init(terrain);
 	road->add(10,101,190,101);
 	road->rebuild();
+	
+	cities = new Cities();
+	cities->setRoad(road);
+	cities->setTerrain(terrain);
 
 	overflow = new Overflow();
-	overflow->init(terrain, road);
+	overflow->init(terrain, road, cities);
 	
 }
 
@@ -89,7 +95,9 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	terrain->draw();
+//	terrain->draw();
+
+	cities->draw();
 
 	car->draw3d();
 
@@ -120,6 +128,7 @@ void display3D()
 
 	terrain->draw();
 	
+	cities->draw();
 	// car
 	car->draw3d();
 
@@ -241,7 +250,7 @@ int main(int argc, char * argv[])
 	glutCreateWindow("HW2");
 	
 	// onPaint
-	glutDisplayFunc(display3D);
+	glutDisplayFunc(display2D);
 	// onTimer
 	glutIdleFunc(idle);
 	glutMouseFunc(onMouseClick);

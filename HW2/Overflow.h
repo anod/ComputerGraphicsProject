@@ -11,6 +11,7 @@
 #include "general.h"
 #include "Terrain.h"
 #include "Road.h"
+#include "Cities.h"
 
 typedef struct
 {
@@ -23,7 +24,7 @@ public:
 	Overflow(void);
 	~Overflow(void);
 	void onMouseClick();
-	void init(Terrain* terrain, Road* road);
+	void init(Terrain* terrain, Road* road, Cities* cities);
 	void draw();
 	void onMouseClick(int button, int state, int x, int y);
 private:
@@ -45,6 +46,7 @@ private:
 
 	Terrain* mTerrain;
 	Road* mRoad;
+	Cities* mCities;
 
 	void drawItem(int item, int x, int y);
 

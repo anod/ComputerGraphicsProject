@@ -17,10 +17,11 @@ Overflow::~Overflow(void)
 {
 }
 
-void Overflow::init(Terrain* terrain, Road* road) {
+void Overflow::init(Terrain* terrain, Road* road, Cities* cities) {
 	mMenuSelectedItem = MENU_NO_ITEM;
 	mTerrain = terrain;
 	mRoad = road;
+	mCities = cities;
 }
 
 void Overflow::setMenuSelectedItem(int item) {
@@ -197,6 +198,7 @@ void Overflow::drawItem(int item, int x, int y) {
 		}
 	} else if (item == MENU_ITEM_CITY) {
 		//TODO
+		mCities->add(x,y);
 		mClick.count = 0;
 	}
 	

@@ -10,6 +10,8 @@
 
 #include "general.h"
 #include <vector>
+#include "Terrain.h"
+#include "Road.h"
 
 typedef struct
 {
@@ -25,14 +27,25 @@ class Cities
 public:
 	Cities(void);
 	~Cities(void);
+	
+	void setRoad(Road* road) { mRoad = road; };
+	void setTerrain(Terrain* terrain) { mTerrain = terrain; };
 
 	void add(int x, int y);
-
+	void draw();
 private:
-	static const int CITY_WORK = 0;
+	static const int CITY_INDUSTRIAL = 0;
 	static const int CITY_SLEEP = 1;
 
+	Road* mRoad;
+	Terrain* mTerrain;
 	std::vector<CITY> mCities;
+
+	void connectToNearestCity(CITY city);
+	void drawIndustrialCity(CITY city);
+	void drawSleepCity(CITY city);
+	void drawBuilding(double leftTopX, double leftTopY, double height, double size);
+
 };
 
 #endif
