@@ -95,7 +95,7 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-//	terrain->draw();
+	terrain->draw();
 
 	cities->draw();
 
