@@ -61,17 +61,17 @@ void Cities::drawIndustrialCity(CITY city) {
 		glEnd();
 */
 
-		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f);
-		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f);
-		drawBuilding( 6.0f, -12.0f, 12.0f, 6.0f);
-		drawBuilding( 6.0f,  6.0f, 15.0f, 6.0f);
+		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f, mBuilding1Texture, mRoof1Texture);
+		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f, mBuilding2Texture, mRoof2Texture);
+		drawBuilding( 6.0f, -12.0f, 12.0f, 6.0f, mBuilding2Texture, mRoof2Texture);
+		drawBuilding( 6.0f,  6.0f, 15.0f, 6.0f, mBuilding1Texture, mRoof1Texture);
 
 	glPopMatrix();
 }
 
-void Cities::drawBuilding(double leftTopX, double leftTopY, double height, double size) {
+void Cities::drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof) {
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D,mBuilding1Texture->getId());
+	glBindTexture(GL_TEXTURE_2D,building->getId());
 	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
 
 	// |
@@ -111,7 +111,7 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glTexCoord2d(4,0);   glVertex3d(leftTopX+size,   0.6f, leftTopY + size);              // Bottom Right
 		glEnd();
 		
-	glBindTexture(GL_TEXTURE_2D,mRoof1Texture->getId());
+	glBindTexture(GL_TEXTURE_2D,roof->getId());
 	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
 		glBegin(GL_POLYGON);
 			glColor3d(0.0f,0.2f,0.0f);
