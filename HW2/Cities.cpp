@@ -21,18 +21,37 @@ void Cities::init() {
 	mRoof1Texture->load("roof1.bmp");
 	mRoof2Texture->load("roof2.bmp");
 
+
+	for(int i=0;i<GRID_SIZE;i++) {
+		for(int j=0;j<GRID_SIZE;j++)
+		{
+			mCitiesOccupied[i][j] = false;
+		}
+	}
 }
 
-void Cities::add(int x, int y) {
+void Cities::add(int gridX, int gridY) {
+
+	gridX = normalize(gridX);
+	gridY = normalize(gridY);
+
+	if (isOccupied(gridX,gridY)) {
+		return;
+	}
+
 	CITY city;
 	city.id = mCities.size() + 1;
 	city.connectedTo = 0;
-	city.x = x;
-	city.y = y;
+	city.x = gridX + (CITY_SIZE/2.0f) + 5.0f;
+	city.y = gridY + (CITY_SIZE/2.0f) + 3.0f;
 	city.type = rand() % 2;
 	mCities.push_back(city);
 
-	mTerrain->onCityAdd(x,y);
+	mCitiesOccupied[gridX][gridY] = true;
+	mTerrain->onCityAdd(city.x,city.y,(CITY_SIZE/2.0f));
+
+	mRoad->add(city.x-(CITY_SIZE/2.0f)+3.0f,city.y,city.x+(CITY_SIZE/2.0f)-3.0f,city.y);
+	mRoad->add(city.x,city.y-(CITY_SIZE/2.0f)+3.0f,city.x,city.y+(CITY_SIZE/2.0f)-3.0f);
 
 	if (mCities.size() > 1) {
 		connectToNearestCity(city);
@@ -50,7 +69,7 @@ void Cities::draw() {
 
 void Cities::drawIndustrialCity(CITY city) {
 	glPushMatrix();
-		glTranslated(city.x-(GRID_SIZE/2), 0.2f, city.y-(GRID_SIZE/2));
+		glTranslated(city.x-GRID_OFFSET, 0.2f, city.y-GRID_OFFSET);
 
 		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f, mBuilding1Texture, mRoof1Texture);
 		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f, mBuilding2Texture, mRoof2Texture);

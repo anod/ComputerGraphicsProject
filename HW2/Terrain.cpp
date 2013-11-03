@@ -321,8 +321,7 @@ void Terrain::onRoadAdd(int x, int y) {
 	}
 }
 
-void Terrain::onCityAdd(int cx, int cy) {
-	double r = 12.0f;
+void Terrain::onCityAdd(int cx, int cy, int r) {
 	for(int i = cx - r; i < cx + r; i++) {
 		for(int j= cy - r; j < cy + r; j++) {
 			if (i>0 & j>0 & i<GRID_SIZE & j<GRID_SIZE) {

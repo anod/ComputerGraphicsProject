@@ -27,6 +27,7 @@ public:
 	void init(Terrain* terrain, Road* road, Cities* cities);
 	void draw();
 	void onMouseClick(int button, int state, int x, int y);
+	void onMouseMove(int x, int y);
 private:
 	static const int MENU_ITEM_HEIGHT = 10;
 	static const int MENU_ITEM_X = -(GRID_SIZE/2)+2;// GRID_SIZE //0;
@@ -48,6 +49,8 @@ private:
 	Road* mRoad;
 	Cities* mCities;
 
+	THREE mMousePos;
+
 	void drawItem(int item, int x, int y);
 
 	void setMenuSelectedItem(int item);
@@ -60,7 +63,7 @@ private:
 	void drawValley(int cx, int cy, PIXEL color);
 	void drawPie(int cx, int cy, double deg, int seg, PIXEL color);
 	void drawCity(int x, int y, PIXEL color);
-
+	void highlightCityArea();
 };
 
 #endif

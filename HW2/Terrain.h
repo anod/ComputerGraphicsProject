@@ -22,7 +22,7 @@ public:
 	void drawValley(int x,int y);
 	void draw();
 	void onRoadAdd(int x, int y);
-	void onCityAdd(int cx, int cy);
+	void onCityAdd(int cx, int cy, int r);
 	void ptToGrid(int pt);
 	bool isWater(int i, int j);
 	double getHeight(int i, int j) { return mGrid[j][i]; }

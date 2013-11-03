@@ -54,7 +54,7 @@ void init()
 	terrain->init(road);
 
 	road->init(terrain);
-	road->add(10,101,190,101);
+	road->add(10,88,190,88);
 	road->rebuild();
 
 	glEnable(GL_NORMALIZE);
@@ -136,6 +136,7 @@ void display3D()
 	// car
 	car->draw3d();
 
+	/*
 	double aSin = sin(car->angle+PI/2);
 	double aCos = cos(car->angle+PI/2);
 	double cx = car->pos.x - 0.2f - 5*aSin;
@@ -152,7 +153,7 @@ void display3D()
 			glVertex3d(-0.5f, 0.0f, -0.5f);              // Bottom Left
 		glEnd();
 	glPopMatrix();
-
+	*/
 
 	glutSwapBuffers();
 }
@@ -170,6 +171,8 @@ void onMouseMove(int x, int y) {
 	int gridX = float(x)/GRID_KOEF;
 	int gridY = float(y)/GRID_KOEF;
 	sprintf(gMouseLoc, "%3d (%3d), %3d (%3d)", x, gridX, y, gridY );
+
+	overflow->onMouseMove(x, y);
 }
 
 void onMouseClick(int button, int state, int x, int y) {

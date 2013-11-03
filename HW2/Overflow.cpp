@@ -22,6 +22,10 @@ void Overflow::init(Terrain* terrain, Road* road, Cities* cities) {
 	mTerrain = terrain;
 	mRoad = road;
 	mCities = cities;
+	mMousePos.x = 0;
+	mMousePos.y = 0;
+	mMousePos.z = 0;
+
 }
 
 void Overflow::setMenuSelectedItem(int item) {
@@ -56,6 +60,10 @@ int Overflow::detectSelectedItem(int x, int y) {
 void Overflow::draw() {
 	int yOffset,xOffset = MENU_ITEM_X;
 	PIXEL color;
+
+	if (mMenuSelectedItem == MENU_ITEM_CITY) {
+		highlightCityArea();
+	}
 
 	glPushMatrix();
 		glTranslated(MENU_ITEM_X+2,0,MENU_ITEM_X);
@@ -161,14 +169,14 @@ void Overflow::drawPie(int cx, int cy, double deg, int seg, PIXEL color) {
 
 	float x = 4;//we start at angle = 0 
 	float y = 0; 
-    
+	
 	glColor3d(color.red/255.0f, color.green/255.0f , color.blue/255.0f);
 
 	glBegin(GL_POLYGON); 
 	for(int ii = 0; ii < seg; ii++) 
 	{ 
 		glVertex3d(x + cx,1,y + cy);//output vertex 
-        
+		
 		//apply the rotation matrix
 		t = x;
 		x = c * x - s * y;
@@ -207,7 +215,6 @@ void Overflow::drawItem(int item, int x, int y) {
 void Overflow::onMouseClick(int button, int state, int x, int y) {
 	//click
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		int koef = WIDTH/float(GRID_SIZE);
 		int gridX = float(x)/GRID_KOEF;
 		int gridY = float(y)/GRID_KOEF;
 
@@ -219,6 +226,38 @@ void Overflow::onMouseClick(int button, int state, int x, int y) {
 			mClick.count = 0;
 		}
 	}
+}
+
+void Overflow::onMouseMove(int x, int y) {
+
+	mMousePos.x = x;
+	mMousePos.y = y;
+
+}
+
+void Overflow::highlightCityArea() {
+	int gridX = mCities->normalize(float(mMousePos.x)/GRID_KOEF);
+	int gridY = mCities->normalize(float(mMousePos.y)/GRID_KOEF);
+
+	PIXEL color = (mCities->isOccupied(gridX, gridY)) ? PIX_RED : PIX_GREEN;
+
+	glPushMatrix();
+		glTranslated(-GRID_OFFSET + 5.0f,0,-GRID_OFFSET+ 5.0f);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4d(color.red/255.0f, color.green/255.0f , color.blue/255.0f, 0.8f);
+
+		//front glass
+		glBegin(GL_POLYGON);
+			glVertex3d( gridX, 5.0f, gridY);              // Top Left
+			glVertex3d( gridX, 5.0f, gridY + Cities::CITY_SIZE);              // Top Right
+			glVertex3d( gridX + Cities::CITY_SIZE, 5.0f, gridY + Cities::CITY_SIZE);              // Bottom Right
+			glVertex3d( gridX + Cities::CITY_SIZE, 5.0f, gridY);              // Bottom Left
+		glEnd();
+
+		glDisable(GL_BLEND);
+	glPopMatrix();
+
 }
 
 void Overflow::drawSquare(int x1, int y1, int x2, int y2, PIXEL color) {
