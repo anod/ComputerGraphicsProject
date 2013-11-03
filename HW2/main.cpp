@@ -54,7 +54,7 @@ void init()
 	terrain->init(road);
 
 	road->init(terrain);
-	road->add(10,88,190,88);
+	road->add(10,84,190,84);
 	road->rebuild();
 
 	glEnable(GL_NORMALIZE);
@@ -74,12 +74,12 @@ void drawMousePos() {
 	glColor3d(1.0f, 1.0f , 1.0f);
 
 	glPushMatrix();
-	glRasterPos3f(25,20,75);
+	glRasterPos3f(40,90,0);
 	for (i = 0; i < strlen (gMouseLoc); i++) {
 		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gMouseLoc[i]);
 	}
 
-	glRasterPos3f(-75,20,75);
+	glRasterPos3f(-90,90,0);
 	for (i = 0; i < strlen (gCarInfo); i++) {
 		 glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gCarInfo[i]);
 	}
@@ -88,52 +88,81 @@ void drawMousePos() {
 
 void display2D()
 {
+	// Clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// 3D
+	// enable lighting, z-test, etc
+	glEnable(GL_DEPTH_TEST);
+
+	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
+	// load identity and establish a perspective projection
 	glLoadIdentity();
 	glFrustum(-1,1,-1,1,1,200);
 
-	gluLookAt(0,100,0,0,0,0,0,0,-1);
-
+	// set active matrix mode back to modelview
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+	// draw everything 3D
+	gluLookAt(0,100,0,0,0,0,0,0,-1);
 	terrain->draw();
-
 	cities->draw();
-
 	car->draw3d();
 
-	overflow->draw();
+	// 2D
+	// disable lighting, z-test, etc
+	glDisable(GL_DEPTH_TEST);
+
+	// set active matrix mode to projection
+	glMatrixMode(GL_PROJECTION);
+	// load identity and establish an ortogonal projection
+	glLoadIdentity();
+	gluOrtho2D(-100, 100, 100, -100);
+
+	// set active matrix mode back to modelview
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	// draw everything 2D
+	overflow->draw2d();
 
 	drawMousePos();
+
+	// swap buffers
 
 	glutSwapBuffers();
 }
 
 void display3D()
 {
-	// fill the buffer with the background color
+	// clear
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// 3D
+	// enable lighting, z-test, etc
+	glEnable(GL_DEPTH_TEST);
+
+	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
+	// load identity and establish a perspective projection
 	glLoadIdentity();
 	glFrustum(-1,1,-1,1,1,200);
 
+	// set active matrix mode back to modelview
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	// draw everything 3D
 	gluLookAt(
 		camera->pos.x,camera->pos.y,camera->pos.z,
 		camera->center.x,camera->center.y,camera->center.z,
 		camera->up.x,camera->up.y,camera->up.z
 	);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
 	terrain->draw();
-	
 	cities->draw();
-	// car
 	car->draw3d();
 
 	/*
@@ -168,9 +197,16 @@ void idle()
 }
 
 void onMouseMove(int x, int y) {
-	int gridX = float(x)/GRID_KOEF;
-	int gridY = float(y)/GRID_KOEF;
-	sprintf(gMouseLoc, "%3d (%3d), %3d (%3d)", x, gridX, y, gridY );
+	int gridX0 = float(x)/GRID_KOEF;
+	int gridY0 = float(y)/GRID_KOEF;
+
+	int gridX = cities->normalize(float(x)/GRID_KOEF);
+	int gridY = cities->normalize(float(y)/GRID_KOEF);
+
+	//sprintf(gMouseLoc, "%3d (%3d), %3d (%3d)", x, gridX, y, gridY );
+
+	sprintf(gMouseLoc, "%3d (%3d), %3d (%3d)", gridX0, gridX, gridY0, gridY );
+
 
 	overflow->onMouseMove(x, y);
 }

@@ -40,7 +40,7 @@ public:
 	bool isOccupied(int gridX, int gridY) {	return mCitiesOccupied[gridX][gridY]; };
 
 	int normalize(int coord) {
-		int num = float(coord)/CITY_SIZE;
+		int num = floor(float(coord)/CITY_SIZE);
 		return num*CITY_SIZE;
 	}
 	void add(int gridX, int gridY);

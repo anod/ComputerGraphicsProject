@@ -25,7 +25,7 @@ public:
 	~Overflow(void);
 	void onMouseClick();
 	void init(Terrain* terrain, Road* road, Cities* cities);
-	void draw();
+	void draw2d();
 	void onMouseClick(int button, int state, int x, int y);
 	void onMouseMove(int x, int y);
 private:

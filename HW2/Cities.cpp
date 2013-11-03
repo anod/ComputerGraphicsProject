@@ -42,8 +42,8 @@ void Cities::add(int gridX, int gridY) {
 	CITY city;
 	city.id = mCities.size() + 1;
 	city.connectedTo = 0;
-	city.x = gridX + (CITY_SIZE/2.0f) + 5.0f;
-	city.y = gridY + (CITY_SIZE/2.0f) + 3.0f;
+	city.x = gridX + (CITY_SIZE/2.0f);
+	city.y = gridY + (CITY_SIZE/2.0f);
 	city.type = rand() % 2;
 	mCities.push_back(city);
 
@@ -69,7 +69,7 @@ void Cities::draw() {
 
 void Cities::drawIndustrialCity(CITY city) {
 	glPushMatrix();
-		glTranslated(city.x-GRID_OFFSET, 0.2f, city.y-GRID_OFFSET);
+		glTranslated(city.x-GRID_OFFSET, 0.1f, city.y-GRID_OFFSET);
 
 		drawBuilding(-12.0f, -12.0f, 20.0f, 6.0f, mBuilding1Texture, mRoof1Texture);
 		drawBuilding(-12.0f,  6.0f,  6.0f, 6.0f, mBuilding2Texture, mRoof2Texture);
@@ -90,8 +90,8 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glColor3d(0.0f,0.8f,0.0f);
 			glTexCoord2d(0,0);    glVertex3d(leftTopX, height, leftTopY);              // Top Left
 			glTexCoord2d(0,3);    glVertex3d(leftTopX, height, leftTopY + size);              // Top Right
-			glTexCoord2d(4,3);    glVertex3d(leftTopX,   0.6f, leftTopY + size);              // Bottom Right
-			glTexCoord2d(4,0);    glVertex3d(leftTopX,   0.6f, leftTopY);              // Bottom Left
+			glTexCoord2d(4,3);    glVertex3d(leftTopX,   0.0f, leftTopY + size);              // Bottom Right
+			glTexCoord2d(4,0);    glVertex3d(leftTopX,   0.0f, leftTopY);              // Bottom Left
 		glEnd();
 	//  ---
 	// |
@@ -99,8 +99,8 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glColor3d(0.0f,0.8f,0.0f);
 			glTexCoord2d(0,0);   glVertex3d(leftTopX     , height, leftTopY);              // Top Left
 			glTexCoord2d(0,3);   glVertex3d(leftTopX+size, height, leftTopY);              // Top Right
-			glTexCoord2d(4,3);   glVertex3d(leftTopX+size,   0.6f, leftTopY);              // Bottom Left
-			glTexCoord2d(4,0);   glVertex3d(leftTopX     ,   0.6f, leftTopY);              // Bottom Right
+			glTexCoord2d(4,3);   glVertex3d(leftTopX+size,   0.0f, leftTopY);              // Bottom Left
+			glTexCoord2d(4,0);   glVertex3d(leftTopX     ,   0.0f, leftTopY);              // Bottom Right
 		glEnd();
 	//   ---
 	//  |   |
@@ -108,8 +108,8 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glColor3d(0.0f,0.8f,0.0f);
 			glTexCoord2d(0,0);   glVertex3d(leftTopX+size, height, leftTopY);              // Top Left
 			glTexCoord2d(0,3);   glVertex3d(leftTopX+size, height, leftTopY + size);              // Top Right
-			glTexCoord2d(4,3);   glVertex3d(leftTopX+size,   0.6f, leftTopY + size);              // Bottom Right
-			glTexCoord2d(4,0);   glVertex3d(leftTopX+size,   0.6f, leftTopY);              // Bottom Left
+			glTexCoord2d(4,3);   glVertex3d(leftTopX+size,   0.0f, leftTopY + size);              // Bottom Right
+			glTexCoord2d(4,0);   glVertex3d(leftTopX+size,   0.0f, leftTopY);              // Bottom Left
 		glEnd();
 	//  ---
 	// |   |
@@ -118,8 +118,8 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 			glColor3d(0.0f,0.8f,0.0f);
 			glTexCoord2d(0,0);   glVertex3d(leftTopX+size, height, leftTopY + size);              // Top Left
 			glTexCoord2d(0,3);   glVertex3d(leftTopX     , height, leftTopY + size);              // Top Right
-			glTexCoord2d(4,3);   glVertex3d(leftTopX     ,   0.6f, leftTopY + size);              // Bottom Left
-			glTexCoord2d(4,0);   glVertex3d(leftTopX+size,   0.6f, leftTopY + size);              // Bottom Right
+			glTexCoord2d(4,3);   glVertex3d(leftTopX     ,   0.0f, leftTopY + size);              // Bottom Left
+			glTexCoord2d(4,0);   glVertex3d(leftTopX+size,   0.0f, leftTopY + size);              // Bottom Right
 		glEnd();
 		
 	glBindTexture(GL_TEXTURE_2D,roof->getId());
