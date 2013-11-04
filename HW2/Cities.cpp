@@ -16,10 +16,10 @@ void Cities::init() {
 	mRoof1Texture = new BmpTexture(2);
 	mRoof2Texture = new BmpTexture(3);
 
-	mBuilding1Texture->load("building1.bmp");
-	mBuilding2Texture->load("building2.bmp");
-	mRoof1Texture->load("roof1.bmp");
-	mRoof2Texture->load("roof2.bmp");
+	mBuilding1Texture->load("resources/building1.bmp");
+	mBuilding2Texture->load("resources/building2.bmp");
+	mRoof1Texture->load("resources/roof1.bmp");
+	mRoof2Texture->load("resources/roof2.bmp");
 
 
 	for(int i=0;i<GRID_SIZE;i++) {
@@ -80,6 +80,11 @@ void Cities::drawIndustrialCity(CITY city) {
 }
 
 
+void Cities::drawSuburbCity(CITY city) {
+
+
+}
+
 void Cities::drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof) {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D,building->getId());
@@ -135,10 +140,6 @@ void Cities::drawBuilding(double leftTopX, double leftTopY, double height, doubl
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Cities::drawSleepCity(CITY city) {
-
-
-}
 
 
 void Cities::connectToNearestCity(CITY city) {

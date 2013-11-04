@@ -12,7 +12,7 @@ Car::Car(void)
 {
 	pos.x = 0;
 	pos.y = 0;
-	pos.z = -16.0f;
+	pos.z = -17.0f;
 
 	speed = 0;
 	mAngleSpeed = 0;

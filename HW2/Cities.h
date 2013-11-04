@@ -61,7 +61,7 @@ private:
 
 	void connectToNearestCity(CITY city);
 	void drawIndustrialCity(CITY city);
-	void drawSleepCity(CITY city);
+	void drawSuburbCity(CITY city);
 	void drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof);
 	std::string getKey(int gridX, int gridY) {
 		std::string key;
