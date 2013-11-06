@@ -9,12 +9,15 @@
 #define CAR_H
 
 #include "general.h"
+#include "Road.h"
 
 class Car
 {
 public:
 	Car(void);
 	~Car(void);
+
+	void setRoad(Road* road) { mRoad = road; };
 
 	void left() { mAngleSpeed+=0.002; };
 	void right() { mAngleSpeed-=0.002; };
@@ -28,6 +31,8 @@ public:
 	double speed;
 	double angle;
 private:
+	Road* mRoad;
+
 	void draw();
 	void drawWheel();
 

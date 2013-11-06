@@ -30,9 +30,15 @@ Car::~Car(void)
 void Car::update() {
 	// plane
 	angle+=mAngleSpeed;
-	// TODO validate road
 	double newX = pos.x + (-speed*sin(angle+PI/2));
 	double newZ = pos.z + (-speed*cos(angle+PI/2));
+
+	int gridX = newX + GRID_OFFSET;
+	int gridY = newZ + GRID_OFFSET;
+	// TODO validate car corners
+	if (!mRoad->isRoad(gridY, gridX)) {
+		return;
+	}
 
 	mDistDiff = sqrt ( pow((newX-pos.x), 2) + pow((newZ-pos.z), 2) );
 

@@ -39,12 +39,6 @@ void init()
 	srand((unsigned)time(NULL));
 
 	camera = new Camera();	
-	car = new Car();
-
-	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
-
-	camera->setCar(car);
-
 	road = new Road();
 
 	terrain = new Terrain();
@@ -53,6 +47,13 @@ void init()
 	road->init(terrain);
 	road->add(10,84,190,84);
 	road->rebuild();
+
+	car = new Car();
+	car->setRoad(road);
+
+	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
+
+	camera->setCar(car);
 
 	cities = new Cities();
 	cities->init();
