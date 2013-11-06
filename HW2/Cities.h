@@ -58,16 +58,18 @@ private:
 	BmpTexture* mBuilding2Texture;
 	BmpTexture* mRoof1Texture;
 	BmpTexture* mRoof2Texture;
+	BmpTexture* mHouse1Texture;
+	BmpTexture* mHouse2Texture;
+	BmpTexture* mHouse3Texture;
+	BmpTexture* mHouse4Texture;
+	BmpTexture* mHouseRoofTexture;
 
 	void connectToNearestCity(CITY city);
 	void drawIndustrialCity(CITY city);
 	void drawSuburbCity(CITY city);
 	void drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof);
-	std::string getKey(int gridX, int gridY) {
-		std::string key;
-		key = gridX + "," + gridY;
-		return key;
-	}
+	void drawHouse(double leftTopX, double leftTopY, BmpTexture* tex1,  BmpTexture* tex2, BmpTexture* roof);
+
 };
 
 #endif

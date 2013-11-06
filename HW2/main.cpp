@@ -12,13 +12,11 @@
 
 #include "Camera.h"
 #include "Overflow.h"
+#include "Light.h"
 
 #include "Road.h"
 #include "Terrain.h"
 #include "Car.h"
-
-double planex=0,planey=0,planez=0;
-double plane_angle=PI/2,plane_speed=0,plane_ang_speed=0;
 
 Terrain* terrain;
 Car* car;
@@ -26,6 +24,7 @@ Camera* camera;
 Overflow* overflow;
 Road* road;
 Cities* cities;
+Light* light;
 
 char gMouseLoc[25];
 char gCarInfo[25];
@@ -36,8 +35,6 @@ void init()
 {
 	//135-206-250
 	glClearColor(0.52,0.8,0.98,0); // set background color
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_SMOOTH);
 
 	srand((unsigned)time(NULL));
 
@@ -57,8 +54,6 @@ void init()
 	road->add(10,84,190,84);
 	road->rebuild();
 
-	glEnable(GL_NORMALIZE);
-
 	cities = new Cities();
 	cities->init();
 	cities->setRoad(road);
@@ -67,6 +62,7 @@ void init()
 	overflow = new Overflow();
 	overflow->init(terrain, road, cities);
 	
+	light = new Light();
 }
 
 void drawMousePos() {
@@ -93,7 +89,13 @@ void display2D()
 
 	// 3D
 	// enable lighting, z-test, etc
+	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_SMOOTH);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
 
 	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
@@ -107,6 +109,7 @@ void display2D()
 
 	// draw everything 3D
 	gluLookAt(0,100,0,0,0,0,0,0,-1);
+	light->enable();
 	terrain->draw();
 	cities->draw();
 	car->draw3d();
@@ -114,6 +117,7 @@ void display2D()
 	// 2D
 	// disable lighting, z-test, etc
 	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
 
 	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
@@ -142,7 +146,12 @@ void display3D()
 
 	// 3D
 	// enable lighting, z-test, etc
+	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_SMOOTH);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
 	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
@@ -160,6 +169,8 @@ void display3D()
 		camera->center.x,camera->center.y,camera->center.z,
 		camera->up.x,camera->up.y,camera->up.z
 	);
+
+	light->enable();
 
 	terrain->draw();
 	cities->draw();

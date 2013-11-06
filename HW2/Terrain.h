@@ -10,6 +10,7 @@
 
 #include "general.h"
 #include "Road.h"
+#include "BmpTexture.h"
 
 class Terrain
 {
@@ -32,6 +33,8 @@ private:
 	static const int VALLEY_RAIUS = 7; //px
 
 	Road* mRoad;
+	BmpTexture* mRoadTexture;
+	BmpTexture* mBridgeTexture;
 	double mGrid[GRID_SIZE][GRID_SIZE];
 
 	void updateGrid(int x, int y, int height);

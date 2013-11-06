@@ -21,6 +21,13 @@ void Terrain::init(Road* road) {
 
 	mRoad = road;
 
+	mRoadTexture = new BmpTexture(10);
+	mBridgeTexture = new BmpTexture(11);
+
+	mRoadTexture->load("resources/road.bmp");
+	mBridgeTexture->load("resources/bridge.bmp");
+
+
 	for(i=0;i<GRID_SIZE;i++) {
 		for(j=0;j<GRID_SIZE;j++)
 		{
@@ -324,7 +331,7 @@ void Terrain::onRoadAdd(int x, int y) {
 void Terrain::onCityAdd(int cx, int cy, int r) {
 	for(int i = cx - r; i < cx + r; i++) {
 		for(int j= cy - r; j < cy + r; j++) {
-			if (i>0 & j>0 & i<GRID_SIZE & j<GRID_SIZE) {
+			if (i>0 && j>0 && i<GRID_SIZE && j<GRID_SIZE) {
 				mGrid[j][i] = 0.1;
 			}
 		}
