@@ -69,6 +69,10 @@ void init()
 	cities->init();
 	cities->setRoad(road);
 	cities->setTerrain(terrain);
+	cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
+	cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
 
 	overflow = new Overflow();
 	overflow->init(terrain, road, cities);
@@ -187,6 +191,7 @@ void display3D()
 	cities->draw();
 	car->draw3d();
 
+	/*
 	double aSin = sin(car->angle+PI/2);
 	double aCos = cos(car->angle+PI/2);
 	double cx = car->pos.x - 0.2f - 5*aSin;
@@ -203,6 +208,7 @@ void display3D()
 			glVertex3d(-0.5f, 0.0f, -0.5f);              // Bottom Left
 		glEnd();
 	glPopMatrix();
+	*/
 
 	glutSwapBuffers();
 }

@@ -43,7 +43,7 @@ void Cities::init() {
 	}
 }
 
-void Cities::add(int gridX, int gridY) {
+void Cities::addSpecType(int gridX, int gridY, int type) {
 
 	gridX = normalize(gridX);
 	gridY = normalize(gridY);
@@ -57,7 +57,7 @@ void Cities::add(int gridX, int gridY) {
 	city.connectedTo = 0;
 	city.x = gridX + (CITY_SIZE/2.0f);
 	city.y = gridY + (CITY_SIZE/2.0f);
-	city.type = ((rand() % 100) < 60) ? CITY_SUBURB : CITY_INDUSTRIAL;
+	city.type = type;
 	mCities.push_back(city);
 
 	mCitiesOccupied[gridX][gridY] = true;
@@ -69,6 +69,11 @@ void Cities::add(int gridX, int gridY) {
 	if (mCities.size() > 1) {
 		connectToNearestCity(city);
 	}
+}
+
+void Cities::add(int gridX, int gridY) {
+	int type = ((rand() % 100) < 60) ? CITY_SUBURB : CITY_INDUSTRIAL;
+	addSpecType(gridX, gridY, type);
 }
 
 void Cities::draw() {

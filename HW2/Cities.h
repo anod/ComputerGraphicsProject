@@ -28,11 +28,12 @@ typedef struct
 class Cities
 {
 public:
+	static const int CITY_INDUSTRIAL = 0;
+	static const int CITY_SUBURB = 1;
+	static const int CITY_SIZE = 24;
 
 	Cities(void);
 	~Cities(void);
-
-	static const int CITY_SIZE = 24;
 
 	void init();
 	void setRoad(Road* road) { mRoad = road; };
@@ -44,10 +45,10 @@ public:
 		return num*CITY_SIZE;
 	}
 	void add(int gridX, int gridY);
+	void addSpecType(int gridX, int gridY, int type);
+
 	void draw();
 private:
-	static const int CITY_INDUSTRIAL = 0;
-	static const int CITY_SUBURB = 1;
 
 	Road* mRoad;
 	Terrain* mTerrain;
@@ -69,7 +70,6 @@ private:
 	void drawSuburbCity(CITY city);
 	void drawBuilding(double leftTopX, double leftTopY, double height, double size, BmpTexture* building, BmpTexture* roof);
 	void drawHouse(double leftTopX, double leftTopY, BmpTexture* tex1,  BmpTexture* tex2, BmpTexture* roof);
-
 };
 
 #endif
