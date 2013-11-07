@@ -25,9 +25,12 @@
 #include "Road.h"
 #include "Terrain.h"
 #include "Car.h"
+#include "SelfDrivenCar.h"
 
 Terrain* terrain;
-Car* car;
+Car* carUser;
+SelfDrivenCar* car1;
+SelfDrivenCar* car2;
 Camera* camera;
 Overflow* overflow;
 Road* road;
@@ -56,14 +59,25 @@ void init()
 	road->add(10,84,190,84);
 	road->rebuild();
 
+	carUser = new Car();
+	carUser->setRoad(road);
+	carUser->setColor(PIX_GREEN_YELLOW);
 
-	car = new Car();
-	car->setRoad(road);
-	car->setColor(PIX_GREEN_YELLOW);
+	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);
 
-	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
+	car1 = new SelfDrivenCar();
+	car1->setRoad(road);
+	car1->setColor(PIX_CYAN);
+	car1->setPosition(-65,0,-65);
+	car1->setAngle(PI/2);
 
-	camera->setCar(car);
+	car2 = new SelfDrivenCar();
+	car2->setRoad(road);
+	car2->setColor(PIX_DEEP_PINK);
+	car2->setPosition(55,0,55);
+	car2->setAngle(-PI/2);
+
+	camera->setCar(carUser);
 
 	cities = new Cities();
 	cities->init();
@@ -127,7 +141,9 @@ void display2D()
 	light->enable();
 	terrain->draw();
 	cities->draw();
-	car->draw3d();
+	carUser->draw3d();
+	car1->draw3d();
+	car2->draw3d();
 
 	// 2D
 	// disable lighting, z-test, etc
@@ -189,17 +205,19 @@ void display3D()
 
 	terrain->draw();
 	cities->draw();
-	car->draw3d();
+	carUser->draw3d();
+	car1->draw3d();
+	car2->draw3d();
 
 	/*
-	double aSin = sin(car->angle+PI/2);
-	double aCos = cos(car->angle+PI/2);
-	double cx = car->pos.x - 0.2f - 5*aSin;
-	double cy = car->pos.y + 1.8f;
-	double cz = car->pos.z - 0.4f - 5*aCos;
+	double aSin = sin(carUser->angle+PI/2);
+	double aCos = cos(carUser->angle+PI/2);
+	double cx = carUser->pos.x - 0.2f - 5*aSin;
+	double cy = carUser->pos.y + 1.8f;
+	double cz = carUser->pos.z - 0.4f - 5*aCos;
 	glPushMatrix();
 		glTranslated(cx,cy,cz);
-		glRotated(car->angle*180/PI,0,1,0);
+		glRotated(carUser->angle*180/PI,0,1,0);
 		glBegin(GL_POLYGON);
 		glColor3d(0.0f,0.7f,0.0f);
 			glVertex3d(-0.5f, 0.5f, -0.5f);              // Top Left
@@ -215,9 +233,12 @@ void display3D()
 
 void idle()
 {
-	car->update();
+	carUser->update();
+	car1->update();
+	car2->update();
+
 	camera->update();
-	sprintf(gCarInfo, "%3.2f, %3.2f, %3.2f ( %3.2f )", car->pos.x, car->pos.y, car->pos.z, car->angle);
+	sprintf(gCarInfo, "%3.2f, %3.2f, %3.2f ( %3.2f )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);
 
 	glutPostRedisplay();
 }
@@ -296,16 +317,16 @@ void onKeyboard(unsigned char key, int x, int y)
 	switch(key)
 	{
 		case 'a': // left
-			car->left();
+			carUser->left();
 			break;
 		case 'd':  // right
-			car->right();
+			carUser->right();
 			break;
 		case 'w':  // forward
-			car->forward();
+			carUser->forward();
 			break;
 		case 's':   // backward
-			car->backward();
+			carUser->backward();
 			break;
 	}
 }

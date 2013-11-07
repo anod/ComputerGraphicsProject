@@ -18,9 +18,9 @@ public:
 	~Car(void);
 
 	void setRoad(Road* road) { mRoad = road; };
-	void setColor(PIXEL color) { 
-		mColor = color;
-	};
+	void setColor(PIXEL color) { mColor = color; };
+	void setPosition(float x, float y, float z) { pos.x = x; pos.y = y; pos.z = z; };
+	void setAngle(double value) { angle = value; };
 
 	void left() { mAngleSpeed+=0.002; };
 	void right() { mAngleSpeed-=0.002; };
