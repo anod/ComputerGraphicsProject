@@ -10,7 +10,7 @@
 
 Car::Car(void)
 {
-	pos.x = 0;
+	pos.x = 10.0f;
 	pos.y = 0;
 	pos.z = -17.0f;
 
@@ -60,10 +60,15 @@ void Car::draw3d() {
 
 
 void Car::draw() {
+	PIXEL dk;
+	dk.red = mColor.red * 0.9f;
+	dk.green = mColor.green * 0.9f;
+	dk.blue = mColor.red * 0.9f;
+
+	glColor3d(dk.red/255.0f,dk.green/255.0f,dk.blue/255.0f);
 
 	//front
 	glBegin(GL_POLYGON);
-	glColor3d(0.6f,0.0f,0.0f);
 		glVertex3d(-4.5f, 1.6f, -3.0f);              // Top Left
 		glVertex3d(-4.5f, 1.6f, 3.0f);              // Top Right
 		glVertex3d(-4.5f, 0.6f, 3.0f);              // Bottom Right
@@ -72,16 +77,16 @@ void Car::draw() {
 	
 	//back
 	glBegin(GL_POLYGON);
-	glColor3d(0.6f,0.0f,0.0f);
 		glVertex3d( 4.5f, 1.6f, -3.0f);              // Top Left
 		glVertex3d( 4.5f, 1.6f, 3.0f);              // Top Right
 		glVertex3d( 4.5f, 0.6f, 3.0f);              // Bottom Right
 		glVertex3d( 4.5f, 0.6f, -3.0f);              // Bottom Left
 	glEnd();
 	
+	glColor3d(mColor.red/255.0f,mColor.green/255.0f,mColor.blue/255.0f);
+
 	//left
 	glBegin(GL_POLYGON);
-	glColor3d(1.0f,0.0f,0.0f);
 		glVertex3d(-4.5f, 1.6f, -3.0f);              // Top Left
 		glVertex3d( 4.5f, 1.6f, -3.0f);              // Top Right
 		glVertex3d( 4.5f, 0.6f, -3.0f);              // Bottom Right
@@ -90,7 +95,6 @@ void Car::draw() {
 
 	//right
 	glBegin(GL_POLYGON);
-	glColor3d(1.0f,0.0f,0.0f);
 		glVertex3d(-4.5f, 1.6f, 3.0f);              // Top Left
 		glVertex3d( 4.5f, 1.6f, 3.0f);              // Top Right
 		glVertex3d( 4.5f, 0.6f, 3.0f);              // Bottom Right
@@ -99,7 +103,6 @@ void Car::draw() {
 
 	//bottom
 	glBegin(GL_POLYGON);
-	glColor3d(0.3f,0.0f,0.0f);
 		glVertex3d(-4.5f, 0.6f, -3.0f);              // Top Left
 		glVertex3d( 4.5f, 0.6f, -3.0f);              // Top Right
 		glVertex3d( 4.5f, 0.6f, 3.0f);              // Bottom Right
@@ -108,17 +111,14 @@ void Car::draw() {
 
 	//trunk
 	glBegin(GL_POLYGON);
-	glColor3d(1.0f,0,0);
 		glVertex3d(-4.5f, 1.6f, -3.0f);              // Top Left
 		glVertex3d(-2.0f, 1.6f, -3.0f);              // Top Right
 		glVertex3d(-2.0f, 1.6f, 3.0f);              // Bottom Right
 		glVertex3d(-4.5f, 1.6f, 3.0f);              // Bottom Left
 	glEnd();
-
 	
 	//motor
 	glBegin(GL_POLYGON);
-	glColor3d(1.0f,0,0);
 		glVertex3d( 2.0f, 1.6f, -3.0f);              // Top Left
 		glVertex3d( 4.5f, 1.6f, -3.0f);              // Top Right
 		glVertex3d( 4.5f, 1.6f, 3.0f);              // Bottom Right
@@ -127,13 +127,13 @@ void Car::draw() {
 
 	//top
 	glBegin(GL_POLYGON);
-	glColor3d(1.0f,0.0f,0.0f);
 		glVertex3d(-1.5f,2.6f, -3.0f);              // Top Left
 		glVertex3d( 1.5f,2.6f, -3.0f);              // Top Right
 		glVertex3d( 1.5f,2.6f, 3.0f);              // Bottom Right
 		glVertex3d(-1.5f,2.6f, 3.0f);              // Bottom Left
 	glEnd();
 
+	//glEnable(GL_COLOR_MATERIAL);
 	// Transparent glasses
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

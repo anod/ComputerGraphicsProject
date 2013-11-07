@@ -6,6 +6,14 @@
 //  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
 //
 
+// TODO:
+//
+// * Render road by polygons
+// * Check car/road boudaries
+// * Auto-driving
+// * Light on car
+//
+
 #include "general.h"
 
 #include <stdio.h>
@@ -48,8 +56,10 @@ void init()
 	road->add(10,84,190,84);
 	road->rebuild();
 
+
 	car = new Car();
 	car->setRoad(road);
+	car->setColor(PIX_GREEN_YELLOW);
 
 	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", car->pos.x, car->pos.y, car->pos.z, car->angle);
 
@@ -64,6 +74,7 @@ void init()
 	overflow->init(terrain, road, cities);
 	
 	light = new Light();
+	light->setLight(GL_LIGHT0);
 }
 
 void drawMousePos() {
@@ -96,7 +107,6 @@ void display2D()
 	glEnable(GL_SMOOTH);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-
 
 	// set active matrix mode to projection
 	glMatrixMode(GL_PROJECTION);
@@ -177,7 +187,6 @@ void display3D()
 	cities->draw();
 	car->draw3d();
 
-	/*
 	double aSin = sin(car->angle+PI/2);
 	double aCos = cos(car->angle+PI/2);
 	double cx = car->pos.x - 0.2f - 5*aSin;
@@ -194,7 +203,6 @@ void display3D()
 			glVertex3d(-0.5f, 0.0f, -0.5f);              // Bottom Left
 		glEnd();
 	glPopMatrix();
-	*/
 
 	glutSwapBuffers();
 }
