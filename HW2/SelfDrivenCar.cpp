@@ -17,6 +17,20 @@ void SelfDrivenCar::drive()
 {
 	if (mCityDestination.id == 0) {
 		mCityDestination = findCityDest();
+		if (mCityDestination.id == mCityOrigin.id) {
+			mCityDestination.id = 0;
+		}
+		if (mCityDestination.id > 0) {
+			if (mCityDestination.x > mCityOrigin.x && mCityDestination.y == mCityOrigin.y) {
+				setAngle(PI);
+			} else if (mCityDestination.y > mCityOrigin.y && mCityDestination.x == mCityOrigin.x) {
+				setAngle(PI/2);
+			} else if (mCityDestination.x < mCityOrigin.x && mCityDestination.y == mCityOrigin.y) {
+				setAngle(-PI);
+			} else if (mCityDestination.y < mCityOrigin.y && mCityDestination.x == mCityOrigin.x) {
+				setAngle(-PI/2);
+			} 
+		}
 
 	}
 	if (mCityDestination.id == 0) {
@@ -26,14 +40,13 @@ void SelfDrivenCar::drive()
 	}
 	double destX = mCityDestination.x - GRID_OFFSET;
 	double destZ = mCityDestination.y - GRID_OFFSET;
-	if (pos.x == destX && pos.z == destZ) {
+	if (abs(pos.x - destX) < 0.001f && abs(pos.z - destZ) < 0.001f) {
 		stop();
 		mCityOrigin = mCityDestination;
 		mCityDestination.id = 0;
 	} else {
 		if (!isMoving()) {
-			speed = 0.2f;
-//			forward();
+			setSpeed(0.2f);
 		}
 	}
 

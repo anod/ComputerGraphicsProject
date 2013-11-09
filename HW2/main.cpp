@@ -209,25 +209,6 @@ void display3D()
 	car1->draw3d();
 	car2->draw3d();
 
-	/*
-	double aSin = sin(carUser->angle+PI/2);
-	double aCos = cos(carUser->angle+PI/2);
-	double cx = carUser->pos.x - 0.2f - 5*aSin;
-	double cy = carUser->pos.y + 1.8f;
-	double cz = carUser->pos.z - 0.4f - 5*aCos;
-	glPushMatrix();
-		glTranslated(cx,cy,cz);
-		glRotated(carUser->angle*180/PI,0,1,0);
-		glBegin(GL_POLYGON);
-		glColor3d(0.0f,0.7f,0.0f);
-			glVertex3d(-0.5f, 0.5f, -0.5f);              // Top Left
-			glVertex3d(-0.5f, 0.5f, 0.5f);              // Top Right
-			glVertex3d(-0.5f, 0.0f, 0.5f);              // Bottom Right
-			glVertex3d(-0.5f, 0.0f, -0.5f);              // Bottom Left
-		glEnd();
-	glPopMatrix();
-	*/
-
 	glutSwapBuffers();
 }
 

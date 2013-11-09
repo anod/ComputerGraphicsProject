@@ -296,6 +296,7 @@ void Cities::connectToNearestCity(CITY city) {
 	if (closest.id > 0) {
 		mRoad->addNotDirect(city.x,city.y,closest.x,closest.y);
 		mCityMap[city.id].push_back(closest);
+		mCityMap[closest.id].push_back(city);
 	}
 
 }

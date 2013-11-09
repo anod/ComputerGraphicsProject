@@ -21,6 +21,7 @@ public:
 	void setColor(PIXEL color) { mColor = color; };
 	void setPosition(float x, float y, float z) { pos.x = x; pos.y = y; pos.z = z; };
 	void setAngle(double value) { angle = value; };
+	void setSpeed(double value) { speed = value; };
 
 	void left() { mAngleSpeed+=0.002; };
 	void right() { mAngleSpeed-=0.002; };
