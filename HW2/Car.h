@@ -26,6 +26,8 @@ public:
 	void right() { mAngleSpeed-=0.002; };
 	void forward() { speed += 0.01; };
 	void backward() { speed -= 0.01; };
+	bool isMoving() { return (speed > 0); };
+	void stop() { speed = 0; };
 
 	void draw3d();
 	void update();

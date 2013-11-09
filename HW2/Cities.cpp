@@ -43,13 +43,13 @@ void Cities::init() {
 	}
 }
 
-void Cities::addSpecType(int gridX, int gridY, int type) {
+int Cities::addSpecType(int gridX, int gridY, int type) {
 
 	gridX = normalize(gridX);
 	gridY = normalize(gridY);
 
 	if (isOccupied(gridX,gridY)) {
-		return;
+		return 0;
 	}
 
 	CITY city;
@@ -69,11 +69,12 @@ void Cities::addSpecType(int gridX, int gridY, int type) {
 	if (mCities.size() > 1) {
 		connectToNearestCity(city);
 	}
+	return city.id;
 }
 
-void Cities::add(int gridX, int gridY) {
+int Cities::add(int gridX, int gridY) {
 	int type = ((rand() % 100) < 60) ? CITY_SUBURB : CITY_INDUSTRIAL;
-	addSpecType(gridX, gridY, type);
+	return addSpecType(gridX, gridY, type);
 }
 
 void Cities::draw() {
@@ -294,6 +295,7 @@ void Cities::connectToNearestCity(CITY city) {
 
 	if (closest.id > 0) {
 		mRoad->addNotDirect(city.x,city.y,closest.x,closest.y);
+		mCityMap[city.id].push_back(closest);
 	}
 
 }

@@ -59,6 +59,15 @@ void init()
 	road->add(10,84,190,84);
 	road->rebuild();
 
+	cities = new Cities();
+	cities->init();
+	cities->setRoad(road);
+	cities->setTerrain(terrain);
+	int car1OriginCityId = cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
+	cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	int car2OriginCityId = cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
+
 	carUser = new Car();
 	carUser->setRoad(road);
 	carUser->setColor(PIX_GREEN_YELLOW);
@@ -68,25 +77,16 @@ void init()
 	car1 = new SelfDrivenCar();
 	car1->setRoad(road);
 	car1->setColor(PIX_CYAN);
-	car1->setPosition(-65,0,-65);
 	car1->setAngle(PI/2);
+	car1->setCities(car1OriginCityId, cities);
 
 	car2 = new SelfDrivenCar();
 	car2->setRoad(road);
 	car2->setColor(PIX_DEEP_PINK);
-	car2->setPosition(55,0,55);
 	car2->setAngle(-PI/2);
+	car2->setCities(car2OriginCityId, cities);
 
 	camera->setCar(carUser);
-
-	cities = new Cities();
-	cities->init();
-	cities->setRoad(road);
-	cities->setTerrain(terrain);
-	cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
-	cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
 
 	overflow = new Overflow();
 	overflow->init(terrain, road, cities);
@@ -234,8 +234,8 @@ void display3D()
 void idle()
 {
 	carUser->update();
-	car1->update();
-	car2->update();
+	car1->drive();
+	car2->drive();
 
 	camera->update();
 	sprintf(gCarInfo, "%3.2f, %3.2f, %3.2f ( %3.2f )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);

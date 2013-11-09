@@ -10,7 +10,8 @@
 
 #include "general.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
+#include <iterator>
 
 #include "Terrain.h"
 #include "Road.h"
@@ -24,6 +25,14 @@ typedef struct
 	int connectedTo;
 } CITY;
 
+/**
+ * List of cities
+ */
+typedef std::vector<CITY> CityList;
+/**
+ * List of cities connected to specific city id
+ */
+typedef std::unordered_map<int, CityList> CityMap;
 
 class Cities
 {
@@ -44,15 +53,18 @@ public:
 		int num = floor(float(coord)/CITY_SIZE);
 		return num*CITY_SIZE;
 	}
-	void add(int gridX, int gridY);
-	void addSpecType(int gridX, int gridY, int type);
-
+	int add(int gridX, int gridY);
+	int addSpecType(int gridX, int gridY, int type);
+	CITY getById(int id) { return mCities[(id - 1)]; };
+	CityList getMappedCities(int id) { return mCityMap[id]; };
 	void draw();
 private:
 
 	Road* mRoad;
 	Terrain* mTerrain;
-	std::vector<CITY> mCities;
+	CityList mCities;
+	CityMap mCityMap;
+
 	bool mCitiesOccupied[GRID_SIZE][GRID_SIZE];
 
 	BmpTexture* mBuilding1Texture;
