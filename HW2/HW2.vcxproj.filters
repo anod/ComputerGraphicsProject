@@ -48,6 +48,9 @@
     <ClCompile Include="SelfDrivenCar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SelfDrivenCarCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SelfDrivenCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfDrivenCarCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

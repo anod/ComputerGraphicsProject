@@ -25,17 +25,16 @@
 #include "Road.h"
 #include "Terrain.h"
 #include "Car.h"
-#include "SelfDrivenCar.h"
+#include "SelfDrivenCarCollection.h"
 
 Terrain* terrain;
 Car* carUser;
-SelfDrivenCar* car1;
-SelfDrivenCar* car2;
 Camera* camera;
 Overflow* overflow;
 Road* road;
 Cities* cities;
 Light* light;
+SelfDrivenCarCollection* carCollection;
 
 char gMouseLoc[25];
 char gCarInfo[25];
@@ -45,7 +44,7 @@ char gCarInfo[25];
 void init()
 {
 	//135-206-250
-	glClearColor(0.52,0.8,0.98,0); // set background color
+	glClearColor(0.52f,0.8f,0.98f,0); // set background color
 
 	srand((unsigned)time(NULL));
 
@@ -61,18 +60,26 @@ void init()
 
 	cities = new Cities();
 	cities->init();
-	cities->setRoad(road);
 	cities->setTerrain(terrain);
-	int car1OriginCityId = cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
-	cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	int car2OriginCityId = cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
+	cities->setRoad(road);
+
+	carCollection = new SelfDrivenCarCollection();
+	carCollection->init(road, cities);
+
+	cities->setCarCollection(carCollection);
+
+	//int car1OriginCityId = cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
+	//cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	//cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	//int car2OriginCityId = cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
 
 	carUser = new Car();
 	carUser->setRoad(road);
 	carUser->setColor(PIX_GREEN_YELLOW);
 
 	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);
+
+	/*
 
 	car1 = new SelfDrivenCar();
 	car1->setRoad(road);
@@ -85,7 +92,7 @@ void init()
 	car2->setColor(PIX_DEEP_PINK);
 	car2->setAngle(-PI/2);
 	car2->setCities(car2OriginCityId, cities);
-
+	*/
 	camera->setCar(carUser);
 
 	overflow = new Overflow();
@@ -142,8 +149,7 @@ void display2D()
 	terrain->draw();
 	cities->draw();
 	carUser->draw3d();
-	car1->draw3d();
-	car2->draw3d();
+	carCollection->draw3d();
 
 	// 2D
 	// disable lighting, z-test, etc
@@ -206,8 +212,7 @@ void display3D()
 	terrain->draw();
 	cities->draw();
 	carUser->draw3d();
-	car1->draw3d();
-	car2->draw3d();
+	carCollection->draw3d();
 
 	glutSwapBuffers();
 }
@@ -215,8 +220,7 @@ void display3D()
 void idle()
 {
 	carUser->update();
-	car1->drive();
-	car2->drive();
+	carCollection->drive();
 
 	camera->update();
 	sprintf(gCarInfo, "%3.2f, %3.2f, %3.2f ( %3.2f )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);

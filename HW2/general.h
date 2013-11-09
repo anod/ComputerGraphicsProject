@@ -5,6 +5,9 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <math.h>
+#include <vector>
+#include <unordered_map>
+#include <iterator>
 
 #include "glut.h"
 #include "Pixel.h"
@@ -21,5 +24,23 @@ static const int GRID_KOEF = WIDTH/float(GRID_SIZE);
 typedef struct {
 	double x,y,z;
 } THREE;
+
+typedef struct
+{
+	int id;
+	int x,y;
+	int type;
+	int connectedTo;
+} CITY;
+
+/**
+ * List of cities
+ */
+typedef std::vector<CITY> CityList;
+/**
+ * List of cities connected to specific city id
+ */
+typedef std::unordered_map<int, CityList> CityMap;
+
 
 #endif

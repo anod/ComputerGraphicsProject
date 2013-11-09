@@ -9,30 +9,11 @@
 #define CITIES_H
 
 #include "general.h"
-#include <vector>
-#include <unordered_map>
-#include <iterator>
 
 #include "Terrain.h"
 #include "Road.h"
 #include "BmpTexture.h"
-
-typedef struct
-{
-	int id;
-	int x,y;
-	int type;
-	int connectedTo;
-} CITY;
-
-/**
- * List of cities
- */
-typedef std::vector<CITY> CityList;
-/**
- * List of cities connected to specific city id
- */
-typedef std::unordered_map<int, CityList> CityMap;
+class SelfDrivenCarCollection;
 
 class Cities
 {
@@ -47,6 +28,7 @@ public:
 	void init();
 	void setRoad(Road* road) { mRoad = road; };
 	void setTerrain(Terrain* terrain) { mTerrain = terrain; };
+	void setCarCollection(SelfDrivenCarCollection* carCollection) { mCarCollection = carCollection; };
 	bool isOccupied(int gridX, int gridY) {	return mCitiesOccupied[gridX][gridY]; };
 
 	int normalize(int coord) {
@@ -58,10 +40,13 @@ public:
 	CITY getById(int id) { return mCities[(id - 1)]; };
 	CityList getMappedCities(int id) { return mCityMap[id]; };
 	void draw();
+
 private:
 
 	Road* mRoad;
 	Terrain* mTerrain;
+	SelfDrivenCarCollection* mCarCollection;
+
 	CityList mCities;
 	CityMap mCityMap;
 

@@ -1,5 +1,5 @@
 #include "Cities.h"
-
+#include "SelfDrivenCarCollection.h"
 
 Cities::Cities(void)
 {
@@ -69,6 +69,7 @@ int Cities::addSpecType(int gridX, int gridY, int type) {
 	if (mCities.size() > 1) {
 		connectToNearestCity(city);
 	}
+	mCarCollection->add(city.id);
 	return city.id;
 }
 

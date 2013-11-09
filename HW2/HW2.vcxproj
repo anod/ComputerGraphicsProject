@@ -85,6 +85,7 @@
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="RoadTexture.cpp" />
     <ClCompile Include="SelfDrivenCar.cpp" />
+    <ClCompile Include="SelfDrivenCarCollection.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="BmpTexture.cpp" />
   </ItemGroup>
@@ -99,6 +100,7 @@
     <ClInclude Include="Road.h" />
     <ClInclude Include="RoadTexture.h" />
     <ClInclude Include="SelfDrivenCar.h" />
+    <ClInclude Include="SelfDrivenCarCollection.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="BmpTexture.h" />
   </ItemGroup>
