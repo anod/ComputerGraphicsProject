@@ -19,12 +19,15 @@ The project goal is to write an OpenGL 3D game based on work done in classes.
 ## Screenshots
 
 Building mode
+
 ![Building mode](https://raw.github.com/anod/ComputerGraphicsProject/master/screenshots/scr_design.png)
 
 Global camera
+
 ![Global camera](https://raw.github.com/anod/ComputerGraphicsProject/master/screenshots/scr_global.png)
 
 Diver view
+
 ![Diver view](https://raw.github.com/anod/ComputerGraphicsProject/master/screenshots/scr_driver.png)
 
 
