@@ -79,20 +79,6 @@ void init()
 
 	sprintf(gCarInfo, "%3d, %3d, %3d ( %3d )", carUser->pos.x, carUser->pos.y, carUser->pos.z, carUser->angle);
 
-	/*
-
-	car1 = new SelfDrivenCar();
-	car1->setRoad(road);
-	car1->setColor(PIX_CYAN);
-	car1->setAngle(PI/2);
-	car1->setCities(car1OriginCityId, cities);
-
-	car2 = new SelfDrivenCar();
-	car2->setRoad(road);
-	car2->setColor(PIX_DEEP_PINK);
-	car2->setAngle(-PI/2);
-	car2->setCities(car2OriginCityId, cities);
-	*/
 	camera->setCar(carUser);
 
 	overflow = new Overflow();
@@ -322,7 +308,7 @@ int main(int argc, char * argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(WIDTH,HEIGHT);
 	glutInitWindowPosition(100,100);
-	glutCreateWindow("HW2");
+	glutCreateWindow("Computer Graphics project @ Afeka College of Engineering");
 	
 	// onPaint
 	glutDisplayFunc(display2D);

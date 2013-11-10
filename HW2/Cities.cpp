@@ -63,6 +63,7 @@ int Cities::addSpecType(int gridX, int gridY, int type) {
 	mCitiesOccupied[gridX][gridY] = true;
 	mTerrain->onCityAdd(city.x,city.y,(CITY_SIZE/2.0f));
 
+	// Draw road between buildings
 	mRoad->add(city.x-(CITY_SIZE/2.0f)+3.0f,city.y,city.x+(CITY_SIZE/2.0f)-3.0f,city.y);
 	mRoad->add(city.x,city.y-(CITY_SIZE/2.0f)+3.0f,city.x,city.y+(CITY_SIZE/2.0f)-3.0f);
 
@@ -295,7 +296,30 @@ void Cities::connectToNearestCity(CITY city) {
 	}
 
 	if (closest.id > 0) {
-		mRoad->addNotDirect(city.x,city.y,closest.x,closest.y);
+		// cities on the same line just add direct road
+		if (abs(city.x-closest.x) < 6 || abs(city.y-closest.y) < 6) {
+			mRoad->add(city.x,city.y,closest.x,closest.y);
+			THREE waypoint1 = {closest.x,closest.y,0};
+			THREE waypoint2 = {city.x,city.y,0};
+			mCitiesWaypoints[city.id][closest.id].push_back(waypoint1);
+			mCitiesWaypoints[closest.id][city.id].push_back(waypoint2);
+		} else {
+			mRoad->add(city.x,city.y,closest.x,city.y);
+			mRoad->add(closest.x,city.y,closest.x,closest.y);
+
+			// one way
+			THREE waypoint3 = {closest.x,city.y,0};
+			THREE waypoint4 = {closest.x,closest.y,0};
+			mCitiesWaypoints[city.id][closest.id].push_back(waypoint4);
+			mCitiesWaypoints[city.id][closest.id].push_back(waypoint3);
+
+
+			// opposite way
+			THREE waypoint5 = {closest.x,city.y,0};
+			THREE waypoint6 = {city.x,city.y};
+			mCitiesWaypoints[closest.id][city.id].push_back(waypoint6);
+			mCitiesWaypoints[closest.id][city.id].push_back(waypoint5);
+		}
 		mCityMap[city.id].push_back(closest);
 		mCityMap[closest.id].push_back(city);
 	}

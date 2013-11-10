@@ -6,6 +6,7 @@
 #include <time.h>       /* time */
 #include <math.h>
 #include <vector>
+#include <stack>
 #include <unordered_map>
 #include <iterator>
 
@@ -41,6 +42,17 @@ typedef std::vector<CITY> CityList;
  * List of cities connected to specific city id
  */
 typedef std::unordered_map<int, CityList> CityMap;
-
+/**
+ * List of waypoints
+ */
+typedef std::vector<THREE> WayPoints;
+/**
+ * Map of waypoints for a city
+ */
+typedef std::unordered_map<int, WayPoints> CityWayPoints;
+/**
+ * Map of waypoints between cities
+ */
+typedef std::unordered_map<int, CityWayPoints> CitiesWayPoints;
 
 #endif

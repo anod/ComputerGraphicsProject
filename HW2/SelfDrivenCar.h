@@ -27,6 +27,8 @@ private:
 	THREE mNextWaypoint;
 	THREE mLastWaypoint;
 
+	WayPoints mWayPoints;
+
 	Cities* mCities;
 
 	CITY findCityDest();

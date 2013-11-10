@@ -27,15 +27,9 @@ void SelfDrivenCar::drive()
 	if (mCityDestination.id == 0) {
 		mCityDestination = findCityDest();
 		if (mCityDestination.id > 0) {
-			// No turns on the road -> next waypoint will be destination
-			if (isEqual(mCityDestination.x,mCityOrigin.x,0.1f) || isEqual(mCityDestination.y,mCityOrigin.y,0.1f)) {
-				mNextWaypoint.x = mCityDestination.x;
-				mNextWaypoint.y = mCityDestination.y;
-			} else {
-
-				mNextWaypoint.x = mCityOrigin.x; 
-				mNextWaypoint.y = mCityDestination.y; 
-			}
+			mWayPoints = mCities->getWayPoints(mCityOrigin.id, mCityDestination.id);
+			mNextWaypoint = mWayPoints.back();
+			mWayPoints.pop_back();
 			adjustAngle();
 		}
 
@@ -48,7 +42,7 @@ void SelfDrivenCar::drive()
 	double destX = mNextWaypoint.x - GRID_OFFSET;
 	double destZ = mNextWaypoint.y - GRID_OFFSET;
 	if (isEqual(pos.x,destX,0.01f) && isEqual(pos.z,destZ,0.01f)) {
-		if (isEqual(mNextWaypoint.x,mCityDestination.x,0.1f) && isEqual(mNextWaypoint.y,mCityDestination.y,0.1f)) {
+		if (mWayPoints.empty()) {
 			stop();
 			mCityOrigin = mCityDestination;
 			mLastWaypoint.x = mCityOrigin.x;
@@ -57,9 +51,9 @@ void SelfDrivenCar::drive()
 			mCityDestination.id = 0;
 		} else {
 			mLastWaypoint = mNextWaypoint;
-			mNextWaypoint.x = mCityDestination.x;
-			mNextWaypoint.y = mCityDestination.y;
-			setPosition(mNextWaypoint.x - GRID_OFFSET,0, mNextWaypoint.y - GRID_OFFSET);
+			setPosition(mLastWaypoint.x - GRID_OFFSET,0, mLastWaypoint.y - GRID_OFFSET);
+			mNextWaypoint = mWayPoints.back();
+			mWayPoints.pop_back();
 			adjustAngle();
 		}
 	} else {

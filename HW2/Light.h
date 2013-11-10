@@ -22,25 +22,25 @@ public:
 	~Light(void);
 	
 	void setLight(GLenum light) { mLight = light; };
-	void setAmbient(float x,float y,float z,float w) {
+	void setAmbient(double x,double y,double z,double w) {
 		mAmbient.x = x;
 		mAmbient.y = y;
 		mAmbient.z = z;
 		mAmbient.w = w;
 	};
-	void setDiffuse(float x,float y,float z,float w) {
+	void setDiffuse(double x,double y,double z,double w) {
 		mDiffuse.x = x;
 		mDiffuse.y = y;
 		mDiffuse.z = z;
 		mDiffuse.w = w;
 	};
-	void setSpecular(float x,float y,float z,float w) {
+	void setSpecular(double x,double y,double z,double w) {
 		mSpecular.x = x;
 		mSpecular.y = y;
 		mSpecular.z = z;
 		mSpecular.w = w;
 	};
-	void setPosition(float x,float y,float z,float w) {
+	void setPosition(double x,double y,double z,double w) {
 		mPosition.x = x;
 		mPosition.y = y;
 		mPosition.z = z;

@@ -39,6 +39,7 @@ public:
 	int addSpecType(int gridX, int gridY, int type);
 	CITY getById(int id) { return mCities[(id - 1)]; };
 	CityList getMappedCities(int id) { return mCityMap[id]; };
+	WayPoints getWayPoints(int fromId, int toId) { return mCitiesWaypoints[fromId][toId]; };
 	void draw();
 
 private:
@@ -49,6 +50,7 @@ private:
 
 	CityList mCities;
 	CityMap mCityMap;
+	CitiesWayPoints mCitiesWaypoints;
 
 	bool mCitiesOccupied[GRID_SIZE][GRID_SIZE];
 

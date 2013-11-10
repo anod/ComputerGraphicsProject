@@ -41,24 +41,10 @@ void Road::rebuild() {
 	clear();
 	for (std::vector<ROADPOINT>::iterator it = mRoadPoints.begin(); it != mRoadPoints.end(); ++it) {
 		ROADPOINT point = *it;
-		if (point.direct) {
-			build(point.x1,point.y1,point.x2,point.y2);
-		} else {
-			buildNotDirect(point.x1,point.y1,point.x2,point.y2);
-		}
+		build(point.x1,point.y1,point.x2,point.y2);
 	}
 }
 
-void Road::buildNotDirect(int x1, int y1, int x2, int y2) {
-
-	if (abs(x1-x2) < 6 || abs(y1-y2) < 6) {
-		build(x1, y1, x2, y2);
-	} else {
-		build(x1, y1, x2, y1);
-		build(x2, y1, x2, y2);
-	}
-
-}
 
 void Road::build(int x1, int y1, int x2, int y2) {
 	double a,b,p;
@@ -119,13 +105,7 @@ void Road::build(int x1, int y1, int x2, int y2) {
 }
 
 void Road::add(int x1, int y1, int x2, int y2) {
-	ROADPOINT points = {x1, y1, x2, y2, true};
-	mRoadPoints.push_back(points);
-	rebuild();
-}
-
-void Road::addNotDirect(int x1, int y1, int x2, int y2) {
-	ROADPOINT points = {x1, y1, x2, y2, false};
+	ROADPOINT points = {x1, y1, x2, y2};
 	mRoadPoints.push_back(points);
 	rebuild();
 }
