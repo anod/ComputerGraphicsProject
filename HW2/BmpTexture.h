@@ -1,6 +1,6 @@
 //
 //  BmpTexture.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -11,6 +11,7 @@
 #include "general.h"
 #include <stdio.h>
 
+// Load texture from bmp file
 class BmpTexture
 {
 public:

@@ -1,6 +1,6 @@
 //
 //  SelfDrivenCarCollection.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -19,7 +19,7 @@ static PIXEL CAR_COLORS[CARS_COLORS_SIZE] = {
 	PIX_LT_GREY
 };
 
-
+// Collection of Self-Driven cars
 class SelfDrivenCarCollection
 {
 public:

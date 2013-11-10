@@ -1,6 +1,6 @@
 //
 //  Road.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -17,6 +17,7 @@ typedef struct
 	int x1,y1,x2,y2;
 } ROADPOINT;
 
+// Store road information on the grid
 class Road
 {
 public:

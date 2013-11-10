@@ -1,6 +1,6 @@
 //
 //  Camera.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -11,6 +11,7 @@
 #include "general.h"
 #include "Car.h"
 
+// Handles different 3d camera modes
 class Camera
 {
 public:

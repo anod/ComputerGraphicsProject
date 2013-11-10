@@ -1,6 +1,6 @@
 //
 //  SelfDrivenCar.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -11,6 +11,7 @@
 #include "car.h"
 class Cities;
 
+// Car that drives byitself from city to city
 class SelfDrivenCar :
 	public Car
 {

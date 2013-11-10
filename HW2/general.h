@@ -22,10 +22,16 @@ static const int WINDOW_OFFSET = (WIDTH/2.0f);
 static const int GRID_OFFSET = (GRID_SIZE/2.0f);
 static const int GRID_KOEF = WIDTH/float(GRID_SIZE);
 
+/**
+ * Coordinates in 3d
+ */ 
 typedef struct {
 	double x,y,z;
 } THREE;
 
+/**
+ * City information
+ */
 typedef struct
 {
 	int id;

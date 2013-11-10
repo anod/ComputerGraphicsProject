@@ -1,6 +1,6 @@
 //
 //  Car.cpp
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -28,18 +28,18 @@ Car::~Car(void)
 }
 
 void Car::update() {
-	// plane
+	// Calcualte new position
 	angle+=mAngleSpeed;
 	double newX = pos.x + (-speed*sin(angle+PI/2));
 	double newZ = pos.z + (-speed*cos(angle+PI/2));
 
 	int gridX = newX + GRID_OFFSET;
 	int gridY = newZ + GRID_OFFSET;
-	// TODO validate car corners
+	// Check that car on the road
 	if (!mRoad->isRoad(gridY, gridX)) {
 		return;
 	}
-
+	// Calclate travelled distance
 	mDistDiff = sqrt ( pow((newX-pos.x), 2) + pow((newZ-pos.z), 2) );
 
 	pos.x = newX;

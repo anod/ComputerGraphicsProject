@@ -1,6 +1,6 @@
 //
 //  Terrain.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -12,6 +12,7 @@
 #include "Road.h"
 #include "BmpTexture.h"
 
+// Generate && Draws terrain - water,hills,roads
 class Terrain
 {
 public:

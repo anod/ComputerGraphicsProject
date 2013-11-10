@@ -1,6 +1,6 @@
 //
 //  RoadTexture.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //

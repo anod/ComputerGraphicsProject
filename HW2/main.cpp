@@ -1,18 +1,17 @@
 //
 //  main.cpp
-//  Home Work 2
+//  Final Project
 //
-//  Created by Alex Gavrishev on 8/7/13.
+//  Created by Alex Gavrishev
 //  Copyright (c) 2013 Alex Gavrishev. All rights reserved.
 //
+// The Project Goal
+// Write an OpenGL 3D game based on work done in classes.
+//  * Generated terrain that can be modified in building mode (F3)
+//  * Create hills, valleys, roads and cities
+//  * User-driven and self-driven cars
+//  * Different camera modes (F1 - global camera, F2 - driver view)
 
-// TODO:
-//
-// * Render road by polygons
-// * Check car/road boudaries
-// * Auto-driving
-// * Light on car
-//
 
 #include "general.h"
 
@@ -39,8 +38,9 @@ SelfDrivenCarCollection* carCollection;
 char gMouseLoc[25];
 char gCarInfo[25];
 
-//World* world;
-
+/**
+ * Initialize all component
+ */
 void init()
 {
 	//135-206-250
@@ -48,9 +48,12 @@ void init()
 
 	srand((unsigned)time(NULL));
 
+	// Handles camera position
 	camera = new Camera();	
+	// Store road infromation
 	road = new Road();
 
+	// Generate and draws terrain
 	terrain = new Terrain();
 	terrain->init(road);
 
@@ -58,21 +61,25 @@ void init()
 	road->add(10,84,190,84);
 	road->rebuild();
 
+	// Handles cities
 	cities = new Cities();
 	cities->init();
 	cities->setTerrain(terrain);
 	cities->setRoad(road);
 
+	// Handles self driven cars
 	carCollection = new SelfDrivenCarCollection();
 	carCollection->init(road, cities);
 
 	cities->setCarCollection(carCollection);
 
-	//int car1OriginCityId = cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
-	//cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	//cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
-	//int car2OriginCityId = cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
+	// Add initial 4 cities
+	cities->addSpecType(Cities::CITY_SIZE+1,Cities::CITY_SIZE+1,Cities::CITY_INDUSTRIAL);
+	cities->addSpecType(Cities::CITY_SIZE+1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,3 * Cities::CITY_SIZE + 1,Cities::CITY_SUBURB);
+	cities->addSpecType(GRID_SIZE - 2*Cities::CITY_SIZE - 1,GRID_SIZE - 2 * Cities::CITY_SIZE - 1,Cities::CITY_INDUSTRIAL);
 
+	// Car that driven by the user
 	carUser = new Car();
 	carUser->setRoad(road);
 	carUser->setColor(PIX_GREEN_YELLOW);
@@ -81,13 +88,16 @@ void init()
 
 	camera->setCar(carUser);
 
+	// Overflow menu fro bulding mode
 	overflow = new Overflow();
 	overflow->init(terrain, road, cities);
 	
+	// Scene light
 	light = new Light();
 	light->setLight(GL_LIGHT0);
 }
 
+// Draw mouse & car position on the screen for debug purposes
 void drawMousePos() {
 	unsigned int i;
 	glColor3d(1.0f, 1.0f , 1.0f);
@@ -105,6 +115,7 @@ void drawMousePos() {
 	glPopMatrix();
 }
 
+// Display scene in 2d mode - view from the top
 void display2D()
 {
 	// Clear
@@ -162,6 +173,7 @@ void display2D()
 	glutSwapBuffers();
 }
 
+// Display scene in 3d mode
 void display3D()
 {
 	// clear
@@ -203,6 +215,7 @@ void display3D()
 	glutSwapBuffers();
 }
 
+// Idle function
 void idle()
 {
 	carUser->update();
@@ -214,6 +227,7 @@ void idle()
 	glutPostRedisplay();
 }
 
+// Mouse cursor move handler
 void onMouseMove(int x, int y) {
 	int gridX0 = float(x)/GRID_KOEF;
 	int gridY0 = float(y)/GRID_KOEF;
@@ -229,11 +243,13 @@ void onMouseMove(int x, int y) {
 	overflow->onMouseMove(x, y);
 }
 
+// Mouse click handler
 void onMouseClick(int button, int state, int x, int y) {
 	//click
 	overflow->onMouseClick(button, state, x, y);
 }
 
+// Right click menu handler
 void onMenuSelect(int option)
 {
 	switch(option)
@@ -247,6 +263,7 @@ void onMenuSelect(int option)
 	}
 }
 
+// Special keyboard key press handlert
 void onSpecialKey(int key,int x,int y)
 {
 	switch(key)
@@ -283,6 +300,7 @@ void onSpecialKey(int key,int x,int y)
 	}
 }
 
+// Keyboard key press handler
 void onKeyboard(unsigned char key, int x, int y)
 {
 	switch(key)
@@ -302,6 +320,7 @@ void onKeyboard(unsigned char key, int x, int y)
 	}
 }
 
+// Entry point
 int main(int argc, char * argv[])
 {
 	glutInit(&argc,argv);

@@ -1,6 +1,6 @@
 //
 //  Overflow.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -19,6 +19,7 @@ typedef struct
 	int x1,y1,x2,y2;
 } MOUSE_CLICK;
 
+// Overflow menu for building mode
 class Overflow{
 public:
 	Overflow(void);

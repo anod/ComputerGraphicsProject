@@ -1,6 +1,6 @@
 //
 //  Light.h
-//  Home Work 2
+//  Final Project
 //
 //  Created by Alex Gavrishev.
 //
@@ -15,6 +15,7 @@ typedef struct
 	float x,y,z,w;
 } LIGHT_VALUE;
 
+// Wrapper above OpenGL Light
 class Light
 {
 public:
